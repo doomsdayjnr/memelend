@@ -1,7 +1,6 @@
 import LaunchForm from './components/LaunchForm';
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { useEffect, useState } from "react";
 import Layout from "./components/Layout";
 import Welcome from "./sections/Welcome";
 import "./styles/Welcome.css";
@@ -11,20 +10,21 @@ import Rewards from "./sections/Rewards";
 import Memecoin from "./sections/Memecoin";
 import Dashboard from "./sections/Dashboard";
 import Presale from './sections/Presale';
+import { useEffect, useState } from "react";
 
 function App() {
-  const { connected, connecting } = useWallet(); // connecting = true during init
-  const [ready, setReady] = useState(false);
+  const { connected } = useWallet();
+  const [walletChecked, setWalletChecked] = useState(false);
 
-  // Small delay to ensure wallet reconnection is done
+  // This ensures the routes only render once wallet is initialized
   useEffect(() => {
-    const timer = setTimeout(() => setReady(true), 400);
-    return () => clearTimeout(timer);
+    // Wallet adapter takes a tick to determine connection
+    setWalletChecked(true);
   }, []);
 
-  // While reconnecting or initializing, just show a loader or nothing
-  if (!ready || connecting) {
-    return <div className="loading-screen">Connecting wallet...</div>;
+  if (!walletChecked) {
+    // render nothing (or a quick skeleton loader if you prefer)
+    return null;
   }
 
   return (
@@ -32,10 +32,7 @@ function App() {
       <Layout>
         <Routes>
           {!connected ? (
-            <>
-              <Route path="/" element={<Welcome />} />
-              <Route path="*" element={<Navigate to="/" />} />
-            </>
+            <Route path="*" element={<Welcome />} />
           ) : (
             <>
               <Route path="/launch" element={<LaunchForm />} />
