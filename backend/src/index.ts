@@ -68,6 +68,7 @@ dotenv.config();
 
 const startServer = async () => {
   const server = Fastify({ logger: true });
+  const PORT = Number(process.env.PORT) || 3001;
 
   await server.register(fastifyCors, {
     origin: '*',
@@ -152,8 +153,8 @@ const startServer = async () => {
   server.register(topCreatorRoute, { prefix: '/leaderboard' });
 
   try {
-    await server.listen({ port: 3001 });
-    server.log.info(`✅ Server listening at http://localhost:3001`);
+    await server.listen({ port: PORT, host: '0.0.0.0' });
+    server.log.info(`✅ Server listening at http://localhost:${PORT}`);
   } catch (err) {
     server.log.error(err);
     process.exit(1);
@@ -162,8 +163,8 @@ const startServer = async () => {
 
 
 startEventIndexer();
-// consumeTicks();
-// startTokenStatsWorker();
+consumeTicks();
+startTokenStatsWorker();
 
 startServer(); 
 
