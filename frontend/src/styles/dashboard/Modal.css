@@ -1,0 +1,128 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    font-family: var(--font-body);
+}
+
+.modal-content {
+    background: var(--panel-dark);
+    color: var(--text-primary);
+    padding: 24px;
+    border-radius: 16px;
+    max-width: 500px;
+    width: 100%;
+    position: relative;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--border-dark);
+    font-family: var(--font-body);
+}
+
+.modal-content h2 {
+    color: var(--text-primary);
+    font-size: 1.2rem;
+}
+
+.modal-content p {
+    font-size: 0.75rem;
+    margin: 8px 0;
+    color: var(--text-primary);
+}
+
+.modal-content label {
+    font-size: 0.75rem;
+    margin: 8px 0;
+    color: var(--text-primary);
+}
+
+.modal-close {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color 0.2s ease-in-out;
+}
+
+.modal-close:hover {
+    color: var(--accent-blue);
+}
+
+.modal-body {
+    margin: 20px 0;
+}
+
+.modal-input {
+    width: 90%;
+    padding: 10px;
+    margin-top: 6px;
+    border: 1px solid var(--border-dark);
+    border-radius: 8px;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 14px;
+}
+
+.modal-input:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 6px var(--bright-blue-brand-highlights);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.confirm-btn {
+    background: var(--accent-blue);
+    color: #fff;
+    font-weight: 300;
+    width: 80px;
+    cursor: pointer;
+    border: 1px solid var(--bright-blue-brand-highlights);
+    box-shadow: 0 0 6px rgba(59, 130, 246, 0.3);
+    padding: 4px 4px 4px 4px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    border: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.confirm-btn:hover {
+    background: var(--accent-blue);
+    transform: scale(1.03);
+}
+
+.cancel-btn {
+    background: var(--error-red);
+    color: #fff;
+    font-weight: 300;
+    width: 80px;
+    cursor: pointer;
+    border: 1px solid var(--redglow-border);
+    box-shadow: 0 0 6px rgba(59, 130, 246, 0.3);
+    padding: 4px 4px 4px 4px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    border: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.cancel-btn:hover {
+    background: var(--error-red);
+    transform: scale(1.03);
+}

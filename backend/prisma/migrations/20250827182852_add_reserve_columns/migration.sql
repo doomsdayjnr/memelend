@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "YieldVault" ADD COLUMN     "accumulatedC" BIGINT NOT NULL DEFAULT 0,
+ADD COLUMN     "solReserve" BIGINT NOT NULL DEFAULT 0,
+ADD COLUMN     "tokenReserve" BIGINT NOT NULL DEFAULT 0;

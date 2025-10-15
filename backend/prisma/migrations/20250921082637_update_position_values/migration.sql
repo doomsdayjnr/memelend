@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Position" ALTER COLUMN "collateral" SET DEFAULT 0,
+ALTER COLUMN "borrowed" SET DEFAULT 0,
+ALTER COLUMN "tokensOut" SET DEFAULT 0,
+ALTER COLUMN "liquidationPrice" SET DEFAULT 0;

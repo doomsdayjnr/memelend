@@ -1,0 +1,126 @@
+.add-liquidity-section {
+    background: var(--panel-dark);
+    border: 1px solid var(--border-dark);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    font-family: var(--font-body);
+    color: var(--text-primary);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    max-width: 100%;
+    margin: 1rem auto;
+}
+
+.section-title {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: var(--accent-blue);
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.input-label {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.35rem;
+}
+
+.input-field {
+    width: 100%;
+    padding: 0.65rem 0.9rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--border-dark);
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-field:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 6px var(--bright-blue-brand-highlights);
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.btn-primary {
+    background: var(--accent-blue);
+    color: #fff;
+    font-weight: 300;
+    width: 80px;
+    cursor: pointer;
+    border: 1px solid var(--bright-blue-brand-highlights);
+    box-shadow: 0 0 6px rgba(59, 130, 246, 0.3);
+    padding: 4px 4px 4px 4px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    border: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: var(--accent-blue);
+    transform: scale(1.03);
+}
+
+.btn-primary:disabled {
+    opacity: 0.6;
+    pointer-events: none;
+    background-color: var(--border-dark);
+    font-weight: 300;
+    width: 80px;
+    color: var(--muted-text);
+    padding: 4px 4px 4px 4px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    border: none;
+    cursor: not-allowed;
+}
+
+.status-message {
+    font-size: 0.9rem;
+    color: var(--success-green);
+    margin-top: 0.25rem;
+}
+
+.status-message.error {
+    color: var(--error-red);
+}
+
+.info-text {
+    margin-top: 1.25rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.info-text a {
+    color: var(--accent-blue);
+    text-decoration: underline;
+}
+
+.mint-info {
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    color: var(--muted-text);
+    word-break: break-all;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}

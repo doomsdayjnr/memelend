@@ -1,0 +1,247 @@
+.placeholder-frame {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.placeholder-content {
+    height: 250px;
+    width: 100%;
+    display: flex;
+}
+
+.placeholder-button-frame {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    position: relative;
+    top: 0;
+    gap: 2px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.placeholder-button-frame button {
+    margin-left: 12px;
+    width: 120px;
+    height: 38px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    background-color: var(--panel-dark);
+    color: var(--text-primary);
+    border: none;
+    align-self: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-bottom: 3px solid transparent;
+}
+
+.placeholder-button-frame button:hover {
+    color: var(--text-primary);
+}
+
+/* Active button */
+.placeholder-button-frame button.active {
+    border-bottom: 3px solid white;
+}
+
+.chart-dashboard {
+    width: 100%;
+    height: 255px;
+    overflow: hidden;
+}
+
+
+/* Empty State */
+.chart-dashboard-empty-state {
+    width: 100%;
+    padding: 1.5rem;
+    text-align: center;
+    background: var(--panel-dark);
+    border: 1px solid var(--border-dark);
+    border-radius: 0.75rem;
+    color: var(--muted-text);
+    font-style: italic;
+}
+
+/* Table Wrapper - NEW */
+.chart-dashboard-table-wrapper {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-blue) var(--panel-dark);
+}
+
+.table-wrapper table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Scrollbar Styles for Table Wrapper */
+.table-wrapper::-webkit-scrollbar {
+    width: 10px;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+    background: var(--panel-dark);
+    border-radius: 8px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+    background-color: var(--accent-blue);
+    border-radius: 8px;
+    border: 2px solid var(--panel-dark);
+    /* adds padding around thumb */
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+    background-color: var(--bright-blue-brand-highlights);
+}
+
+.chart-dashboard-table-wrapper th {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-size: 0.75rem;
+    border-bottom: 1px solid var(--border-dark);
+    white-space: nowrap;
+    font-family: var(--font-heading);
+    color: var(--neutral-text);
+    letter-spacing: 0.05em;
+    background: #1C212A;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
+
+.chart-dashboard-table-wrapper td {
+    padding: 0.35rem 0.85rem;
+    text-align: left;
+    font-size: 0.75rem;
+    border-bottom: 1px solid var(--border-dark);
+    white-space: nowrap;
+}
+
+.chart-dashboard tbody tr:hover {
+    background: rgba(59, 130, 246, 0.1);
+    transition: background 0.2s ease-in-out;
+}
+
+/* Image container for stacking */
+.chart-dashboard-image-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+}
+
+/* Main token image */
+.chart-dashboard-token-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border-dark);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Overlay logo */
+.chart-dashboard-overlay-img {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid var(--panel-dark);
+    background: var(--panel-dark);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+    object-fit: fill;
+    object-position: center;
+}
+
+/* Mint formatting */
+.chart-dashboard-mint-hash {
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    color: var(--accent-blue);
+    font-weight: 500;
+    transition: color 0.2s ease, text-shadow 0.2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 120px;
+}
+
+.chart-dashboard-mint-hash:hover {
+    color: var(--success-green);
+    text-shadow: 0 0 6px var(--highlight-glow);
+}
+
+.chart-dashboard-mint-hash:active {
+    color: var(--accent-blue);
+}
+
+.atn-btn {
+    background: var(--accent-blue);
+    color: #fff;
+    font-weight: 300;
+    width: 80px;
+    cursor: pointer;
+    border: 1px solid var(--bright-blue-brand-highlights);
+    box-shadow: 0 0 6px rgba(59, 130, 246, 0.3);
+    padding: 6px 4px 6px 4px;
+    border-radius: 8px;
+    font-size: small;
+    border: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.atn-btn:hover {
+    background: #2563EB;
+    transform: scale(1.03);
+}
+
+.balance-card {
+    background-color: var(--panel-dark);
+    border: 1px solid var(--border-dark);
+    border-radius: 12px;
+    padding: 10px 10px;
+    width: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.balance-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+
+.balance-label {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.balance-value {
+    font-family: var(--font-heading);
+    font-size: 0.7rem;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+
+.text-green {
+    color: var(--success-green);
+}
+
+.text-red {
+    color: var(--error-red);
+}

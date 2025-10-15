@@ -1,0 +1,45 @@
+.menu-content {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    font-family: 'Inter', sans-serif;
+}
+
+.menu-content-list {
+    width: 100%;
+    display: flex;
+    gap: 30px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.main-menu {
+    text-decoration: none;
+    color: var(--title-green);
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    text-align: center;
+    white-space: nowrap;
+    /* 👈 prevent text from wrapping */
+}
+
+.main-menu:hover {
+    background: rgba(0, 255, 200, 0.1);
+    color: #ffffff;
+    box-shadow: 0 0 8px rgba(0, 255, 200, 0.3);
+}
+
+.main-menu.active {
+    background: rgba(0, 255, 200, 0.15);
+    color: #ffffff;
+    box-shadow: 0 0 12px rgba(0, 255, 200, 0.5);
+    font-weight: 600;
+    /* make it stand out */
+}

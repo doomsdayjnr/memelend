@@ -1,0 +1,93 @@
+.dev-info-container {
+    width: 100%;
+    height: 100%;
+    background: var(--panel-dark);
+    padding: 10px;
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.title {
+    width: 100%;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+    font-family: var(--font-heading);
+}
+
+.subtitle {
+    width: 100%;
+    font-size: 0.75rem;
+}
+
+.stats-grid {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 12px;
+}
+
+.stat-card {
+    height: 30px;
+    padding: 8px;
+    font-size: 0.75rem;
+    border: 1px solid var(--border-dark);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    transition: background 0.2s ease;
+}
+
+.stat-card:hover {
+    background: var(--border-dark);
+    color: var(--text-primary);
+}
+
+.stat-sub {
+    font-size: 11px;
+    color: var(--muted-text);
+    margin-top: 3px;
+}
+
+.highlight-blue {
+    border-left: 3px solid var(--accent-blue);
+    padding-left: 6px;
+}
+
+.highlight-green {
+    border-left: 3px solid var(--success-green);
+    padding-left: 6px;
+}
+
+.highlight-red {
+    border-left: 3px solid var(--error-red);
+    padding-left: 6px;
+}
+
+.dev-info-container::-webkit-scrollbar {
+    width: 10px;
+}
+
+.dev-info-container::-webkit-scrollbar-track {
+    background: var(--panel-dark);
+    border-radius: 8px;
+}
+
+.dev-info-container::-webkit-scrollbar-thumb {
+    background-color: var(--accent-blue);
+    border-radius: 8px;
+    border: 2px solid var(--panel-dark);
+    /* adds padding around thumb */
+}
+
+.dev-info-container::-webkit-scrollbar-thumb:hover {
+    background-color: var(--bright-blue-brand-highlights);
+}
+
+/* Firefox */
+.dev-info-container {
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-blue) var(--panel-dark);
+}

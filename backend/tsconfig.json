@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "target": "ES2020", // Modern async/await support
+        "module": "CommonJS", // Node.js module system
+        "lib": [
+            "ES2020",
+            "DOM"
+        ], // Enable latest JS and some DOM types
+        "moduleResolution": "node",
+        "esModuleInterop": true, // Allow default imports from CommonJS
+        "resolveJsonModule": true, // Enable importing JSON files
+        "forceConsistentCasingInFileNames": true,
+        "strict": true, // Enforce strict type checking
+        "skipLibCheck": true,
+        "outDir": "dist", // Output directory after build
+        "rootDir": "src", // Source files location
+        "noEmit": true // Disable JS output (used for ts-node-dev)
+    },
+    "include": [
+        "src",
+        "generate-keypair.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}

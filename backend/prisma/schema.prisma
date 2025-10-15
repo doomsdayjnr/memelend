@@ -1,0 +1,368 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model ProcessedTx {
+  id         Int      @id @default(autoincrement())
+  signature  String   @unique
+  createdAt  DateTime @default(now())
+}
+
+model TokenLaunch {
+  id                Int      @id @default(autoincrement())
+  creator           String
+  mint              String   @unique
+  tokenId           String   @default("unknown")
+  name              String
+  symbol            String
+  uri               String
+  image             String?
+  twitter           String?
+  telegram          String?
+  discord           String?
+  website           String?
+  initialSupply     Int      @default(1000000000)
+  decimals          Int      @default(6)
+  status            String   @default("pending")
+  isPresale         Boolean @default(false)
+  presalePercent    Int     @default(0)
+  presaleAmount     String?
+  presaleAmountLeftOver     String?
+  presaleEntryPrice Float? 
+  presaleStart      DateTime? 
+  presaleEnd        DateTime?
+  presaleSol        BigInt? @default(0)
+  preSaleAccFeePerShare BigInt? @default(0)
+  preSaleFeeSol     BigInt? @default(0)
+  launchTxSignature String?
+  lendPercent       Int
+  lendAmount        String
+  liquidityAmount   String
+  lendingVault      String
+  liquidityVault    String
+  wsolVault         String
+  createdAt         DateTime @default(now())
+
+  stats      TokenStats?  @relation("TokenLaunchStats")
+
+  // 🔗 Many-to-many relation with SubCategory
+  categories TokenCategory[]
+}
+
+model Category {
+  id            Int           @id @default(autoincrement())
+  name          String        @unique
+  subCategories SubCategory[]
+}
+
+model SubCategory {
+  id         Int             @id @default(autoincrement())
+  name       String
+  category   Category        @relation(fields: [categoryId], references: [id])
+  categoryId Int
+
+  tokens     TokenCategory[]
+}
+
+model TokenCategory {
+  id            Int          @id @default(autoincrement())
+  tokenLaunch   TokenLaunch  @relation(fields: [tokenLaunchId], references: [id])
+  tokenLaunchId Int
+
+  subCategory   SubCategory  @relation(fields: [subCategoryId], references: [id])
+  subCategoryId Int
+
+  @@unique([tokenLaunchId, subCategoryId]) // ✅ prevent duplicates
+}
+
+model YieldVault {
+  id                 Int    @id @default(autoincrement())
+  mint               String @unique
+  creator            String
+  aprBps             BigInt
+  totalStaked        BigInt
+  accRewardPerShare  BigInt
+  launchTs           BigInt
+  totalEarned        BigInt @default(0)
+  creatorVault       BigInt @default(0)
+  platformVault      BigInt @default(0)
+  interestVault      BigInt @default(0)
+  liquidityAdded     BigInt @default(0)
+  tokenReserve       BigInt @default(0)
+  solReserve         BigInt @default(0)
+  accumulatedC       BigInt @default(0)
+  virtualSol         BigInt @default(0)
+  virtualTokens      BigInt @default(0)
+  insiderSold        BigInt @default(0)
+  insiderBought      BigInt @default(0)
+  maxWithdrawBps     BigInt
+  lastAccrualTs      BigInt
+  isLive             Boolean @default(false)
+  lastBought         DateTime?
+  lastSold           DateTime?
+  lastLiquidityAdded DateTime?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model CreatorEarningsWithdrawal {
+  id                 Int      @id @default(autoincrement())
+  mint               String 
+  creator            String
+  totalEarned        BigInt @default(0)
+  amountWithdrew     BigInt @default(0)
+  txSig              String @unique
+  updatedAt          DateTime @updatedAt
+}
+
+
+model UserYieldPosition {
+  id               Int      @id @default(autoincrement())
+  owner            String
+  mint             String
+  isCreator        Boolean
+  isInitialDeposit Boolean  @default(false)
+  claimedPrincipal BigInt
+  initialDeposit   BigInt?
+  deposited        BigInt
+  rewardDebt       BigInt
+  claimedTotal     BigInt
+  depositedAt      BigInt
+  lastActionTs     BigInt
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@unique([owner, mint])
+}
+
+model RewardClaim {
+  id            Int      @id @default(autoincrement())
+  owner         String   // user who claimed
+  mint          String   // yield vault mint
+  claimedAmount BigInt   // how much was claimed
+  newRewardDebt BigInt   // updated reward debt
+  totalClaimed  BigInt   // new total claimed after this claim
+  txSig         String? @unique
+  lastAccrualTs BigInt   // vault’s new accrual timestamp
+  timestamp     BigInt   // event timestamp
+
+  createdAt     DateTime @default(now())
+}
+
+model User {
+  id           String   @id @default(cuid())
+  wallet       String   @unique
+  username     String
+  referralCode String   @unique
+  referredBy   User?    @relation("Referral", fields: [referredById], references: [id])
+  referredById String?
+  referrals    User[]   @relation("Referral")
+  pendingRewards BigInt? @default(0)
+  totalEarned BigInt?    @default(0)
+  createdAt    DateTime @default(now())
+
+  shortPositions ShortPosition[] @relation("UserToShorts") // <-- Add this line
+  referralEarningsGiven ReferralEarning[] @relation("ReferrerRelation")
+  referralEarningsFrom  ReferralEarning[] @relation("ReferredRelation")
+}
+
+model ReferralEarning {
+  id          String   @id @default(cuid())
+
+  referrer    User     @relation("ReferrerRelation", fields: [referrerId], references: [id])
+  referrerId  String
+
+  referred    User     @relation("ReferredRelation", fields: [referredId], references: [id])
+  referredId  String
+
+  amount      BigInt   // how much this referral contributed
+  createdAt   DateTime @default(now())
+}
+
+model TokenStats {
+  id              Int      @id @default(autoincrement())
+  mint            String   @unique
+  currentPrice    Float // in SOL
+  marketCap       Float // in SOL
+  liquidity       Float // in SOL
+  currentPriceUsd Float // in USD
+  marketCapUsd    Float // in USD
+  liquidityUsd    Float // in USD
+  volume24h       Float
+  buyCount24h     Int
+  sellCount24h    Int
+  buysToSells     Float
+  makers          Int
+  change5m        Float
+  change1h        Float
+  change6h        Float
+  change24h       Float
+  updatedAt       DateTime @updatedAt
+  createdAt       DateTime @default(now())
+
+  token TokenLaunch @relation("TokenLaunchStats", fields: [mint], references: [mint])
+}
+
+
+model Candlestick {
+  id        String   @id @default(cuid())
+  mint      String
+  interval  String 
+  open      Float
+  high      Float
+  low       Float
+  close     Float
+  volume    Float // total SOL volume in this interval
+  txCount   Int?
+  openUsd   Float?
+  highUsd   Float?
+  lowUsd    Float?
+  closeUsd  Float?
+  startTime DateTime // rounded interval start time (e.g., 10:00:00 for 1m)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([mint, interval, startTime])
+  @@index([mint, interval, startTime])
+}
+
+model ShortPosition {
+  id               Int      @id @default(autoincrement())
+  positionId       BigInt   // on-chain position_id
+  userWallet       String
+  mint             String
+
+  // From ShortEvent (open)
+  collateralAmt    BigInt
+  borrowedAmt      BigInt
+  openPrice        Float
+  liquidationPrice Float
+  openedAt         DateTime
+
+  // From ClosePositionEvent
+  repaidTokens     BigInt?
+  collateralReturned BigInt?
+  totalFees        BigInt?
+  interest         BigInt?
+  pnl              BigInt?
+  exitPrice        Float?
+  closedAt         DateTime?
+
+  // From LiquidatePositionEvent
+  isLiquidated     Boolean   @default(false)
+  forfeitedCollateral BigInt?
+  accumulatedCAfter BigInt?
+  tokenReserveAfter BigInt?
+
+  openTxSig        String? @unique
+  closeTxSig       String? @unique
+  isClosed         Boolean   @default(false)
+
+  user User? @relation("UserToShorts", fields: [userWallet], references: [wallet])
+  
+  @@unique([positionId, mint])
+  @@index([userWallet, mint])
+}
+
+model Trade {
+  id          Int      @id @default(autoincrement())
+  positionId   BigInt?
+  txSig       String   @unique
+  userWallet  String
+  mint        String
+  side        String
+
+  solIn       BigInt?
+  solOut      BigInt?
+  tokensIn    BigInt?
+  tokensOut   BigInt?
+  tokenOutBeforeFees BigInt?
+  entryPrice   Float?
+  closePrice   Float?
+
+  referrer    String?
+  vaultBump   Int?
+  priceSol     Float? 
+
+  blockTime   DateTime
+  insertedAt  DateTime @default(now())
+
+  @@index([mint, blockTime])
+}
+
+model Position {
+  id           Int      @id @default(autoincrement())
+  positionId   BigInt   @unique // For longs you can generate a synthetic ID, for shorts map to on-chain position_id
+  userWallet   String
+  mint         String
+  side         String   // "long" | "short"
+  
+  // Core state
+  entryPrice   Float
+  collateral   BigInt? @default(0)
+  borrowed     BigInt? @default(0) // only relevant for shorts
+  tokensOut    BigInt? @default(0)
+  liquidationPrice BigInt? @default(0)
+  openedAt     DateTime
+  closedAt     DateTime?
+  isOpen       Boolean  @default(true)
+  isPresale    Boolean?  @default(false)
+  feeDebt      BigInt? @default(0)
+  claimedTotal BigInt? @default(0)
+  lastActionTs BigInt?
+  openTxSig    String? @unique
+  closeTxSig   String? @unique
+
+  // Aggregated PnL tracking
+  pnl          BigInt?   // realized PnL on close
+  currentPnl   BigInt?   // unrealized, updated off-chain
+
+
+  @@index([userWallet, mint, isOpen])
+}
+
+model YieldPosition {
+  id           Int      @id @default(autoincrement())
+  positionId   BigInt   @unique // Maps to buy position_id
+  userWallet   String
+  mint         String
+  deposited    BigInt?
+  openedAt     DateTime
+  isCreator    Boolean  
+  isOpen       Boolean  @default(true)
+
+  @@index([userWallet, mint, isOpen])
+}
+
+model VaultSnapshot {
+  id            Int     @id @default(autoincrement())
+  mint          String  
+  blockTime     DateTime 
+  txSig         String @unique
+  reason        String   // "buy" | "sell" | "short_open" | "short_close" | "liquidate" | ...
+  solReserve    BigInt
+  tokenReserve  BigInt
+  accumulatedC  BigInt
+  virtualSol    BigInt?
+  virtualTokens  BigInt?
+  priceLamports Float?   // cached derived
+  volumeSolDelta BigInt  // absolute lamports delta from prev snapshot (same mint)
+
+  @@index([mint])
+  @@index([blockTime])
+}
+
+model RawEvent {
+  id        String   @id @default(cuid())
+  sig       String   @unique
+  type      String   // "buy", "sell", "short", etc.
+  data      Json     // full event payload
+  createdAt DateTime @default(now())
+  processed Boolean  @default(false)
+  processedAt DateTime?
+}

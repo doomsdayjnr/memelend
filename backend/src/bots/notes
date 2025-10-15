@@ -1,0 +1,331 @@
+// /bots/liquidationBot.ts
+import {
+  Connection,
+  PublicKey,
+  SystemProgram,
+  Transaction,
+  sendAndConfirmTransaction,
+} from '@solana/web3.js';
+import * as anchor from '@coral-xyz/anchor';
+import {
+  TOKEN_PROGRAM_ID,
+  createAssociatedTokenAccountInstruction,
+  getAccount,
+} from '@solana/spl-token';
+import program from '../services/anchorClient';
+import fs from 'fs';
+import { Keypair } from '@solana/web3.js';
+import { fetchOpenPositions } from '../utils/allPositions'; 
+import { fetchCurrentPrice } from '../services/pricing';
+import {getCachedSolUsdPrice} from '../routes/price_routes/priceService';
+
+export const BOT_KEYPAIR = Keypair.fromSecretKey(
+  Uint8Array.from(JSON.parse(fs.readFileSync(process.env.HOME + '/.config/solana/id.json', 'utf-8')))
+);
+
+const SAFETY_MARGIN = 1.02; // 2% buffer to avoid borderline cases
+
+function sleep(ms: number) {
+  return new Promise((res) => setTimeout(res, ms));
+}
+
+async function ensureAtaExists(program: anchor.Program, mint: PublicKey, owner: PublicKey): Promise<{
+  ata: PublicKey;
+  preInstruction?: anchor.web3.TransactionInstruction;
+}> {
+  const ata = await anchor.utils.token.associatedAddress({ mint, owner });
+  try {
+    await getAccount(program.provider.connection, ata);
+    return { ata };
+  } catch {
+    const ix = createAssociatedTokenAccountInstruction(
+      BOT_KEYPAIR.publicKey,
+      ata,
+      owner,
+      mint
+    );
+    return { ata, preInstruction: ix };
+  }
+
+  
+}
+
+async function buildPdas(mintKey: PublicKey) {
+  const [vaultAuthority] = PublicKey.findProgramAddressSync(
+    [Buffer.from('vault'), mintKey.toBuffer()],
+    program.programId
+  );
+  const [wsolVault] = PublicKey.findProgramAddressSync(
+    [Buffer.from('vault_wsol'), mintKey.toBuffer()],
+    program.programId
+  );
+  const [wsolVaultAuthority] = PublicKey.findProgramAddressSync(
+    [Buffer.from('vault_wsol_authority'), mintKey.toBuffer()],
+    program.programId
+  );
+  const [tokenLiquidityVault] = PublicKey.findProgramAddressSync(
+    [Buffer.from('vault_liquidity'), mintKey.toBuffer()],
+    program.programId
+  );
+  const [vaultConfig] = PublicKey.findProgramAddressSync(
+    [Buffer.from('vault_config'), mintKey.toBuffer()],
+    program.programId
+  );
+  const [tokenConfig] = PublicKey.findProgramAddressSync(
+    [Buffer.from('config'), mintKey.toBuffer()],
+    program.programId
+  );
+  const [lendingVault] = PublicKey.findProgramAddressSync(
+    [Buffer.from('vault_lending'), mintKey.toBuffer()],
+    program.programId
+  );
+  const [interestVault] = PublicKey.findProgramAddressSync(
+    [Buffer.from('vault_interest'), mintKey.toBuffer()],
+    program.programId
+  );
+  const [liquidityVaultAuthority] = PublicKey.findProgramAddressSync(
+    [Buffer.from('vault_liquidity_authority'), mintKey.toBuffer()],
+    program.programId
+  );
+
+  const [yieldVault] = PublicKey.findProgramAddressSync(
+      [Buffer.from('yield_vault'), mintKey.toBuffer()],
+      program.programId
+  );
+
+  return {
+    vaultAuthority,
+    wsolVault,
+    wsolVaultAuthority,
+    tokenLiquidityVault,
+    vaultConfig,
+    tokenConfig,
+    yieldVault,
+    lendingVault,
+    interestVault,
+    liquidityVaultAuthority,
+  };
+}
+
+async function liquidatePositionOnChain(
+  userPubkey: PublicKey,
+  positionPda: PublicKey,
+  positionIdBn: anchor.BN,
+  mintKey: PublicKey
+) {
+  const {
+    vaultAuthority,
+    wsolVault,
+    tokenLiquidityVault,
+    vaultConfig,
+    tokenConfig,
+    lendingVault,
+    yieldVault,
+    interestVault,
+    liquidityVaultAuthority,
+    wsolVaultAuthority,
+  } = await buildPdas(mintKey);
+
+  const wsolMint = new PublicKey(process.env.WSOL_MINT!);
+  const { ata: botWsolAta, preInstruction } = await ensureAtaExists(
+    program,
+    wsolMint,
+    BOT_KEYPAIR.publicKey
+  );
+
+  const ix = await program.methods
+    .liquidatePosition({ positionId: positionIdBn })
+    .accounts({
+      bot: BOT_KEYPAIR.publicKey,
+      user: userPubkey,
+      wsolMint,
+      mint: mintKey,
+      position: positionPda,
+      tokenConfig,
+      vaultConfig,
+      vaultAuthority,
+      tokenLiquidityVault,
+      lendingVault,
+      yieldVault,
+      wsolVault,
+      interestVault,
+      botWsolAccount: botWsolAta,
+      liquidityVaultAuthority,
+      wsolVaultAuthority,
+      tokenProgram: TOKEN_PROGRAM_ID,
+      systemProgram: SystemProgram.programId,
+      rent: anchor.web3.SYSVAR_RENT_PUBKEY,
+    })
+    .instruction();
+
+
+
+  const tx = new Transaction();
+  if (preInstruction) tx.add(preInstruction);
+  tx.add(ix);
+  tx.feePayer = BOT_KEYPAIR.publicKey;
+
+  return await sendAndConfirmTransaction(program.provider.connection, tx, [BOT_KEYPAIR], {
+    commitment: 'confirmed',
+  });
+}
+
+export async function startOnChainLiquidationBot() {
+  console.log('🤖 On-chain liquidation bot started...');
+
+  const APR = 0.10; // 10% annual interest
+  const SECONDS_IN_YEAR = 365 * 24 * 60 * 60;
+
+  while (true) {
+    try {
+      const openPositions = await fetchOpenPositions();
+     
+      for (const pos of openPositions) {
+        const userKey = pos.account?.owner
+          ? new PublicKey(pos.account.owner)
+          : new PublicKey(pos.user);
+        const mintKey = pos.account?.mint
+          ? new PublicKey(pos.account.mint)
+          : new PublicKey(pos.mint);
+        const positionPubkey = pos.pubkey
+          ? new PublicKey(pos.pubkey)
+          : new PublicKey(pos.position_pubkey);
+        const positionIdAnchorBn =
+          pos.account?.position_id instanceof anchor.BN
+            ? pos.account.position_id
+            : new anchor.BN(pos.position_id ?? pos.positionId);
+
+        const entryPriceInUsd = pos.account?.entry_price ?? pos.entryPrice;
+        const borrowedTokens = pos.account?.borrowed_tokens ?? pos.borrowedTokens;
+        const reservedCollateral = pos.account?.reserved_collateral ?? pos.reservedCollateral;
+        const liquidationPriceInUsd = pos.account?.liquidate ?? pos.liquidate;
+        const createdAt = pos.account?.created_at ?? pos.createdAt;
+
+
+        if (!entryPriceInUsd || !borrowedTokens || !reservedCollateral || !createdAt) {
+          console.warn(`❌ Missing liquidation data for position ${positionPubkey.toBase58()}`);
+          continue;
+        }
+
+        const currentPrice = await fetchCurrentPrice(mintKey.toString());
+
+         // --- Compounded APR adjustment ---
+          const now = Math.floor(Date.now() / 1000);
+          const secondsOpen = now - createdAt;
+          const yearsOpen = secondsOpen / SECONDS_IN_YEAR;
+
+          // Compounded factor: (1 + APR) ^ yearsOpen
+          const interestFactor = Math.pow(1 + APR, yearsOpen);
+
+          // --- 3% gas fee buffer ---
+          const collateralBufferFactor = 1 - 0.03; // Keep 97% of collateral for liquidation
+
+          // Adjust liquidation price
+          const liquidationPriceAdjusted = liquidationPriceInUsd * interestFactor * collateralBufferFactor;
+
+          console.log("Original Liquidation Price:", liquidationPriceInUsd);
+          console.log("Interest Factor:", interestFactor);
+          console.log("Collateral Buffer Factor:", collateralBufferFactor);
+          console.log("Adjusted Liquidation Price:", liquidationPriceAdjusted);
+
+        if (currentPrice >= liquidationPriceAdjusted) {
+          console.log(`⚠️ Liquidation trigger for ${positionPubkey.toBase58()}`);
+          try {
+            const sig = await liquidatePositionOnChain(
+              userKey,
+              positionPubkey,
+              positionIdAnchorBn,
+              mintKey
+            );
+            console.log(`✅ Liquidated ${positionPubkey.toBase58()} tx: ${sig}`);
+          } catch (err) {
+            console.error('❌ Liquidation tx error:', err);
+          }
+        }
+      }
+    } catch (err) {
+      console.error('Bot error:', err);
+    }
+
+    await sleep(15_000); // scan every 10 seconds
+  }
+}
+
+if (require.main === module) {
+  startOnChainLiquidationBot().catch((e) => {
+    console.error('Fatal bot error:', e);
+    process.exit(1);
+  });
+}
+
+
+//
+
+// /services/pricing.ts
+import program from './anchorClient';
+import { PublicKey } from '@solana/web3.js';
+import * as anchor from '@coral-xyz/anchor';
+import {getCachedSolUsdPrice} from '../routes/price_routes/priceService';
+
+interface VaultConfig {
+  mint: PublicKey;
+  tokenReserve: anchor.BN;
+  solReserve: anchor.BN;
+  accumulatedC: anchor.BN;
+  bump: number;
+}
+
+
+export async function fetchCurrentPrice(mint: string): Promise<number> {
+  try {
+    const mintKey = new PublicKey(mint);
+
+    const [vaultConfigPDA] = PublicKey.findProgramAddressSync(
+      [Buffer.from('vault_config'), mintKey.toBuffer()],
+      program.programId
+    );
+
+    const [liquidityTokenVault] = PublicKey.findProgramAddressSync(
+      [Buffer.from('vault_liquidity'), mintKey.toBuffer()],
+      program.programId
+    );
+
+    // Fetch token vault balance and vault config concurrently
+    const [tokenVaultInfo, vaultConfigAccount] = await Promise.all([
+      program.provider.connection.getTokenAccountBalance(liquidityTokenVault),
+      (program.account as any).vaultConfig.fetch(vaultConfigPDA) as Promise<VaultConfig>,
+    ]);
+
+    if (!tokenVaultInfo || !vaultConfigAccount) {
+      throw new Error('Failed to fetch vault data');
+    }
+
+    const tokenReserveBN = new anchor.BN(tokenVaultInfo.value.amount);
+    const solReserveBN = new anchor.BN(vaultConfigAccount.solReserve.toString());
+    const accumulatedCBN = new anchor.BN(vaultConfigAccount.accumulatedC.toString());
+
+    if (tokenReserveBN.isZero() || solReserveBN.isZero()) {
+      throw new Error('Insufficient liquidity in vaults');
+    }
+
+    // Normalize decimals
+    const tokenDecimals = 6;
+    const solDecimals = 9;
+
+    const solReserveNormalized = solReserveBN.toNumber() / 10 ** solDecimals;
+    const tokenReserveNormalized = tokenReserveBN.toNumber() / 10 ** tokenDecimals;
+    const accumulatedCNormalized = accumulatedCBN.toNumber() / 10 ** solDecimals;
+
+    const priceInSol = (solReserveNormalized + accumulatedCNormalized) / tokenReserveNormalized;
+
+    const solUsd = await getCachedSolUsdPrice();
+    if (solUsd === 0) throw new Error('Failed to fetch SOL/USD price');
+
+    const priceInUsd = priceInSol * solUsd;
+
+    return priceInUsd;
+  } catch (err) {
+    console.error('❌ fetchCurrentPrice failed:', err);
+    return 0; // fallback
+  }
+}

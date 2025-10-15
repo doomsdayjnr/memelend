@@ -1,0 +1,145 @@
+/* Existing layout styles (no change) */
+.user-dropdown-container {
+    position: relative;
+    display: inline-block;
+}
+
+.user-toggle-button {
+    background-color: var(--accent-blue);
+    color: white;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 6px;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 0 6px var(--accent-blue);
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.user-toggle-button:hover {
+    background-color: #2563EB;
+    box-shadow: 0 0 10px var(--bright-blue-brand-highlights);
+}
+
+.user-dropdown {
+    position: absolute;
+    right: 0;
+    margin-top: 10px;
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border-dark);
+    border-radius: 6px;
+    padding: 10px;
+    z-index: 1000;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.disconnect-button {
+    width: 100%;
+    background-color: var(--error-red);
+    color: white;
+    padding: 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-family: var(--font-heading);
+}
+
+.disconnect-button:hover {
+    background-color: var(--redglow-border);
+}
+
+.balance-display {
+    font-size: 14px;
+    color: var(--neutral-text);
+    margin-bottom: 8px;
+    text-align: left;
+}
+
+.referral-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(13, 17, 23, 0.7);
+    /* semi-transparent dark overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.referral-modal {
+    background-color: var(--panel-dark);
+    border: 1px solid var(--border-dark);
+    border-radius: 10px;
+    padding: 24px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    font-family: var(--font-body);
+    color: var(--text-primary);
+    text-align: center;
+}
+
+.referral-modal h3 {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    margin-bottom: 16px;
+}
+
+.referral-modal input {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border-dark);
+    color: var(--text-primary);
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-family: var(--font-body);
+}
+
+.referral-modal input::placeholder {
+    color: var(--text-secondary);
+}
+
+.referral-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.referral-buttons button {
+    flex: 1;
+    padding: 10px;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.referral-buttons button:first-child {
+    background-color: var(--success-green);
+    color: white;
+    box-shadow: 0 0 6px var(--success-green);
+}
+
+.referral-buttons button:first-child:hover {
+    background-color: #16A34A;
+    box-shadow: 0 0 10px var(--highlight-glow);
+}
+
+.referral-buttons button:last-child {
+    background-color: var(--error-red);
+    color: white;
+    box-shadow: 0 0 6px var(--error-red);
+}
+
+.referral-buttons button:last-child:hover {
+    background-color: var(--redglow-border);
+    box-shadow: 0 0 10px var(--redglow-border);
+}

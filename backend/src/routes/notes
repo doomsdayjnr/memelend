@@ -1,0 +1,41 @@
+Token Vault PublicKey [PublicKey(36tMDU4i51ePRVv2Mt1Cz2oPzJhAxYJxdX5WW7g2rgC7)] 547092078.706806
+
+WSOL Vault PublicKey [PublicKey(HqnYfyoF2T7jcoD8iSZXr4cE13KjGWVhN8W2YJ7gdyYT)] 25.576680609
+
+Lending Vault PublicKey [PublicKey(2UGcw8vtoyGXKNZqbq9XynhFy5DmwiW1H7vgmwxTy4A9)] 99999999.993914
+
+Platform Vault PublicKey [PublicKey(ETZru8cJiteHvrwwVE7yhEm9HMYLYtc5ucRBcGvqX6U6)]
+
+Creator Vault PublicKey [PublicKey(e4zF1SToSZVKH7JqPxCr2wETKjr7CyvQxoJRxKYK4PV)]
+
+Buy bonding curve: tokens_out = (input \* token_reserve) / (sol_reserve + accumulated_c + input)
+
+"Program log: token_reserve: 861833105335158"
+
+"Program log: sol_reserve: 21930000000"
+
+"Program log: accumulated_c: 0"
+
+Solana address J5ssrZCSsC3tcqzmDU7PHG189zFR4DwEU2kB6sYgZY24
+solana balance J5ssrZCSsC3tcqzmDU7PHG189zFR4DwEU2kB6sYgZY24
+7.58521476 SOL
+
+0.000004826288069974401
+
+40.91 SOL
+
+Presale price function
+𝑃(𝑥) = 𝑃0 + 𝑘 ⋅ 𝑥
+P(x)= P0 +k⋅x
+
+𝑃(𝑥)
+P(x): price per token after selling x tokens
+
+𝑃0
+P0: entry price (default e.g. 0.000001 SOL/token)
+
+𝑘
+k: slope constant (how fast the price increases as more tokens are sold)
+
+𝑥
+x: number of tokens already sold in presale

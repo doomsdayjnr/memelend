@@ -1,0 +1,185 @@
+.actions {
+    display: flex;
+    justify-content: center;
+}
+
+.actions button {
+    background: var(--accent-blue);
+    color: #fff;
+    font-weight: 300;
+    width: 80px;
+    cursor: pointer;
+    border: 1px solid var(--bright-blue-brand-highlights);
+    box-shadow: 0 0 6px rgba(59, 130, 246, 0.3);
+    padding: 6px 4px 6px 4px;
+    border-radius: 8px;
+    font-size: small;
+    border: none;
+    transition: all 0.2s ease-in-out;
+}
+
+
+.actions button:hover {
+    background-color: #2563eb;
+    transform: scale(1.03);
+}
+
+.actions button:disabled {
+    background-color: var(--border-dark);
+    color: var(--muted-text);
+    cursor: not-allowed;
+}
+
+.loading-button {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Dark background overlay */
+.sell-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    font-family: var(--font-body);
+}
+
+/* Modal box */
+.sell-modal-content {
+    background: var(--panel-dark);
+    color: var(--text-primary);
+    padding: 24px;
+    border-radius: 16px;
+    max-width: 500px;
+    width: 100%;
+    position: relative;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--border-dark);
+    font-family: var(--font-body);
+}
+
+/* Heading */
+.sell-modal-content h3 {
+    color: var(--text-primary);
+    font-size: 1.2rem;
+}
+
+/* Sell option buttons */
+.sell-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.sell-options button {
+    flex: 1;
+    padding: 6px;
+    border: 1px solid #444;
+    border-radius: 6px;
+    background: #1e1e1e;
+    color: white;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.sell-options button:hover {
+    background: #2a2a2a;
+    border-color: #666;
+}
+
+.sell-options button.active {
+    background: #2563eb;
+    /* blue highlight */
+    border-color: #2563eb;
+    color: #fff;
+}
+
+.sell-modal-actions {
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+}
+
+.sell-submit-btn {
+    background: var(--accent-blue);
+    color: #fff;
+    font-weight: 300;
+    width: 80px;
+    cursor: pointer;
+    border: 1px solid var(--bright-blue-brand-highlights);
+    box-shadow: 0 0 6px rgba(59, 130, 246, 0.3);
+    padding: 4px 4px 4px 4px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    border: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.sell-submit-btn:hover {
+    background: var(--accent-blue);
+    transform: scale(1.03);
+}
+
+/* Cancel button */
+.sell-close-modal {
+    background: var(--error-red);
+    color: #fff;
+    font-weight: 300;
+    width: 80px;
+    cursor: pointer;
+    border: 1px solid var(--redglow-border);
+    box-shadow: 0 0 6px rgba(59, 130, 246, 0.3);
+    padding: 4px 4px 4px 4px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    border: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.sell-close-modal:hover {
+    background: var(--error-red);
+    transform: scale(1.03)
+}
+
+/* Animation */
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.slippage-input {
+    margin: 15px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.slippage-input label {
+    font-size: 0.75rem;
+    margin: 8px 0;
+    color: var(--text-primary);
+}
+
+.slippage-input input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #333;
+    background: #1e1e1e;
+    color: white;
+    font-size: 14px;
+}

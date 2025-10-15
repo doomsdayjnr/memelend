@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "YieldVault" ADD COLUMN     "creatorVault" BIGINT NOT NULL DEFAULT 0,
+ADD COLUMN     "interestVault" BIGINT NOT NULL DEFAULT 0,
+ADD COLUMN     "platformVault" BIGINT NOT NULL DEFAULT 0;

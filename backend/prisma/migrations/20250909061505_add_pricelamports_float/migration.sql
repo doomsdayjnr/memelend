@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "VaultSnapshot" ALTER COLUMN "priceLamports" DROP NOT NULL,
+ALTER COLUMN "priceLamports" SET DATA TYPE DOUBLE PRECISION;
