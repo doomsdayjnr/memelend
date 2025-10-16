@@ -68,7 +68,7 @@ dotenv.config();
 
 const startServer = async () => {
   const server = Fastify({ logger: true });
-  const PORT = Number(process.env.PORT) || 3001;
+  const PORT = Number(process.env.PORT) || 10000;
 
   await server.register(fastifyCors, {
     origin: '*',
