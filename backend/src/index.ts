@@ -66,9 +66,11 @@ import { startTokenStatsWorker } from './services/tokenStatsWorker';
 
 dotenv.config();
 
+const PORT = Number(process.env.PORT) || 10000; // Render default is 10000
+const HOST = '0.0.0.0';
+
 const startServer = async () => {
   const server = Fastify({ logger: true });
-  const PORT = Number(process.env.PORT) || 10000;
 
   await server.register(fastifyCors, {
     origin: '*',
@@ -153,18 +155,18 @@ const startServer = async () => {
   server.register(topCreatorRoute, { prefix: '/leaderboard' });
 
   try {
-    await server.listen({ port: PORT, host: '0.0.0.0' });
-    server.log.info(`✅ Server listening at http://localhost:${PORT}`);
+    await server.listen({ port: PORT, host: HOST });
+    server.log.info(`✅ Server running on port ${PORT}`);
+    
+    startEventIndexer();
+    consumeTicks();
+    startTokenStatsWorker();
+
   } catch (err) {
     server.log.error(err);
     process.exit(1);
   }
 };
-
-
-startEventIndexer();
-consumeTicks();
-startTokenStatsWorker();
 
 startServer(); 
 
