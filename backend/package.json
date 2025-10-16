@@ -5,6 +5,8 @@
   },
   "scripts": {
     "dev": "ts-node-dev --respawn src/index.ts",
+    "build": "tsc", 
+    "start": "node dist/index.js", 
     "bot:liquidation": "ts-node-dev --respawn src/bots/liquidationBot.ts",
     "start:events": "ts-node-dev --respawn src/services/rawEventWorker.ts",
     "start:worker": "ts-node-dev --respawn src/services/presaleStatusWorker.ts",
