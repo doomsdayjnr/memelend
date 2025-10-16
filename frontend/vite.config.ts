@@ -4,11 +4,8 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: process.env.VITE_BASE_PATH || "/memelend-qa",
-  // build: {
-  //   outDir: "dist"
-  // },
-  // server: {
-  //   port: 5173, // optional
-  // },
+  base: process.env.VITE_BASE_PATH || "/memelend-frontend",
+  build: {
+    outDir: "dist"
+  },
 })
