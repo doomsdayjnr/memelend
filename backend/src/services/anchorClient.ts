@@ -1,7 +1,7 @@
 import * as anchor from "@coral-xyz/anchor";
 import { AnchorProvider, Program, Wallet } from '@coral-xyz/anchor';
 import { Connection, Keypair } from '@solana/web3.js';
-import idlJson from '../../../target/idl/memelend.json';
+import idlJson from '../../target/idl/memelend.json';
 import dotenv from 'dotenv';
 import bs58 from 'bs58';
 
