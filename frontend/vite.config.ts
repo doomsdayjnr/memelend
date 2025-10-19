@@ -4,8 +4,14 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base:"/",
+  base: "/",
   build: {
-    outDir: "dist"
+    outDir: "dist",
+  },
+  optimizeDeps: {
+    include: ['buffer'],
+  },
+  define: {
+    'process.env': {},
   },
 })

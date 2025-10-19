@@ -5,6 +5,8 @@ import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import "@solana/wallet-adapter-react-ui/styles.css";
+import { Buffer } from 'buffer';
+window.Buffer = Buffer;
 
 const network = WalletAdapterNetwork.Devnet;
 const endpoint = "https://api.devnet.solana.com";
