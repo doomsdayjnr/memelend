@@ -66,7 +66,7 @@ import { startTokenStatsWorker } from './services/tokenStatsWorker';
 
 dotenv.config();
 
-const PORT = Number(process.env.PORT) || 10000; // Render default is 10000
+const PORT = Number(process.env.PORT) || 3001;
 const HOST = '0.0.0.0';
 
 const startServer = async () => {
