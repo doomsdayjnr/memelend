@@ -15,6 +15,7 @@ interface LayoutProps {
 function Layout({ children }: LayoutProps) {
   const { connected, publicKey } = useWallet();
   const { connection } = useConnection();
+  const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:3001';
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -40,7 +41,7 @@ function Layout({ children }: LayoutProps) {
     try {
       const storedRef = localStorage.getItem("referralCode");
 
-      const res = await axios.post("http://localhost:3001/users/register", {
+      const res = await axios.post(`${apiBase}/users/register`, {
         wallet: publicKey.toBase58(),
         referredBy: storedRef || undefined,
       });
