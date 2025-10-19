@@ -14,7 +14,7 @@
         "skipLibCheck": true,
         "outDir": "dist", // Output directory after build
         "rootDir": "src", // Source files location
-        "noEmit": true // Disable JS output (used for ts-node-dev)
+        "noEmit": false // Disable JS output (used for ts-node-dev)
     },
     "include": [
         "src",
