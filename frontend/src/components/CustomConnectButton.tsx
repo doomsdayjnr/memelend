@@ -100,14 +100,7 @@ export function CustomConnectButton() {
       {!connected ? (
         <button
           onClick={() => setVisible(true)}
-          style={{
-            background: "#ffcc00",
-            color: "#000",
-            padding: "10px 20px",
-            borderRadius: "10px",
-            fontWeight: 600,
-            cursor: "pointer",
-          }}
+          className="connect-button"
         >
           Connect Wallet
         </button>
@@ -116,13 +109,6 @@ export function CustomConnectButton() {
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="user-toggle-button"
-            style={{
-              background: "#222",
-              color: "#fff",
-              padding: "10px 20px",
-              borderRadius: "10px",
-              fontWeight: 600,
-            }}
           >
             {username || "User"}
           </button>
@@ -138,15 +124,6 @@ export function CustomConnectButton() {
               <button
                 onClick={disconnect}
                 className="disconnect-button"
-                style={{
-                  marginTop: "10px",
-                  background: "#ff4d4f",
-                  color: "#fff",
-                  padding: "8px 12px",
-                  borderRadius: "8px",
-                  fontWeight: 500,
-                  cursor: "pointer",
-                }}
               >
                 Disconnect
               </button>

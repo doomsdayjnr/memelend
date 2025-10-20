@@ -36,16 +36,19 @@
 
 .disconnect-button {
     width: 100%;
-    background-color: var(--error-red);
-    color: white;
+    background-color: var(--accent-blue);
+    color: var(--text-primary);
     padding: 8px;
     border-radius: 4px;
     font-weight: bold;
     font-family: var(--font-heading);
+    border: none;
+
 }
 
 .disconnect-button:hover {
-    background-color: var(--redglow-border);
+    background-color: #2563EB;
+    box-shadow: 0 0 10px var(--bright-blue-brand-highlights);
 }
 
 .balance-display {
@@ -124,18 +127,18 @@
 
 .referral-buttons button:first-child {
     background-color: var(--success-green);
-    color: white;
+    color: var(--text-primary);
     box-shadow: 0 0 6px var(--success-green);
 }
 
 .referral-buttons button:first-child:hover {
-    background-color: #16A34A;
+    background-color: var(--success-green);
     box-shadow: 0 0 10px var(--highlight-glow);
 }
 
 .referral-buttons button:last-child {
     background-color: var(--error-red);
-    color: white;
+    color: var(--text-primary);
     box-shadow: 0 0 6px var(--error-red);
 }
 
@@ -145,14 +148,17 @@
 }
 
 .connect-button {
-    background-color: #ffcc00;
-    color: black;
+    background-color: var(--logo-purple);
+    color: var(--text-primary);
     border-radius: 12px;
     padding: 10px 20px;
     font-weight: 600;
+    cursor: pointer;
+    border: none;
+    margin-right: 6px;
 }
 
 .connect-button:hover {
-    background-color: #ffd633;
-    transform: scale(1.05);
+    background-color: var(--purple-dark);
+    transform: scale(1.0);
 }
