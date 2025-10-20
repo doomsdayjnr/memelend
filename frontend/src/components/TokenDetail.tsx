@@ -118,7 +118,7 @@ function TokenDetail() {
                 </div>
 
                 {/* Social links */}
-                <div className="token-info-icons">
+                <div className="token-detail-icons">
                   {token?.website && (
                     <a href={token.website} target="_blank" rel="noopener noreferrer" title="Website">
                       <Globe size={20} />

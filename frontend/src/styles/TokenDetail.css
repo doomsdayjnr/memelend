@@ -71,19 +71,19 @@
     gap: 10px;
 }
 
-.token-info-icons {
+.token-detail-icons {
     display: flex;
     gap: 10px;
     margin-top: 10px;
 }
 
-.token-info-icons a {
+.token-detail-icons a {
     color: #6c757d;
     /* neutral grey */
     transition: color 0.2s ease;
 }
 
-.token-info-icons a:hover {
+.token-detail-icons a:hover {
     color: #1da1f2;
     /* twitter blue style hover */
 }
