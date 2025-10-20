@@ -3,23 +3,19 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { type FC } from "react";
 
 interface CustomConnectButtonProps {
-  onConnect?: () => void; // Callback after wallet connects
+  onConnect?: () => void; // Optional callback after wallet connects
 }
 
 export const CustomConnectButton: FC<CustomConnectButtonProps> = ({ onConnect }) => {
   const { setVisible } = useWalletModal();
-  const { connected, publicKey, disconnect } = useWallet();
+  const { connected, publicKey } = useWallet();
 
   const handleClick = () => {
-    if (connected) {
-      disconnect();
-    } else {
-      setVisible(true); // opens wallet modal
+    if (!connected) {
+      setVisible(true); // only open wallet modal if not connected
     }
   };
 
-  // Call onConnect when the wallet connects
-  // You can do this in Layout's useEffect as well, but this is optional
   return (
     <button
       onClick={handleClick}
