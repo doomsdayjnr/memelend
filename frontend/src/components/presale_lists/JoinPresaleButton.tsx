@@ -169,15 +169,15 @@ function JoinPresaleButton({ mint, presaleStart, presaleEnd }: { mint: string | 
               await new Promise((resolve) => setTimeout(resolve, 1000));
             }
 
-            // Add this right after confirmation
-            const txDetails = await connection.getTransaction(txid, {
-              commitment: 'confirmed'
-            });
+            // // Add this right after confirmation
+            // const txDetails = await connection.getTransaction(txid, {
+            //   commitment: 'confirmed'
+            // });
 
-            console.log(
-              "Transaction logs:", 
-              txDetails?.meta?.logMessages || "No logs available"
-            );
+            // console.log(
+            //   "Transaction logs:", 
+            //   txDetails?.meta?.logMessages || "No logs available"
+            // );
 
             
             showToast("Presale tokens added successfully! 🎉", 'success');
