@@ -70,9 +70,7 @@ function Layout({ children }: LayoutProps) {
   };
 
   useEffect(() => {
-    if (!connected) {
-      navigate("/");
-    } else if (publicKey) {
+    if (connected && publicKey) {
       registerUser();
 
       const fetchBalance = async () => {
@@ -86,7 +84,8 @@ function Layout({ children }: LayoutProps) {
 
       fetchBalance();
     }
-  }, [connected, publicKey, navigate, connection]);
+  }, [connected, publicKey, connection]);
+
 
   const submitReferralCode = () => {
     if (referralCodeInput.trim() === "") {
