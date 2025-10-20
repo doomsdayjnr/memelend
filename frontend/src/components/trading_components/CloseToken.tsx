@@ -65,7 +65,7 @@ function CloseToken({ mint, position_id}: {
 
           if (!res.data?.tx) {
             // console.error('Invalid transaction:', res.data);
-            showToast('❌ Backend error: Invalid transaction', 'error');
+            showToast('Backend error: Invalid transaction', 'error');
             return;
           }
     
@@ -87,20 +87,20 @@ function CloseToken({ mint, position_id}: {
             'confirmed'
           );
 
-          // Add this right after confirmation
-          const txDetails = await connection.getTransaction(txid, {
-            commitment: 'confirmed'
-          });
+          // // Add this right after confirmation
+          // const txDetails = await connection.getTransaction(txid, {
+          //   commitment: 'confirmed'
+          // });
 
-          console.log(
-            "Transaction logs:", 
-            txDetails?.meta?.logMessages || "No logs available"
-          );
+          // console.log(
+          //   "Transaction logs:", 
+          //   txDetails?.meta?.logMessages || "No logs available"
+          // );
     
-          showToast(`✅ Closed tokens`, 'success');
+          showToast(`Closed tokens`, 'success');
         } catch (err) {
           console.error(err);
-          showToast('❌ Failed to close tokens', 'error');
+          showToast('Failed to close tokens', 'error');
         } finally {
           setLoading(false);
         }

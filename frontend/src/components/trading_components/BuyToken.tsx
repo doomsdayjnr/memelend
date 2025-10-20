@@ -32,7 +32,7 @@ export default function BuyToken({ mint, amount, slippage }: any) {
     const slippageBps = Math.floor(slippage * 100);
     
     if (userBalance < totalRequired) {
-      showToast(`❌ Not enough SOL. You have ${userBalance / 1_000_000_000} SOL.`, 'error');
+      showToast(`Not enough SOL. You have ${userBalance / 1_000_000_000} SOL.`, 'error');
       return;
     }
 
@@ -82,7 +82,7 @@ export default function BuyToken({ mint, amount, slippage }: any) {
 
       if (!res.data?.tx) {
         // console.error('Invalid transaction returned:', res.data);
-        showToast('❌ Did not return a valid transaction', 'error');
+        showToast('Did not return a valid transaction', 'error');
         return;
       }
 
@@ -104,25 +104,25 @@ export default function BuyToken({ mint, amount, slippage }: any) {
         'confirmed'
       );
 
-      // Add this right after confirmation
-      const txDetails = await connection.getTransaction(txid, {
-        commitment: 'confirmed'
-      });
+      // // Add this right after confirmation
+      // const txDetails = await connection.getTransaction(txid, {
+      //   commitment: 'confirmed'
+      // });
 
-      console.log(
-        "Transaction logs:", 
-        txDetails?.meta?.logMessages || "No logs available"
-      );
+      // console.log(
+      //   "Transaction logs:", 
+      //   txDetails?.meta?.logMessages || "No logs available"
+      // );
 
       if (confirmation?.value?.err) {
         showToast('Transaction was confirmed but failed', 'error');
       }
 
-      showToast('✅ Token purchase successful!', 'success');
+      showToast('Token purchase successful!', 'success');
 
     } catch (err) {
       console.error(err);
-      showToast('❌ Failed to buy token', 'error');
+      showToast('Failed to buy token', 'error');
     } finally {
       setLoading(false);
     }

@@ -15,13 +15,13 @@ function ShortPreview({ mint, collateral, slippage, collateralPercent }: any) {
 
     const handlePreview = useCallback(async () => {
         if (!publicKey) {
-          showToast('❌ Please connect your wallet', 'error');
+          showToast('Please connect your wallet', 'error');
           return;
         }
     
     
         if (collateralPercent > 50) {
-          showToast("❌ Collateral percentage cannot exceed 50%", 'error');
+          showToast("Collateral percentage cannot exceed 50%", 'error');
           return;
         }
     
@@ -73,7 +73,7 @@ function ShortPreview({ mint, collateral, slippage, collateralPercent }: any) {
           });
         } catch (err) {
           console.error(err);
-          showToast('❌ Failed to fetch preview', 'error');
+          showToast('Failed to fetch preview', 'error');
         } finally {
           setPreviewLoading(false);
         }

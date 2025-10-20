@@ -22,12 +22,12 @@ export default function GoShortToken({ mint, collateral, slippage, collateralPer
     e.stopPropagation();
     
     if (!publicKey || !signTransaction) {
-      showToast('❌ Please connect your wallet', 'error');
+      showToast('Please connect your wallet', 'error');
       return;
     }
 
     if (collateralPercent > 50) {
-      showToast("❌ Collateral percentage cannot exceed 50%", 'error');
+      showToast("Collateral percentage cannot exceed 50%", 'error');
       return;
     }
 
@@ -62,13 +62,13 @@ export default function GoShortToken({ mint, collateral, slippage, collateralPer
 
       if (!dataPreview.success || dataPreview.claimable === 0) {
         setPreviewData(null);
-        showToast(dataPreview.message || "❌ No rewards available yet.", 'error');
+        showToast(dataPreview.message || "No rewards available yet.", 'error');
         setLoading(false);
         return;
       }
 
       if (previewRes.data.error) {
-        showToast(`❌ ${previewRes.data.error}`, 'error');
+        showToast(`${previewRes.data.error}`, 'error');
         setLoading(false);
         return;
       }
@@ -79,7 +79,7 @@ export default function GoShortToken({ mint, collateral, slippage, collateralPer
       const tokensOutNum = Number(previewRes.data.tokensOut);
 
       if (tokensOutNum > tokenReserve * maxShortRatio) {
-        showToast(`❌ You can only short up to 10% of the current vault reserve. Try reducing your position size.`, 'error');
+        showToast(`You can only short up to 10% of the current vault reserve. Try reducing your position size.`, 'error');
         setLoading(false);
         return;
       }
@@ -101,13 +101,13 @@ export default function GoShortToken({ mint, collateral, slippage, collateralPer
       const data = res.data;
 
       if (!data.success || data.claimable === 0) {
-        showToast(data.message || "❌ No rewards available yet.", 'error');
+        showToast(data.message || "No rewards available yet.", 'error');
         return;
       }
 
       if (!res.data?.tx) {
         // console.error('Invalid transaction returned:', res.data);
-        showToast('❌ Backend did not return a valid transaction', 'error');
+        showToast('Backend did not return a valid transaction', 'error');
         return;
       }
 
@@ -127,23 +127,23 @@ export default function GoShortToken({ mint, collateral, slippage, collateralPer
         'confirmed'
       );
 
-      // Add this right after confirmation
-      const txDetails = await connection.getTransaction(txid, {
-        commitment: 'confirmed'
-      });
+      // // Add this right after confirmation
+      // const txDetails = await connection.getTransaction(txid, {
+      //   commitment: 'confirmed'
+      // });
 
-      console.log(
-        "Transaction logs:", 
-        txDetails?.meta?.logMessages || "No logs available"
-      );
+      // console.log(
+      //   "Transaction logs:", 
+      //   txDetails?.meta?.logMessages || "No logs available"
+      // );
 
       showToast('✅ Short position opened successfully!', 'success');
     } catch (err: any) {
       console.error(err);
       if (err.response && err.response.data?.error) {
-        showToast(`❌ ${err.response.data.error}`, 'error');
+        showToast(`${err.response.data.error}`, 'error');
       } else {
-        showToast('❌ Failed to open short position', 'error');
+        showToast('Failed to open short position', 'error');
       }
     } finally {
       setLoading(false);

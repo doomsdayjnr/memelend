@@ -54,10 +54,9 @@ export default function SellToken({ mint, position_id }: {
       // adjust amounts by selectedPercentage
       const { minSolOut, tokenAmount, grossSolOut } = dataPreview;
       const adjustedMinSolOut = Math.floor(minSolOut * selectedPercentage);
-      console.log("adjustedMinSolOut", adjustedMinSolOut);
-      console.log("grossSolOut", grossSolOut);
+    
       const adjustedTokenAmount = Math.floor(tokenAmount * selectedPercentage);
-      console.log("adjustedTokenAmount", adjustedTokenAmount);
+      
 
       // Build sell transaction
       const res = await axios.post(`${apiBase}/token/sell-token`, {
@@ -77,7 +76,7 @@ export default function SellToken({ mint, position_id }: {
       }
 
       if (!res.data?.tx) {
-        showToast('❌ Backend error: Invalid transaction', 'error');
+        showToast('Backend error: Invalid transaction', 'error');
         return;
       }
 
@@ -99,20 +98,20 @@ export default function SellToken({ mint, position_id }: {
         'confirmed'
       );
 
-      // Add this right after confirmation
-      const txDetails = await connection.getTransaction(txid, {
-        commitment: 'confirmed'
-      });
+      // // Add this right after confirmation
+      // const txDetails = await connection.getTransaction(txid, {
+      //   commitment: 'confirmed'
+      // });
 
-      console.log(
-        "Transaction logs:", 
-        txDetails?.meta?.logMessages || "No logs available"
-      );
+      // console.log(
+      //   "Transaction logs:", 
+      //   txDetails?.meta?.logMessages || "No logs available"
+      // );
 
-      showToast(`✅ Sold ${selectedPercentage * 100}% of tokens`, 'success');
+      showToast(`Sold ${selectedPercentage * 100}% of tokens`, 'success');
       setShowModal(false); // close modal on success
     } catch (err) {
-      showToast('❌ Failed to sell tokens', 'error');
+      showToast('Failed to sell tokens', 'error');
     } finally {
       setLoading(false);
     }
