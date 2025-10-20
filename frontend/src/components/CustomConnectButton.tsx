@@ -71,10 +71,11 @@ export function CustomConnectButton() {
           console.error("Failed to fetch balance:", err);
         }
       };
-
+      setMenuOpen(false);
       fetchBalance();
     }
   }, [connected, publicKey, connection]);
+
 
   const submitReferralCode = () => {
     if (referralCodeInput.trim() === "") {

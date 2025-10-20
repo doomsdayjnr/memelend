@@ -14,6 +14,7 @@
     font-weight: 600;
     cursor: pointer;
     box-shadow: 0 0 6px var(--accent-blue);
+    margin-right: 6px;
     transition: background-color 0.2s, box-shadow 0.2s;
 }
 
@@ -43,7 +44,7 @@
     font-weight: bold;
     font-family: var(--font-heading);
     border: none;
-
+    transition: background-color 0.2s, box-shadow 0.2s;
 }
 
 .disconnect-button:hover {
@@ -156,6 +157,7 @@
     cursor: pointer;
     border: none;
     margin-right: 6px;
+    transition: background-color 0.2s, box-shadow 0.2s;
 }
 
 .connect-button:hover {
