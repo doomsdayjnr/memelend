@@ -143,3 +143,16 @@
     background-color: var(--redglow-border);
     box-shadow: 0 0 10px var(--redglow-border);
 }
+
+.connect-button {
+    background-color: #ffcc00;
+    color: black;
+    border-radius: 12px;
+    padding: 10px 20px;
+    font-weight: 600;
+}
+
+.connect-button:hover {
+    background-color: #ffd633;
+    transform: scale(1.05);
+}
