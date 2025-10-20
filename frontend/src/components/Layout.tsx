@@ -115,7 +115,7 @@ function Layout({ children }: LayoutProps) {
             </div>
           </div>
 
-          <div className="nav-content">{connected && <NavBar />}</div>
+          <div className="nav-content"><NavBar /></div>
 
           <div className="login">
             {!connected ? (
