@@ -113,8 +113,8 @@ function TokenDetail() {
               <div className="token-info-block">
                 <div className="token-info-block-header">
                   <p>{token?.name} ({token?.symbol})</p>
-                  <p>Volume: {token?.stats?.change24h?.toFixed(2) || '0'}%</p>
-                  <p>Liquidity: ${formatLargeNumber(token?.stats?.liquidityUsd || 0)}</p>
+                  <p>MKT CAP: ${formatLargeNumber(token?.stats?.circulatingMarketCapUsd?.toFixed(2)) || '0'}</p>
+                  <p>LIQUIDITY: ${formatLargeNumber(token?.stats?.liquidityUsd || 0)}</p>
                 </div>
 
                 {/* Social links */}
