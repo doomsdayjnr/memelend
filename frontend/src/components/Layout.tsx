@@ -7,6 +7,7 @@ import axios from "axios";
 import "../styles/Layout.css";
 import logo from '../assets/MemeLend_Logo.png';
 import { ToastProvider } from "../components/alerts/ToastContainer";
+import { CustomConnectButton } from "./CustomConnectButton";
 
 interface LayoutProps {
   children: ReactNode;
@@ -118,7 +119,8 @@ function Layout({ children }: LayoutProps) {
           <div className="nav-content"><NavBar /></div>
 
           <div className="login">
-            {!connected ? (
+            <CustomConnectButton/>
+            {/* {!connected ? (
               <WalletMultiButton className="connect-button" />
             ) : (
               <div className="user-dropdown-container">
@@ -134,7 +136,7 @@ function Layout({ children }: LayoutProps) {
                   </div>
                 )}
               </div>
-            )}
+            )} */}
           </div>
 
           <div className="main-layout">{children}</div>
