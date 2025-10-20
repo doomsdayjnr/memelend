@@ -119,10 +119,8 @@ function Layout({ children }: LayoutProps) {
           <div className="nav-content"><NavBar /></div>
 
           <div className="login">
-            <CustomConnectButton/>
-            {/* {!connected ? (
-              <WalletMultiButton className="connect-button" />
-            ) : (
+            <CustomConnectButton />
+            {connected && (
               <div className="user-dropdown-container">
                 <button onClick={() => setMenuOpen(!menuOpen)} className="user-toggle-button">
                   {username || "User"}
@@ -136,7 +134,7 @@ function Layout({ children }: LayoutProps) {
                   </div>
                 )}
               </div>
-            )} */}
+            )}
           </div>
 
           <div className="main-layout">{children}</div>
