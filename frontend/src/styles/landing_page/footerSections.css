@@ -1,0 +1,190 @@
+/* ---- Footer Section Layout ---- */
+.footer-section {
+    width: 100%;
+    padding: 4rem 0;
+}
+
+@media (min-width: 640px) {
+    .footer-section {
+        padding: 6rem 0;
+    }
+}
+
+@media (min-width: 1024px) {
+    .footer-section {
+        padding: 8rem 0;
+    }
+}
+
+.footer-container {
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+    .footer-container {
+        padding: 0 1.5rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .footer-container {
+        padding: 0 2rem;
+    }
+}
+
+/* ---- Main Box ---- */
+.footer-wrapper {
+    position: relative;
+    background: var(--panel-dark);
+    border-radius: 1rem;
+    padding: 2rem;
+    overflow: hidden;
+}
+
+@media (min-width: 640px) {
+    .footer-wrapper {
+        padding: 3rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .footer-wrapper {
+        padding: 4rem;
+    }
+}
+
+/* ---- Gradient Overlay ---- */
+.footer-wrapper::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom right,
+            rgba(var(--primary-rgb), 0.1),
+            rgba(var(--background-dark-rgb), 0.05),
+            rgba(var(--background-dark-rgb), 0));
+    opacity: 0.5;
+}
+
+/* ---- Glow Blobs ---- */
+.footer-blur-1,
+.footer-blur-2 {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+}
+
+.footer-blur-1 {
+    top: -4rem;
+    right: -4rem;
+    width: 16rem;
+    height: 16rem;
+    background: rgba(var(--primary-rgb), 0.05);
+}
+
+.footer-blur-2 {
+    bottom: -6rem;
+    left: -6rem;
+    width: 20rem;
+    height: 20rem;
+    background: rgba(255, 0, 255, 0.05);
+}
+
+/* ---- Text ---- */
+.footer-content {
+    position: relative;
+    text-align: center;
+    z-index: 10;
+}
+
+.footer-content h2 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    font-family: var(--font-display);
+    color: #f3f4f6;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+}
+
+@media (min-width: 640px) {
+    .footer-content h2 {
+        font-size: 3rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .footer-content h2 {
+        font-size: 3.75rem;
+    }
+}
+
+.footer-content p {
+    max-width: 42rem;
+    margin: 0 auto 2rem;
+    font-size: 1.125rem;
+    color: #9ca3af;
+    font-family: var(--font-body);
+}
+
+/* ---- Buttons ---- */
+.footer-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-buttons a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    /* You can use gap instead of margin-right if preferred */
+}
+
+@media (min-width: 640px) {
+    .footer-buttons {
+        flex-direction: row;
+    }
+}
+
+.twitter-btn,
+.discord-btn,
+.telegram-btn {
+    width: auto;
+    /* allow size to fit content */
+    padding: 0.5rem;
+    /* tighten padding */
+    background: var(--primary);
+    color: var(--background-dark);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    transition: 0.3s ease all;
+}
+
+
+/* SVG icons */
+.icon {
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-right: .5rem;
+}
+
+.footer-section-bottom {
+    width: 100%;
+}
+
+.footer-section-bottom-content {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.footer-section-bottom-content a {
+    text-decoration: none;
+    color: var(--text-primary);
+}

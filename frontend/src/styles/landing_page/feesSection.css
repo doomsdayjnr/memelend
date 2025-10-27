@@ -1,0 +1,131 @@
+.fees-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+}
+
+.fees-title-frame {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.1rem 8rem;
+
+}
+
+.fees-title-frame-content {
+    display: flex;
+    flex-direction: column;
+    min-width: 18rem;
+    align-content: center;
+    justify-content: center;
+    padding: 0.2rem 8rem;
+}
+
+.fees-title {
+    align-self: center;
+    color: var(--text-primary);
+    font-size: 2.25rem;
+    /* text-4xl */
+    font-weight: 900;
+    /* font-black */
+    line-height: 1;
+    /* leading-tight */
+    letter-spacing: -0.033em;
+    /* tracking-[-0.033em] */
+
+}
+
+.fees-subtitle {
+    align-items: center;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1;
+}
+
+.fees-table-container {
+    padding: 40px 120px;
+    container-type: inline-size;
+}
+
+.fees-structure-frame-my-table {
+    display: flex;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    border: 1px solid #2e6b5f;
+    background: linear-gradient(to top, rgba(0, 255, 204, 0.1), transparent);
+}
+
+.fees-structure-frame-my-table table {
+    width: 100%;
+    flex: 1;
+}
+
+.fees-structure-frame-my-table table thead tr {
+    background: linear-gradient(to top, rgba(0, 255, 204, 0.15), transparent);
+}
+
+.fees-structure-frame-my-table table thead tr th {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    text-align: left;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+
+.fees-structure-frame-my-table table tbody tr td {
+    height: 72px;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #2e6b5f;
+    border-right: 1px solid #2e6b5f;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    font-weight: 400;
+}
+
+.table-content-row-frames {
+    align-content: center;
+    padding: 0.5rem 1rem;
+}
+
+.fees-structure-frame-my-table table td,
+.fees-structure-frame-my-table table th {
+    vertical-align: middle;
+    padding: 1rem;
+    /* adjust to taste */
+}
+
+.fees-call-for-action-frame {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.fees-call-for-action-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.8rem 18rem;
+    background: linear-gradient(to top, rgba(0, 255, 204, 0.1), transparent);
+}
+
+.fees-call-for-action-title {
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1.2;
+}
+
+@media (min-width: 768px) {
+    .fees-title {
+        font-size: 2.5rem;
+    }
+}

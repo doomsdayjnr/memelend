@@ -157,7 +157,9 @@
     cursor: pointer;
     border: none;
     margin-right: 6px;
-    transition: background-color 0.2s, box-shadow 0.2s;
+    border: 1px solid var(--purple-dark);
+    box-shadow: 0 0 6px rgba(59, 130, 246, 0.3);
+    transition: all 0.2s ease-in-out;
 }
 
 .connect-button:hover {

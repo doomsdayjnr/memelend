@@ -1,25 +1,40 @@
-import '../styles/Welcome.css';
-import '../styles/landing_page/landingPage.css';
-import heroImg from '../assets/landing page hero image.png';
+import { Link } from "react-router-dom";
+import "../styles/Welcome.css";
+import "../styles/landing_page/landingPage.css";
+import HeroSection from "../components/landing_page/HeroSection";
+import AboutSection from "../components/landing_page/AboutSection";
+import ReinforcedBondingCurve from "../components/landing_page/ReinforcedBondingCurve";
+import FeatureSection from "../components/landing_page/FeatureSection";
+import FeesSection from "../components/landing_page/FeesSection";
+import FAQSection from "../components/landing_page/FAQSection";
+import FooterSection from "../components/landing_page/FooterSection";
+
 
 function Welcome() {
   return (
     <div className="landing-page">
       <section className="hero-section">
-        <img src={heroImg} alt="MemeLend Hero" className="hero-img" />
-        <div className="hero-section-title-frame">
-          <h1 className="hero-title">
-            Trade Memecoins Without the Rug. Go Long. Go Short. From Day One.
-          </h1>
-          <h3 className="hero-subtitle">
-            MemeLend is the first platform that lets you short memecoins from
-            creation, with built-in anti-rug pull protection. Finally, a fair fight.
-          </h3>
-        </div>
+        <HeroSection/>
       </section>
-      <section className='landing-page-features'>
-
+      <section className="about-section-frame">
+        <AboutSection/>
       </section>
+      <section className="reinforcement-bonding-curve-frame">
+        <ReinforcedBondingCurve/>
+      </section>
+      <section className="how-it-work-frame">
+        <FeatureSection/>
+      </section>
+      <section className="fees-structure-frame">
+        <FeesSection/>
+      </section>
+      <section className="faq-structure-frame">
+        <FAQSection/>
+      </section>
+      <section className="footer-structure-frame">
+        <FooterSection/>
+      </section>
+      
     </div>
   );
 }
