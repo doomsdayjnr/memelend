@@ -352,4 +352,8 @@
     .token-chart-placeholder {
         height: 100%;
     }
+
+    .token-chart-section {
+        flex: 1;
+    }
 }

@@ -493,7 +493,7 @@ function TradingViewAdvancedChart({ mint, symbol }: TradingViewChartProps) {
       dataFeedRef.current = new LiveDataFeed(mint, defaultProps.interval);
 
       const widgetOptions: ChartingLibraryWidgetOptions = {
-        symbol: mint,
+        symbol: symbol,
         datafeed: dataFeedRef.current,
         interval: defaultProps.interval,
         container: chartContainerRef.current,
