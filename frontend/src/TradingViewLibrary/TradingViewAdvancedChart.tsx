@@ -682,7 +682,7 @@ function TradingViewAdvancedChart({ mint, symbol }: TradingViewChartProps) {
         ref={chartContainerRef}
         style={{ 
           width: '100%', 
-          height: '500px',
+          height: '100%',
           opacity: error ? 0.3 : 1
         }}
       />
