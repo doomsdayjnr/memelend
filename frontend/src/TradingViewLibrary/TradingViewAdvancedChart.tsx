@@ -427,7 +427,7 @@ function TradingViewAdvancedChart({ mint, symbol }: TradingViewChartProps) {
 
   const defaultProps = {
     symbol: symbol || 'SOL/USDC',
-    interval: '1S' as ResolutionString,
+    interval: '1' as ResolutionString,
     datafeedUrl: '',
     libraryPath: '/charting_library/',
     chartsStorageUrl: 'https://saveload.tradingview.com',
