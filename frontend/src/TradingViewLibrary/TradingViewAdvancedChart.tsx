@@ -292,7 +292,7 @@ class LiveDataFeed implements IDatafeedChartApi, IExternalDatafeed, IDatafeedQuo
           description: symbolName,
           type: 'crypto',
           session: '24x7',
-          exchange: 'MemeLend Exchange',
+          exchange: 'MemeLend',
           listed_exchange: 'MemeLend',
           timezone: 'Etc/UTC',
           format: 'price',
@@ -533,6 +533,7 @@ function TradingViewAdvancedChart({ mint, symbol }: TradingViewChartProps) {
         ],
         
         loading_screen: { backgroundColor: '#0D1117' },
+        theme: "dark",
         overrides: {
           'paneProperties.background': '#0D1117',
           'paneProperties.vertGridProperties.color': '#1e1e1e',
