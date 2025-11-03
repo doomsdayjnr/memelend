@@ -512,10 +512,6 @@ function TradingViewAdvancedChart({ mint, symbol }: TradingViewChartProps) {
           'study_templates'
         ],
         
-        // Remove enabled_features since we're disabling study_templates
-        // enabled_features: ['study_templates'], // Remove this line
-        
-        // Remove external storage URLs that cause CORS
         charts_storage_url: undefined,
         charts_storage_api_version: undefined,
         client_id: undefined,
