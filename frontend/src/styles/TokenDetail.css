@@ -107,7 +107,7 @@
 }
 
 .token-chart-placeholder {
-    height: 500px;
+    height: 600px;
     background-color: var(--bg-dark);
     border: 1px dashed var(--border-dark);
     border-radius: 8px;
