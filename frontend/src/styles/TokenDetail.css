@@ -338,3 +338,13 @@
 .action-logic-frame {
     width: 100%;
 }
+
+@media (max-width:786px) {
+    .token-sidebar {
+        width: 100%;
+    }
+
+    .token-chart-placeholder {
+        height: 100%;
+    }
+}
