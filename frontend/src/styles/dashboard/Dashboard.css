@@ -211,3 +211,34 @@
     width: 100%;
     height: 300px;
 }
+
+@media (max-width:786px) {
+    .stats-graph-frame {
+        display: none;
+    }
+
+    .stats-balance-frame {
+        width: 50%;
+    }
+
+    .stats-perfomance-frame {
+        width: 50%;
+    }
+
+    .balance-card-sections h3 {
+        font-size: 0.7rem;
+    }
+
+    .balance-card-sections h2 {
+        font-size: 0.9rem;
+    }
+
+    .rank-card-sections h3 {
+        font-size: 0.7rem;
+    }
+
+    .rank-card-sections h2 {
+        font-size: 0.9rem;
+    }
+
+}

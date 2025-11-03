@@ -1,0 +1,150 @@
+.curve-section {
+    text-align: center;
+    padding: 6rem 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    color: var(--text-primary);
+    font-weight: 800;
+    margin-bottom: 1rem;
+    font-family: 'Sora', sans-serif;
+}
+
+.section-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    max-width: 720px;
+    margin: 0 auto 3rem;
+    line-height: 1.6;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Comparison box container */
+.curve-comparison {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    padding: 2rem 4rem;
+}
+
+/* Individual comparison box */
+.curve-box {
+    flex: 1 1 320px;
+    max-width: 420px;
+    background: linear-gradient(to top, rgba(0, 255, 204, 0.1), transparent);
+    border: 1px solid rgba(0, 255, 133, 0.2);
+    color: var(--text-primary);
+    border-radius: 1rem;
+    padding: 2rem;
+    text-align: left;
+    transition: all 0.3s ease;
+}
+
+.curve-box:hover {
+    transform: translateY(-5px);
+    border-color: rgba(0, 255, 133, 0.4);
+    box-shadow: 0 8px 24px rgba(0, 255, 133, 0.1);
+}
+
+.curve-box h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    font-family: 'Sora', sans-serif;
+}
+
+.curve-box p {
+    font-size: 1rem;
+    line-height: 1.6;
+    font-family: 'Inter', sans-serif;
+}
+
+.curve-box .red-trend,
+.curve-box .green-trend {
+    font-size: 2.2rem;
+    display: block;
+    margin-bottom: 0.8rem;
+}
+
+.curve-box .red-trend {
+    color: var(--redglow-border);
+}
+
+.curve-box .green-trend {
+    color: var(--title-green);
+}
+
+/* --- Responsive adjustments --- */
+
+/* Tablets */
+@media (max-width: 992px) {
+    .curve-section {
+        padding: 4rem 1.5rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .section-subtitle {
+        font-size: 1rem;
+    }
+
+    .curve-comparison {
+        padding: 2rem 1rem;
+        gap: 1.5rem;
+    }
+
+    .curve-box {
+        text-align: center;
+        padding: 1.5rem;
+    }
+
+    .curve-box h3 {
+        font-size: 1.2rem;
+    }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .curve-section {
+        padding: 3rem 1rem;
+    }
+
+    .section-title {
+        font-size: 1.6rem;
+    }
+
+    .section-subtitle {
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    .curve-comparison {
+        flex-direction: column;
+        align-items: center;
+        padding: 1.5rem 0;
+    }
+
+    .curve-box {
+        max-width: 100%;
+        padding: 1.2rem;
+    }
+
+    .curve-box h3 {
+        font-size: 1.1rem;
+    }
+
+    .curve-box p {
+        font-size: 0.95rem;
+    }
+
+    .curve-box .red-trend,
+    .curve-box .green-trend {
+        font-size: 1.8rem;
+    }
+}

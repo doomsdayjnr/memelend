@@ -326,7 +326,7 @@ function LaunchStepOne({ onSuccess }: LaunchStepOneProps) {
           <label htmlFor="lendPercent" className="percentage-label">
             Choose how much of the <strong>1B token supply</strong> you want to keep as your 
             <strong> Creator’s Allocation</strong>.  
-            You may allocate up to <strong>40%</strong>.  
+            You may allocate up to <strong>30%</strong>.  
             <br />
             <span className="helper-text">
               If you enable Pre-Sale, the chosen amount will be used for both 
@@ -345,7 +345,7 @@ function LaunchStepOne({ onSuccess }: LaunchStepOneProps) {
               handleChange(e);
             }}
             min="1"
-            max="40"
+            max="30"
             placeholder="Creator Allocation % (e.g. 10)"
             className="input-field"
             required
@@ -382,7 +382,7 @@ function LaunchStepOne({ onSuccess }: LaunchStepOneProps) {
                   value={formData.presalePercent > 0 ? formData.presalePercent : ""}
                   onChange={handleChange}
                   min="1"
-                  max="15"
+                  max="20"
                   placeholder="e.g. 10"
                   className="input-field"
                   required
@@ -458,13 +458,13 @@ function LaunchStepOne({ onSuccess }: LaunchStepOneProps) {
               <p className="text-sm text-green-500 mt-1">✅ Image uploaded successfully</p>
             </div>
           )}
-          {formData.lendPercent > 40 && (
+          {formData.lendPercent > 30 && (
             <div className="warning-box">
               ⚠️ <strong>High percentage detected!</strong><br />
               This token will have low initial liquidity at launch, which could cause high slippage and price volatility.
               <br />
               <span className="text-sm text-gray-600">
-                Recommended max lending: <strong>30%–40%</strong> for fair liquidity and tradability.
+                Recommended max lending: <strong>20%–30%</strong> for fair liquidity and tradability.
               </span>
             </div>
           )}

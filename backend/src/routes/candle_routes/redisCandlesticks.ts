@@ -43,12 +43,19 @@ async function applyTickToLive(
     const v = Number(c.v);
     const tx = Number(c.tx);
 
+    // FIX: Ensure timestamp is valid before creating Date
+    const timestamp = Number(c.t);
+    if (isNaN(timestamp)) {
+      console.error('Invalid timestamp in candle data:', c.t);
+      return;
+    }
+
     redis.publish(
       "chart_updates",
       JSON.stringify({
         mint,
         interval,
-        startTime: new Date(Number(c.t)),
+        startTime: new Date(timestamp),
         open: o,
         high: h,
         low: l,
@@ -125,7 +132,20 @@ async function applyTickToLive(
 async function finalizeLive(mint: string, interval: Interval, live: Record<string,string>) {
   // ✅ Align to bucketStart for consistency
   const bucketStart = floorTo(Number(live.t), msFor(interval));
+
+  // FIX: Validate timestamp before creating Date
+  if (isNaN(bucketStart) || bucketStart <= 0) {
+    console.error('Invalid bucketStart timestamp:', live.t);
+    return;
+  }
+
   const startTime = new Date(bucketStart);
+
+  // FIX: Validate the Date object
+  if (isNaN(startTime.getTime())) {
+    console.error('Invalid startTime created from bucketStart:', bucketStart);
+    return;
+  }
 
   const open = Number(live.o);
   const high = Number(live.h);
@@ -150,31 +170,38 @@ async function finalizeLive(mint: string, interval: Interval, live: Record<strin
     closeUsd: close,
   };
 
-  await prisma.candlestick.upsert({
-    where: { mint_interval_startTime: { mint, interval, startTime } },
-    update: {
-      high: data.high,
-      low: data.low,
-      close: data.close,
+ try {
+
+    await prisma.candlestick.upsert({
+      where: { mint_interval_startTime: { mint, interval, startTime } },
+      update: {
+        high: data.high,
+        low: data.low,
+        close: data.close,
+        volume: data.volume,
+        txCount: data.txCount,
+      },
+      create: data,
+    });
+
+    // ✅ Always publish aligned & complete candle
+    await redis.publish('chart_updates', JSON.stringify({
+      mint,
+      interval,
+      startTime: startTime.toISOString(),
+      open: data.openUsd,
+      high: data.highUsd,
+      low: data.lowUsd,
+      close: data.closeUsd,
       volume: data.volume,
       txCount: data.txCount,
-    },
-    create: data,
-  });
+      isFinal: true,
+    }));
 
-  // ✅ Always publish aligned & complete candle
-  await redis.publish('chart_updates', JSON.stringify({
-    mint,
-    interval,
-    startTime,
-    open: data.openUsd,
-    high: data.highUsd,
-    low: data.lowUsd,
-    close: data.closeUsd,
-    volume: data.volume,
-    txCount: data.txCount,
-    isFinal: true,
-  }));
+  } catch (error) {
+    console.error('Error in finalizeLive:', error);
+    return; // Don't proceed to rollup if there's an error
+  }
 
   if (interval === '1s') {
     await rollupFrom1s(mint, live);
@@ -186,6 +213,12 @@ async function rollupFrom1s(mint: string, oneSec: Record<string,string>) {
   const solUsdPrice = await getCachedSolUsdPrice();
   const oneTs = Number(oneSec.t);
 
+  // FIX: Validate oneTs before using it
+  if (isNaN(oneTs) || oneTs <= 0) {
+    console.error('Invalid oneSec timestamp:', oneSec.t);
+    return;
+  }
+
   for (const tf of ROLLOUPS) {
     const tfMs = msFor(tf);
     const bucketStart = floorTo(oneTs, tfMs);
@@ -196,10 +229,17 @@ async function rollupFrom1s(mint: string, oneSec: Record<string,string>) {
       const o = Number(c.o), h = Number(c.h), l = Number(c.l), cPrice = Number(c.c);
       const v = Number(c.v), tx = Number(c.tx);
 
+       // FIX: Validate timestamp before creating Date
+        const timestamp = Number(c.t);
+        if (isNaN(timestamp)) {
+          console.error('Invalid timestamp in rollup candle data:', c.t);
+          return;
+        }
+
       const candleData = {
         mint,
         interval: tf,
-        startTime: new Date(Number(c.t)), // ✅ always aligned to bucketStart
+        startTime: new Date(timestamp), // ✅ always aligned to bucketStart
         open: o,
         high: h,
         low: l,
@@ -213,8 +253,14 @@ async function rollupFrom1s(mint: string, oneSec: Record<string,string>) {
     };
 
     if (!live.t || Number(live.t) !== bucketStart) {
-      // ✅ finalize the previous candle if it exists
-      if (live.t) await finalizeLive(mint, tf, live);
+    // ✅ finalize the previous candle if it exists
+    if (live.t) {
+      // FIX: Validate live.t before finalizing
+      const liveTimestamp = Number(live.t);
+      if (!isNaN(liveTimestamp) && liveTimestamp > 0) {
+        await finalizeLive(mint, tf, live);
+      }
+    }
 
       // ✅ start a new candle aligned to bucketStart
       const newCandle = {
@@ -278,7 +324,12 @@ async function consumeTicks() {
             qtyQuote: Number(fields.qtyQuote),
           };
 
-          if (mint) await applyTickToLive(mint, '1s', tick);
+          // FIX: Validate tick data before processing
+          if (mint && !isNaN(tick.ts) && tick.ts > 0) {
+            await applyTickToLive(mint, '1s', tick);
+          } else {
+            console.error('Invalid tick data:', { mint, ts: fields.ts });
+          }
           lastId = id;
         }
       }

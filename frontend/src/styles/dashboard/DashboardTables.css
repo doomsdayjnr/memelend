@@ -209,3 +209,11 @@
     transform: scale(1.03);
     text-decoration: none;
 }
+
+@media (max-width:786px) {
+    .dashboard-table-frame {
+        width: 100%;
+        height: 450px;
+        overflow: scroll;
+    }
+}

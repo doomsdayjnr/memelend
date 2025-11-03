@@ -132,9 +132,10 @@ function FeesSection() {
                     Back projects you believe in — from innovative, utility-driven tokens to community-driven experiments — 
                     all while removing rug-pull risk and unlocking new opportunities for growth.
                 </h2>
-                <Link to="/launch" className="call-for-action-btn">Launch Your Token</Link>
+                <div className="call-for-action-btn-frame">
+                    <Link to="/launch" className="call-for-action-btn">Launch Your Token</Link>
+                </div>
             </div>
-
         </div>
     </div>
   )

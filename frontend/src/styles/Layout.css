@@ -1,4 +1,60 @@
-/* Existing layout styles (no change) */
+.welcome-header {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-dark);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 255, 200, 0.1);
+}
+
+.logo {
+    width: 20%;
+    height: 100%;
+    justify-content: start;
+    display: flex;
+    align-items: center;
+}
+
+.logo-content {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.login {
+    width: 20%;
+    height: 100%;
+    justify-content: end;
+    display: flex;
+    align-items: center;
+}
+
+.logo-content img {
+    width: 180px;
+    height: 84px;
+    justify-items: left;
+    align-items: center;
+    object-fit: contain;
+    margin-left: 10px;
+}
+
+.nav-content {
+    width: 60%;
+    display: flex;
+}
+
+.mobile-nav-bar {
+    display: none;
+}
+
+.main-layout {
+    width: 100%;
+    height: 100%;
+}
+
 .user-dropdown-container {
     position: relative;
     display: inline-block;
@@ -6,7 +62,7 @@
 
 .user-toggle-button {
     background-color: var(--accent-blue);
-    color: white;
+    color: var(--text-primary);
     padding: 10px 14px;
     border: none;
     border-radius: 6px;
@@ -50,6 +106,10 @@
 .disconnect-button:hover {
     background-color: #2563EB;
     box-shadow: 0 0 10px var(--bright-blue-brand-highlights);
+}
+
+.mobile-disconnect-button {
+    display: none;
 }
 
 .balance-display {
@@ -165,4 +225,132 @@
 .connect-button:hover {
     background-color: var(--purple-dark);
     transform: scale(1.0);
+}
+
+@media (max-width: 1248px) {
+
+    .logo {
+        width: 10%;
+    }
+
+    .logo-content img {
+        width: 84px;
+        height: 74px;
+    }
+
+    .login {
+        width: 10%;
+    }
+
+    .nav-content {
+        width: 80%;
+    }
+
+    .connect-button {
+        padding: 10px 10px;
+        font-weight: 300;
+    }
+
+
+}
+
+/* Tablets */
+@media (max-width: 992px) {
+    .logo-content img {
+        width: 140px;
+        height: 64px;
+        margin-left: 5px;
+    }
+
+    .nav-content {
+        display: none;
+    }
+
+    .logo {
+        width: 50%;
+    }
+
+    .logo-content {
+        justify-self: start;
+    }
+
+    .login {
+        display: none;
+    }
+
+    .mobile-nav-bar {
+        display: block;
+        width: 50%;
+        display: flex;
+        justify-content: end;
+    }
+
+    .user-dropdown {
+        display: none;
+    }
+
+    .user-toggle-button {
+        display: none;
+    }
+
+    .mobile-disconnect-button {
+        display: block;
+        width: 100%;
+        background-color: var(--accent-blue);
+        color: var(--text-primary);
+        padding: 8px;
+        border-radius: 4px;
+        font-weight: bold;
+        font-family: var(--font-heading);
+        border: none;
+        transition: background-color 0.2s, box-shadow 0.2s;
+    }
+}
+
+/* Mobile phones */
+@media (max-width: 600px) {
+    .nav-content {
+        display: none;
+    }
+
+    .logo {
+        width: 50%;
+    }
+
+    .logo-content {
+        justify-self: start;
+    }
+
+    .login {
+        display: none;
+    }
+
+    .mobile-nav-bar {
+        display: block;
+        width: 50%;
+        display: flex;
+        justify-content: end;
+    }
+
+    .user-dropdown {
+        display: none;
+    }
+
+    .user-toggle-button {
+        display: none;
+    }
+
+    .mobile-disconnect-button {
+        display: block;
+        width: 100%;
+        background-color: var(--accent-blue);
+        color: var(--text-primary);
+        padding: 8px;
+        border-radius: 4px;
+        font-weight: bold;
+        font-family: var(--font-heading);
+        border: none;
+        transition: background-color 0.2s, box-shadow 0.2s;
+    }
+
 }

@@ -1,4 +1,4 @@
-
+import "../../styles/landing_page/aboutSection.css";
 
 function AboutSection() {
   return (

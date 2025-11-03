@@ -1,57 +1,50 @@
 /* ---- Footer Section Layout ---- */
 .footer-section {
     width: 100%;
-    padding: 4rem 0;
+    padding: 4rem 1.5rem;
+    background: var(--bg-dark);
+    box-sizing: border-box;
 }
 
 @media (min-width: 640px) {
     .footer-section {
-        padding: 6rem 0;
+        padding: 6rem 2rem;
     }
 }
 
 @media (min-width: 1024px) {
     .footer-section {
-        padding: 8rem 0;
+        padding: 8rem 3rem;
     }
 }
 
+/* ---- Container ---- */
 .footer-container {
-    max-width: 64rem;
+    max-width: 72rem;
     margin: 0 auto;
-    padding: 0 1rem;
-}
-
-@media (min-width: 640px) {
-    .footer-container {
-        padding: 0 1.5rem;
-    }
-}
-
-@media (min-width: 1024px) {
-    .footer-container {
-        padding: 0 2rem;
-    }
+    position: relative;
+    z-index: 1;
 }
 
 /* ---- Main Box ---- */
 .footer-wrapper {
     position: relative;
     background: var(--panel-dark);
-    border-radius: 1rem;
-    padding: 2rem;
+    border-radius: 1.25rem;
+    padding: 2rem 1.5rem;
     overflow: hidden;
+    box-shadow: 0 0 25px rgba(0, 255, 133, 0.05);
 }
 
 @media (min-width: 640px) {
     .footer-wrapper {
-        padding: 3rem;
+        padding: 3rem 2rem;
     }
 }
 
 @media (min-width: 1024px) {
     .footer-wrapper {
-        padding: 4rem;
+        padding: 4rem 3rem;
     }
 }
 
@@ -64,7 +57,8 @@
             rgba(var(--primary-rgb), 0.1),
             rgba(var(--background-dark-rgb), 0.05),
             rgba(var(--background-dark-rgb), 0));
-    opacity: 0.5;
+    opacity: 0.6;
+    z-index: 0;
 }
 
 /* ---- Glow Blobs ---- */
@@ -72,7 +66,9 @@
 .footer-blur-2 {
     position: absolute;
     border-radius: 50%;
-    filter: blur(60px);
+    filter: blur(80px);
+    opacity: 0.6;
+    z-index: 0;
 }
 
 .footer-blur-1 {
@@ -80,7 +76,7 @@
     right: -4rem;
     width: 16rem;
     height: 16rem;
-    background: rgba(var(--primary-rgb), 0.05);
+    background: rgba(var(--primary-rgb), 0.1);
 }
 
 .footer-blur-2 {
@@ -88,7 +84,7 @@
     left: -6rem;
     width: 20rem;
     height: 20rem;
-    background: rgba(255, 0, 255, 0.05);
+    background: rgba(255, 0, 255, 0.08);
 }
 
 /* ---- Text ---- */
@@ -99,7 +95,7 @@
 }
 
 .footer-content h2 {
-    font-size: 2.25rem;
+    font-size: 1.75rem;
     font-weight: 700;
     font-family: var(--font-display);
     color: #f3f4f6;
@@ -109,22 +105,22 @@
 
 @media (min-width: 640px) {
     .footer-content h2 {
-        font-size: 3rem;
+        font-size: 2.25rem;
     }
 }
 
 @media (min-width: 1024px) {
     .footer-content h2 {
-        font-size: 3.75rem;
+        font-size: 3rem;
     }
 }
 
 .footer-content p {
-    max-width: 42rem;
+    max-width: 40rem;
     margin: 0 auto 2rem;
-    font-size: 1.125rem;
+    font-size: 1rem;
     color: #9ca3af;
-    font-family: var(--font-body);
+    line-height: 1.6;
 }
 
 /* ---- Buttons ---- */
@@ -136,55 +132,61 @@
     align-items: center;
 }
 
-.footer-buttons a {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    /* You can use gap instead of margin-right if preferred */
-}
-
 @media (min-width: 640px) {
     .footer-buttons {
         flex-direction: row;
+        gap: 1.5rem;
     }
 }
 
-.twitter-btn,
-.discord-btn,
-.telegram-btn {
-    width: auto;
-    /* allow size to fit content */
-    padding: 0.5rem;
-    /* tighten padding */
-    background: var(--primary);
-    color: var(--background-dark);
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+.footer-buttons a {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 0.5rem;
-    transition: 0.3s ease all;
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    background: var(--primary);
+    color: var(--background-dark);
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(0, 255, 204, 0.2);
 }
 
-
-/* SVG icons */
-.icon {
-    width: 0.5rem;
-    height: 0.5rem;
-    margin-right: .5rem;
+.footer-buttons a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 25px rgba(0, 255, 204, 0.4);
 }
 
+/* ---- Bottom Section ---- */
 .footer-section-bottom {
     width: 100%;
+    margin-top: 2rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.2);
 }
 
 .footer-section-bottom-content {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    gap: 1rem;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+    .footer-section-bottom-content {
+        flex-direction: row;
+        gap: 1.5rem;
+    }
 }
 
 .footer-section-bottom-content a {
     text-decoration: none;
     color: var(--text-primary);
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.footer-section-bottom-content a:hover {
+    color: var(--primary);
 }

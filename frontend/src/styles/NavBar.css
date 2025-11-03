@@ -32,14 +32,26 @@
 
 .main-menu:hover {
     background: rgba(0, 255, 200, 0.1);
-    color: #ffffff;
+    color: var(--text-primary);
     box-shadow: 0 0 8px rgba(0, 255, 200, 0.3);
 }
 
 .main-menu.active {
     background: rgba(0, 255, 200, 0.15);
-    color: #ffffff;
+    color: var(--text-primary);
     box-shadow: 0 0 12px rgba(0, 255, 200, 0.5);
     font-weight: 600;
     /* make it stand out */
+}
+
+@media (max-width: 1248px) {
+    .menu-content-list {
+        gap: 10px;
+    }
+
+    .main-menu {
+        text-decoration: none;
+        font-weight: 300;
+        padding: 10px 15px;
+    }
 }

@@ -124,3 +124,26 @@ input[type=number]::-webkit-inner-spin-button {
 input[type=number] {
     -moz-appearance: textfield;
 }
+
+@media (max-width:786px) {
+
+    .add-liquidity-section {
+        margin-top: 0.8rem;
+    }
+
+    .section-title {
+        font-size: 0.8rem;
+    }
+
+    .input-label {
+        font-size: 0.7rem;
+    }
+
+    .info-text {
+        margin-top: 1.25rem;
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+    }
+
+
+}

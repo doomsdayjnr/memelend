@@ -77,7 +77,7 @@ function Rewards() {
     <div className="rewards-container">
       <div className='rewards-content-container'>
         <div className='rewards-claim-frame'>
-          <div className='rewards-content-claim-frame'>
+          <div className='rewards-content-claim-frame-one'>
             <div className="rewards-card-sections">
               <h3>Pending Rewards</h3>
               <h2>${rewards.pending}</h2>
@@ -100,7 +100,7 @@ function Rewards() {
               </button>
             </div>
           </div>
-          <div className='rewards-content-claim-frame'>
+          <div className='rewards-content-claim-frame-one'>
             <div className='rewards-claim-card-sections'>
               <h3>Change Your Referral Code Here</h3>
               <ChangeReferralCode/>
@@ -110,7 +110,7 @@ function Rewards() {
               <ClaimReferral/>
             </div>
           </div>
-          <div className='rewards-content-claim-frame'>
+          <div className='rewards-content-claim-frame-two'>
             <ReferralChart/>
           </div>
         </div>

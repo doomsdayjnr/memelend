@@ -237,3 +237,14 @@
     color: var(--text-secondary);
     margin-left: 6px;
 }
+
+@media (max-width:786px) {
+    .memecoin-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .sidebar {
+        width: 100%;
+    }
+}

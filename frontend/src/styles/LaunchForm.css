@@ -116,7 +116,7 @@
 .launch-button,
 .confirm-button {
     background-color: var(--accent-blue);
-    color: white;
+    color: var(--text-primary);
     padding: 0.75rem;
     border: none;
     border-radius: 8px;
@@ -573,7 +573,7 @@
     margin-top: 0.75rem;
     border-radius: 6px;
     font-size: 0.85rem;
-    color: #f5f5f5;
+    color: var(--text-primary);
 }
 
 /* Chrome, Edge, Safari */
@@ -583,4 +583,46 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     filter: invert(1);
     /* turns black to white */
     cursor: pointer;
+}
+
+@media (max-width:786px) {
+    .launch-form-title {
+        font-size: 1rem;
+        margin-bottom: 24px;
+    }
+
+    .stages-frame {
+        margin-bottom: 16px;
+    }
+
+    .stages-active {
+        padding: 0.6rem 0.8rem;
+        font-weight: 200;
+        font-size: 11px;
+    }
+
+    .stages {
+        padding: 0.6rem 0.8rem;
+        font-weight: 200;
+        font-size: 11px;
+    }
+
+    .subtitle {
+        margin-top: 0.6rem;
+        font-size: 0.7rem;
+    }
+
+    .launch-button,
+    .confirm-button {
+        font-size: 0.8rem;
+    }
+
+    .success-msg {
+        margin-bottom: 0.8rem;
+    }
+
+    .info-text {
+        font-size: 0.7rem;
+    }
+
 }

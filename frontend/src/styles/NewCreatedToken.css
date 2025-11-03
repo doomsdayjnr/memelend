@@ -141,3 +141,9 @@
     font-weight: 400;
     color: var(--neutral-text);
 }
+
+@media (max-width:786px) {
+    .new-token-container {
+        overflow: scroll;
+    }
+}

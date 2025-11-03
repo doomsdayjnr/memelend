@@ -151,7 +151,7 @@ function Positions() {
             </thead>
             <tbody>
               {positions.map((position) => (
-                <tr key={position.positionId}>
+                <tr key={position?.positionId}>
                   <td>
                     <div className="chart-dashboard-image-wrapper">
                       {position?.tokenImage ? (
@@ -174,54 +174,54 @@ function Positions() {
                     <div
                       className="chart-dashboard-mint-hash"
                       onClick={() => navigator.clipboard.writeText(position?.mint)}
-                      title={`Click to copy\n${position.mint}`}
+                      title={`Click to copy\n${position?.mint}`}
                     >
                       {position?.mint.slice(0, 2)}...{position?.mint.slice(-2)}
                     </div>
                   </td>
-                  <td>{position.side}</td>
-                  <td>{formatTinyUSD(position.entryPrice)}</td>
+                  <td>{position?.side}</td>
+                  <td>{formatTinyUSD(position?.entryPrice)}</td>
                   <td>
-                    {position.side === 'short' ? formatTinyUSD(position.liquidate) : '—'}
+                    {position?.side === 'short' ? formatTinyUSD(position?.liquidate) : '—'}
                   </td>
                   <td>
-                    {prices[position.mint] ? (
+                    {prices[position?.mint] ? (
                       <div className={
-                        position.side === 'buy'
-                          ? prices[position.mint].priceInUsd >= position.entryPrice
+                        position?.side === 'buy'
+                          ? prices[position?.mint].priceInUsd >= position?.entryPrice
                             ? 'text-green'  // Profit for long
                             : 'text-red'    // Loss for long
-                          : prices[position.mint].priceInUsd >= position.entryPrice
+                          : prices[position?.mint].priceInUsd >= position?.entryPrice
                             ? 'text-red'    // Loss for short
                             : 'text-green'  // Profit for short
                       }>
-                        {calculatePnL(position.entryPrice, prices[position.mint].priceInUsd, position.side)}
+                        {calculatePnL(position?.entryPrice, prices[position?.mint].priceInUsd, position?.side)}
                       </div>
                     ) : (
                       'Loading...'
                     )}
                   </td>
                   <td>
-                    {formatLargeNumber(position.tokensOut / 1_000_000)}
+                    {formatLargeNumber(position?.tokensOut / 1_000_000)}
                   </td>
                   <td>
                     <span
                       className={`status-badge ${
-                        position.isOpen ? 'status-open' : 'status-closed'
+                        position?.isOpen ? 'status-open' : 'status-closed'
                       }`}
                     >
-                      {position.isOpen ? 'Open' : 'Closed'}
+                      {position?.isOpen ? 'Open' : 'Closed'}
                     </span>
                   </td>
                   <td>
-                    {position.side === 'short' ? 
-                    <CloseToken mint={position.mint} position_id={position.positionId} /> : 
-                    <SellToken mint={position.mint} position_id={position.positionId} />}
+                    {position?.side === 'short' ? 
+                    <CloseToken mint={position?.mint} position_id={position?.positionId} /> : 
+                    <SellToken mint={position?.mint} position_id={position?.positionId} />}
                   </td>
                   <td>
-                    {position.side === 'short' ? 
+                    {position?.side === 'short' ? 
                     "-": 
-                    <DepositYield mint={position.mint} position_id={position.positionId}/>}
+                    <DepositYield mint={position?.mint} position_id={position?.positionId}/>}
                   </td>
                 </tr>
               ))}

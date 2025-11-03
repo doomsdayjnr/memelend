@@ -118,19 +118,19 @@ const launchStepOneRoutes: FastifyPluginAsync = async (server) => {
         presalePercent: number;
       } & MetadataInput;
 
-        if (lendPercent > 40) {
+        if (lendPercent > 30) {
             return reply.send({
                 success: false,
                 claimable: 0,
-                message: "Allocated percentage too high. Max allowed is 40% to prevent rug behavior."
+                message: "Allocated percentage too high. Max allowed is 30% to prevent rug behavior."
             });
         }
 
-        if (presalePercent > 15) {
+        if (presalePercent > 20) {
             return reply.send({
                 success: false,
                 claimable: 0,
-                message: "Allocated percentage too high. Max allowed is 15% to prevent rug behavior."
+                message: "Allocated percentage too high. Max allowed is 20% to prevent rug behavior."
             });
         }
 

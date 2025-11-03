@@ -160,7 +160,7 @@ const startServer = async () => {
     
     startEventIndexer();
     consumeTicks();
-    startTokenStatsWorker();
+    // startTokenStatsWorker();
 
   } catch (err) {
     server.log.error(err);

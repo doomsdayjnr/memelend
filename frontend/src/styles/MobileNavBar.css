@@ -1,0 +1,91 @@
+/* --- Toggle Button --- */
+.mobile-menu-toggle {
+    background: none;
+    border: none;
+    color: var(--title-green);
+    cursor: pointer;
+    z-index: 200;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease;
+    margin-right: 15px;
+}
+
+.mobile-menu-toggle:hover {
+    color: var(--primary);
+}
+
+/* --- Menu Overlay (background + slide effect) --- */
+.mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 70%;
+    max-width: 320px;
+    height: 100vh;
+    background: rgba(15, 15, 25, 0.98);
+    backdrop-filter: blur(8px);
+    transition: right 0.4s ease;
+    z-index: 150;
+    box-shadow: -4px 0 25px rgba(0, 255, 150, 0.1);
+}
+
+.mobile-menu-overlay.open {
+    right: 0;
+}
+
+/* --- Menu Content --- */
+.mobile-menu-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+    height: 100%;
+}
+
+.mobile-menu-content-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+/* --- Links --- */
+.mobile-main-menu {
+    text-decoration: none;
+    color: var(--title-green);
+    font-weight: 400;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    text-align: left;
+    display: block;
+    font-size: 1.05rem;
+}
+
+.mobile-main-menu:hover {
+    background: rgba(0, 255, 200, 0.1);
+    color: var(--text-primary);
+    box-shadow: 0 0 8px rgba(0, 255, 200, 0.3);
+}
+
+.mobile-main-menu.active {
+    background: rgba(0, 255, 200, 0.15);
+    color: var(--text-primary);
+    box-shadow: 0 0 12px rgba(0, 255, 200, 0.5);
+    font-weight: 600;
+}
+
+
+/* --- Responsive Visibility --- */
+@media (min-width: 1025px) {
+    .mobile-menu-toggle {
+        display: none;
+    }
+
+    .mobile-menu-overlay {
+        display: none;
+    }
+}

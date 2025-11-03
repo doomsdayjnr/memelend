@@ -1,4 +1,4 @@
-import {navLinks} from "../constants";
+import {navLinks} from "../constants/index";
 import { NavLink } from "react-router-dom";
 
 function NavBar() {

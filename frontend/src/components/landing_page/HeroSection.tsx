@@ -1,5 +1,6 @@
 import heroImg from "../../assets/Shield Landing Page.png";
 import { Link } from "react-router-dom";
+import '../../styles/landing_page/heroSection.css';
 
 function HeroSection() {
   return (

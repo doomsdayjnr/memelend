@@ -113,6 +113,8 @@ function TradingViewChart({ mint }: { mint: string | undefined }) {
       if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
       const raw: CandleResponse[] = await resp.json();
 
+      console.log(raw); 
+
       candlesRef.current = raw.slice(-MAX_CANDLES);
       const chartData = candlesRef.current.map(mapToChartCandle);
       if (seriesRef.current) seriesRef.current.setData(chartData);

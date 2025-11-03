@@ -2,16 +2,14 @@
     display: flex;
     flex-direction: column;
     gap: 2rem;
-
 }
 
+/* --- Title Section --- */
 .fees-title-frame {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 0.5rem;
+    justify-content: center;
     padding: 0.1rem 8rem;
-
 }
 
 .fees-title-frame-content {
@@ -27,27 +25,27 @@
     align-self: center;
     color: var(--text-primary);
     font-size: 2.25rem;
-    /* text-4xl */
     font-weight: 900;
-    /* font-black */
-    line-height: 1;
-    /* leading-tight */
+    line-height: 1.2;
     letter-spacing: -0.033em;
-    /* tracking-[-0.033em] */
-
+    text-align: center;
 }
 
 .fees-subtitle {
-    align-items: center;
+    align-self: center;
     color: var(--text-primary);
     font-size: 1rem;
     font-weight: 400;
-    line-height: 1;
+    line-height: 1.5;
+    text-align: center;
+    max-width: 800px;
 }
 
+/* --- Table Section --- */
 .fees-table-container {
     padding: 40px 120px;
-    container-type: inline-size;
+    overflow-x: auto;
+    /* Enables horizontal scroll on mobile */
 }
 
 .fees-structure-frame-my-table {
@@ -56,52 +54,36 @@
     border-radius: 0.75rem;
     border: 1px solid #2e6b5f;
     background: linear-gradient(to top, rgba(0, 255, 204, 0.1), transparent);
+    min-width: 800px;
+    /* Keeps structure on smaller screens */
 }
 
 .fees-structure-frame-my-table table {
     width: 100%;
-    flex: 1;
+    border-collapse: collapse;
 }
 
 .fees-structure-frame-my-table table thead tr {
     background: linear-gradient(to top, rgba(0, 255, 204, 0.15), transparent);
 }
 
-.fees-structure-frame-my-table table thead tr th {
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
+.fees-structure-frame-my-table table th,
+.fees-structure-frame-my-table table td {
+    padding: 1rem;
     text-align: left;
     color: var(--text-primary);
     font-size: 0.875rem;
-    font-weight: 500;
-    line-height: 1.2;
-}
-
-
-.fees-structure-frame-my-table table tbody tr td {
-    height: 72px;
-    padding: 0.5rem 1rem;
+    font-weight: 400;
     border-bottom: 1px solid #2e6b5f;
     border-right: 1px solid #2e6b5f;
-    color: var(--text-primary);
-    font-size: 0.875rem;
-    font-weight: 400;
+    vertical-align: top;
 }
 
 .table-content-row-frames {
-    align-content: center;
     padding: 0.5rem 1rem;
 }
 
-.fees-structure-frame-my-table table td,
-.fees-structure-frame-my-table table th {
-    vertical-align: middle;
-    padding: 1rem;
-    /* adjust to taste */
-}
-
+/* --- Call to Action Section --- */
 .fees-call-for-action-frame {
     display: flex;
     flex-direction: column;
@@ -111,21 +93,119 @@
 .fees-call-for-action-content {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 0.5rem;
-    padding: 0.8rem 18rem;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem 8rem;
     background: linear-gradient(to top, rgba(0, 255, 204, 0.1), transparent);
+    text-align: center;
 }
 
 .fees-call-for-action-title {
     color: var(--text-primary);
     font-size: 1.5rem;
     font-weight: 400;
-    line-height: 1.2;
+    line-height: 1.4;
+    width: 100%;
+    max-width: 900px;
 }
 
-@media (min-width: 768px) {
+.call-for-action-btn-frame {
+    width: 100%;
+}
+
+.call-for-action-btn {
+    background-color: var(--accent-blue);
+    color: var(--text-primary);
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+.call-for-action-btn:hover {
+    background-color: var(--bright-blue-brand-highlights);
+}
+
+/* ======================== */
+/* 📱 Responsive Adjustments */
+/* ======================== */
+
+/* --- Tablets (≤1024px) --- */
+@media (max-width: 1024px) {
+
+    .fees-title-frame,
+    .fees-title-frame-content {
+        padding: 0.5rem 3rem;
+    }
+
     .fees-title {
-        font-size: 2.5rem;
+        font-size: 2rem;
+    }
+
+    .fees-table-container {
+        padding: 30px 60px;
+    }
+
+    .fees-call-for-action-content {
+        padding: 1rem 4rem;
+    }
+}
+
+/* --- Mobile (≤768px) --- */
+@media (max-width: 768px) {
+
+    .fees-title-frame,
+    .fees-title-frame-content {
+        padding: 0.5rem 1.5rem;
+    }
+
+    .fees-title {
+        font-size: 1.75rem;
+    }
+
+    .fees-subtitle {
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    .fees-table-container {
+        padding: 20px;
+    }
+
+    .fees-structure-frame-my-table {
+        border-radius: 0.5rem;
+    }
+
+    .fees-call-for-action-content {
+        padding: 1rem 2rem;
+    }
+
+    .fees-call-for-action-title {
+        font-size: 1.25rem;
+    }
+
+    .call-for-action-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* --- Small Mobile (≤480px) --- */
+@media (max-width: 480px) {
+    .fees-title {
+        font-size: 1.5rem;
+    }
+
+    .fees-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .fees-call-for-action-title {
+        font-size: 1.1rem;
+    }
+
+    .fees-call-for-action-content {
+        padding: 1rem;
     }
 }

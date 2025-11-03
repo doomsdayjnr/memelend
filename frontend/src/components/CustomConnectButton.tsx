@@ -114,6 +114,13 @@ export function CustomConnectButton() {
             {username || "User"}
           </button>
 
+          <button
+            onClick={disconnect}
+            className="mobile-disconnect-button"
+          >
+            Disconnect
+          </button>
+
           {menuOpen && (
             <div className="user-dropdown">
               <p className="balance-display">

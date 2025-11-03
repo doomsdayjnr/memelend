@@ -10,7 +10,10 @@ import { useToast } from "../components/alerts/ToastContainer";
 import { formatLargeNumber } from '../utils/numberFormatter';
 import PositionsPlaceholder from './chart_layout/PositionsPlaceholder';
 import ShortPreview from './trading_components/ShortPreview';
-import TradingViewChart from './chart_layout/TradingViewChart';
+// import TradingViewChart from './chart_layout/TradingViewChart';
+import TradingViewChart from '../TradingViewLibrary/TradingViewAdvancedChart';
+// import {TVChartContainer}  from '../TradingViewLibrary/index';
+
 
 function TokenDetail() {
   const { mint } = useParams();
@@ -143,7 +146,9 @@ function TokenDetail() {
               </div>
             </div>
             <div className="token-chart-placeholder">
-              <TradingViewChart mint={mint}/>
+              {/* <TradingViewChart mint={mint}/> */}
+              <TradingViewChart mint={mint} symbol={token?.symbol}/>
+              {/* <TVChartContainer /> */}
             </div>
             <div className="token-positions-placeholder">
               <PositionsPlaceholder mint={mint} />

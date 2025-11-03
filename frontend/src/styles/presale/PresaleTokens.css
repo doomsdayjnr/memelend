@@ -341,3 +341,9 @@
         opacity: 0.6;
     }
 }
+
+@media (max-width:786px) {
+    .new-presale-token-container {
+        overflow: scroll;
+    }
+}

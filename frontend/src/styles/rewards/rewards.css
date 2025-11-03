@@ -36,7 +36,8 @@
     flex-wrap: wrap;
 }
 
-.rewards-content-claim-frame {
+.rewards-content-claim-frame-one,
+.rewards-content-claim-frame-two {
     width: 33%;
     height: 100%;
     border: 1px solid var(--border-dark);
@@ -166,7 +167,7 @@
 
 .submit-btn {
     background: var(--accent-blue);
-    color: #fff;
+    color: var(--text-primary);
     font-weight: 300;
     width: 80px;
     cursor: pointer;
@@ -186,7 +187,7 @@
 
 .cancel-btn {
     background: var(--error-red);
-    color: #fff;
+    color: var(--text-primary);
     font-weight: 300;
     width: 80px;
     cursor: pointer;
@@ -219,7 +220,7 @@
 
 .chart-controls button {
     background: #1e2b45;
-    color: #fff;
+    color: var(--text-primary);
     border: none;
     padding: 6px 12px;
     border-radius: 6px;
@@ -242,6 +243,25 @@
 
 .total-referrals {
     margin-top: 0.5rem;
-    color: #fff;
+    color: var(--text-primary);
     font-size: 14px;
+}
+
+@media (max-width:786px) {
+    .rewards-content-container {
+        width: 100%;
+    }
+
+    .rewards-claim-frame {
+        gap: 0;
+    }
+
+    .rewards-content-claim-frame-two {
+        display: none;
+    }
+
+    .rewards-content-claim-frame-one {
+        width: 50%;
+    }
+
 }

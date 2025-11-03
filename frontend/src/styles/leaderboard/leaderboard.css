@@ -114,3 +114,9 @@
     font-weight: 400;
     color: var(--neutral-text);
 }
+
+@media (max-width:786px) {
+    .leaderboard-table-frame {
+        overflow: scroll;
+    }
+}
