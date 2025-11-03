@@ -340,6 +340,11 @@
 }
 
 @media (max-width:786px) {
+
+    .token-detail-container {
+        flex-wrap: wrap;
+    }
+
     .token-sidebar {
         width: 100%;
     }
