@@ -123,41 +123,55 @@ class LiveDataFeed implements IDatafeedChartApi, IExternalDatafeed, IDatafeedQuo
         
         try {
           const msg = JSON.parse(event.data);
-          console.log('📨 WebSocket message received:', msg);
+          console.log('📨 WebSocket message type:', msg.type);
           
-          if (msg.type === 'kline') {
-            const candleData: CandleResponse = msg.data;
+          // Handle both message structures
+          let candleData: CandleResponse;
+          if (msg.type === 'kline' && msg.data) {
+            candleData = msg.data;
+          } else if (msg.type === 'kline' && !msg.data) {
+            // Sometimes the data might be directly in the message
+            candleData = msg as any;
+          } else {
+            return; // Not a kline message
+          }
+          
+          console.log('🕵️‍♂️ Processing candle:', {
+            mint: candleData.mint,
+            interval: candleData.interval,
+            time: candleData.startTime
+          });
+          
+          // Map the interval from backend format to TradingView format
+          const tvInterval = this.mapToBackendInterval(candleData.interval);
+          
+          console.log('🔄 Interval check:', {
+            backend: candleData.interval,
+            tradingView: tvInterval,
+            current: this.currentInterval,
+            matches: tvInterval === this.currentInterval,
+            mintMatches: candleData.mint === this.mint
+          });
+          
+          if (candleData.mint === this.mint && tvInterval === this.currentInterval) {
+            const tvBar = this.mapToTradingViewBar(candleData);
             
-            // Map the interval from backend format to TradingView format
-            const tvInterval = this.mapToBackendInterval(candleData.interval);
-            console.log('🔄 Interval mapping:', {
-              backend: candleData.interval,
-              tradingView: tvInterval,
-              current: this.currentInterval
+            console.log('✅ Sending bar to subscribers:', {
+              time: tvBar.time,
+              open: tvBar.open,
+              close: tvBar.close,
+              subscriberCount: this.subscribers.size
             });
             
-            if (candleData.mint === this.mint && tvInterval === this.currentInterval) {
-              const tvBar = this.mapToTradingViewBar(candleData);
-              
-              console.log('✅ Processing candle:', {
-                candleData,
-                mappedBar: tvBar,
-                subscribers: this.subscribers.size
-              });
-              
-              // Notify all subscribers
-              this.subscribers.forEach((callback) => {
+            // Notify all subscribers
+            this.subscribers.forEach((callback, key) => {
+              try {
+                console.log(`📤 Notifying subscriber: ${key}`);
                 callback(tvBar);
-              });
-            } else {
-              console.log('❌ Skipping candle - mint or interval mismatch:', {
-                candleMint: candleData.mint,
-                ourMint: this.mint,
-                candleInterval: candleData.interval,
-                mappedInterval: tvInterval,
-                currentInterval: this.currentInterval
-              });
-            }
+              } catch (error) {
+                console.error('Error in subscriber callback:', error);
+              }
+            });
           }
         } catch (error) {
           console.error('Error processing WebSocket message:', error);
@@ -198,43 +212,54 @@ class LiveDataFeed implements IDatafeedChartApi, IExternalDatafeed, IDatafeedQuo
     periodParams: { from: number; to: number; countBack?: number; firstDataRequest?: boolean },
     onResult: (bars: Bar[], meta: { noData?: boolean }) => void
   ): Promise<void> {
+    // Only fetch data on first request to prevent loops
+    if (!periodParams.firstDataRequest) {
+      onResult([], {});
+      return;
+    }
+
     try {
       const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:3001';
       const mappedInterval = this.mapTradingViewInterval(resolution);
       
-      console.log('Fetching historical data for:', this.mint, 'interval:', mappedInterval);
+      console.log('🔍 Fetching historical data:', { 
+        mint: this.mint, 
+        resolution, 
+        mappedInterval,
+        firstDataRequest: periodParams.firstDataRequest 
+      });
       
       const response = await fetch(
         `${apiBase}/chart/candles?mint=${this.mint}&interval=${mappedInterval}&limit=1000`
       );
       
-      if (!response.ok) throw new Error(`Failed to fetch historical data: ${response.status}`);
+      if (!response.ok) {
+        console.error(`HTTP error: ${response.status}`);
+        throw new Error(`Failed to fetch historical data: ${response.status}`);
+      }
       
       const rawData: CandleResponse[] = await response.json();
       
-      console.log('Raw API response length:', rawData.length);
+      console.log('📊 Historical data loaded:', { 
+        count: rawData?.length,
+        mint: this.mint 
+      });
       
-      // Handle empty data gracefully
       if (!rawData || rawData.length === 0) {
-        console.warn('No historical data found for mint:', this.mint);
+        console.warn('No historical data found');
         onResult([], { noData: true });
         return;
       }
 
-      console.log('First candle sample:', rawData[0]);
-      
-      // Validate and map data
       const bars = rawData
-        .filter(candle => candle && candle.startTime) // Filter out invalid candles
-        .map(candle => this.mapToTradingViewBar(candle))
-        .filter(bar => bar !== null); // Filter out null bars from mapping
+        .filter(candle => candle && candle.startTime && candle.mint === this.mint)
+        .map(candle => this.mapToTradingViewBar(candle));
       
-      console.log('Processed bars count:', bars.length);
-      console.log('Mapped first bar:', bars[0]);
-      
+      console.log('✅ Processed bars for chart:', bars.length);
       onResult(bars, { noData: !bars.length });
+      
     } catch (error) {
-      console.error('Error fetching historical data:', error);
+      console.error('❌ Error in getBars:', error);
       onResult([], { noData: true });
     }
   }
@@ -430,10 +455,6 @@ function TradingViewAdvancedChart({ mint, symbol }: TradingViewChartProps) {
     interval: '1' as ResolutionString,
     datafeedUrl: '',
     libraryPath: '/charting_library/',
-    chartsStorageUrl: 'https://saveload.tradingview.com',
-    chartsStorageApiVersion: '1.1' as const,
-    clientId: 'tradingview.com',
-    userId: 'public_user_id',
     fullscreen: false,
     autosize: true,
     studiesOverrides: {},
@@ -478,33 +499,56 @@ function TradingViewAdvancedChart({ mint, symbol }: TradingViewChartProps) {
         container: chartContainerRef.current,
         library_path: defaultProps.libraryPath,
         locale: getLanguageFromURL() || 'en',
-        disabled_features: ['use_localstorage_for_settings'],
-        enabled_features: ['study_templates'],
-        charts_storage_url: defaultProps.chartsStorageUrl,
-        charts_storage_api_version: defaultProps.chartsStorageApiVersion,
-        client_id: defaultProps.clientId,
-        user_id: defaultProps.userId,
+        
+        // Use correct feature flags
+        disabled_features: [
+          'use_localstorage_for_settings',
+          'save_chart_properties_to_local_storage',
+          'header_compare',
+          'header_screenshot', 
+          'header_undo_redo',
+          'header_symbol_search',
+          'popup_hints',
+          'study_templates'
+        ],
+        
+        // Remove enabled_features since we're disabling study_templates
+        // enabled_features: ['study_templates'], // Remove this line
+        
+        // Remove external storage URLs that cause CORS
+        charts_storage_url: undefined,
+        charts_storage_api_version: undefined,
+        client_id: undefined,
+        user_id: undefined,
+        
         fullscreen: defaultProps.fullscreen,
         autosize: defaultProps.autosize,
         studies_overrides: defaultProps.studiesOverrides,
         timeframe: '1D',
+        
+        // Simplify time frames
         time_frames: [
-          { text: "5y", resolution: "1W" as ResolutionString },
-          { text: "1y", resolution: "1W" as ResolutionString },
-          { text: "6m", resolution: "1D" as ResolutionString },
-          { text: "3m", resolution: "1D" as ResolutionString },
-          { text: "1m", resolution: "4H" as ResolutionString },
-          { text: "5d", resolution: "1H" as ResolutionString },
-          { text: "1d", resolution: "15" as ResolutionString },
+          { text: "1D", resolution: "1" as ResolutionString },
+          { text: "5D", resolution: "5" as ResolutionString },
+          { text: "1M", resolution: "60" as ResolutionString },
+          { text: "3M", resolution: "60" as ResolutionString },
+          { text: "6M", resolution: "240" as ResolutionString },
+          { text: "1Y", resolution: "1D" as ResolutionString },
         ],
+        
         loading_screen: { backgroundColor: '#0D1117' },
         overrides: {
           'paneProperties.background': '#0D1117',
           'paneProperties.vertGridProperties.color': '#1e1e1e',
           'paneProperties.horzGridProperties.color': '#1e1e1e',
+          'mainSeriesProperties.candleStyle.upColor': '#26a69a',
+          'mainSeriesProperties.candleStyle.downColor': '#ef5350',
+          'mainSeriesProperties.candleStyle.borderUpColor': '#26a69a',
+          'mainSeriesProperties.candleStyle.borderDownColor': '#ef5350',
+          'mainSeriesProperties.candleStyle.wickUpColor': '#26a69a',
+          'mainSeriesProperties.candleStyle.wickDownColor': '#ef5350',
         }
       };
-
       widgetRef.current = new widget(widgetOptions);
 
       widgetRef.current.onChartReady(() => {
