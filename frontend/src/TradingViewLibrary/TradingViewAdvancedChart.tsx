@@ -58,24 +58,24 @@ class LiveDataFeed implements IDatafeedChartApi, IExternalDatafeed, IDatafeedQuo
   private mapTradingViewInterval(tvInterval: string): string {
     switch (tvInterval) {
       case '1S': return '1s';
-      case '1': return '1m';
-      case '5': return '5m';
+      case '1': return '1m';      // ✅ Correct
+      case '5': return '5m';      // ✅ Correct  
       case '15': return '15m';
       case '60': return '1h';
       case '240': return '4h';
       case '480': return '8h';
       case '720': return '12h';
       case '1D': return '24h';
-      case 'D': return '24h'; // TradingView uses both '1D' and 'D'
-      default: return '1m'; // Default fallback
+      case 'D': return '24h';
+      default: return '1m';
     }
   }
 
   private mapToBackendInterval(interval: string): string {
     switch (interval) {
       case '1s': return '1S';
-      case '1m': return '1';
-      case '5m': return '5';
+      case '1m': return '1';      // ✅ Correct
+      case '5m': return '5';      // ✅ Correct
       case '15m': return '15';
       case '1h': return '60';
       case '4h': return '240';
