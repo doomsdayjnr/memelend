@@ -93,10 +93,10 @@ function Rewards() {
               <input
                 type="text"
                 readOnly
-                value={`${apiBase}?ref=${rewards.referralCode || ''}`}
+                value={`memelend.tech?ref=${rewards.referralCode || ''}`}
               />
               <button 
-                onClick={() => navigator.clipboard.writeText(`${apiBase}?ref=${rewards.referralCode || ''}`)}
+                onClick={() => navigator.clipboard.writeText(`https://memelend.tech?ref=${rewards.referralCode || ''}`)}
               >
                 Copy
               </button>
