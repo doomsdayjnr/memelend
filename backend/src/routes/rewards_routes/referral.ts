@@ -11,6 +11,7 @@ const referralRoute: FastifyPluginAsync = async (server) => {
       const dbUser = await prisma.user.findUnique({
         where: { wallet: user },
         select: {
+          referralCode: true,
           pendingRewards: true,
           totalEarned: true,
         },
@@ -36,7 +37,10 @@ const referralRoute: FastifyPluginAsync = async (server) => {
         ? Number(dbUser.totalEarned) / LAMPORTS_PER_SOL * solUsd
         : 0;
 
+      const referralCode = dbUser.referralCode.toString();
+
       return reply.send({
+        referralCode,
         pendingRewards: pendingRewardsUsd.toFixed(2),
         totalEarned: totalEarnedUsd.toFixed(2),
       });

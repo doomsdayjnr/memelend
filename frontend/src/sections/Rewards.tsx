@@ -8,6 +8,7 @@ import ReferralChart from '../components/rewards_component/ReferralChart';
 
 
 interface RewardsState {
+  referralCode?: string;
   pending: number;
   total: number;
   loading: boolean;
@@ -41,6 +42,7 @@ function Rewards() {
           const data = await response.json();
   
           setRewards({
+            referralCode: data.referralCode,
             pending: Number(data.pendingRewards),
             total: Number(data.totalEarned),
             loading: false,
@@ -91,10 +93,10 @@ function Rewards() {
               <input
                 type="text"
                 readOnly
-                value={`https://your-app.com?ref=${publicKey?.toString() || ''}`}
+                value={`${apiBase}?ref=${rewards.referralCode || ''}`}
               />
               <button 
-                onClick={() => navigator.clipboard.writeText(`https://your-app.com?ref=${publicKey?.toString() || ''}`)}
+                onClick={() => navigator.clipboard.writeText(`${apiBase}?ref=${rewards.referralCode || ''}`)}
               >
                 Copy
               </button>
