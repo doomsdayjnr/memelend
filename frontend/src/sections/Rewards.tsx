@@ -96,9 +96,11 @@ function Rewards() {
                 type="text"
                 readOnly
                 value={`https://memelend.tech?ref=${rewards.referralCode || ''}`}
+                className="referral-link-input"
               />
               <button 
-                onClick={() => navigator.clipboard.writeText(`https://memelend.tech?ref=${rewards.referralCode || ''}`)}
+                onClick={() => navigator.clipboard.writeText(`https://memelend.tech?ref=${rewards.referralCode || ''}`) }
+                className="copy-button"
               >
                 Copy
               </button>

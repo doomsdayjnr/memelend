@@ -247,6 +247,40 @@
     font-size: 14px;
 }
 
+.referral-link-input {
+    width: 60%;
+    padding: 10px;
+    margin-top: 6px;
+    border: 1px solid var(--border-dark);
+    border-radius: 8px;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 14px;
+    margin-right: 8px;
+    margin-left: 4px;
+}
+
+.copy-button {
+    background: var(--accent-blue);
+    color: var(--text-primary);
+    font-weight: 300;
+    width: 80px;
+    cursor: pointer;
+    border: 1px solid var(--bright-blue-brand-highlights);
+    box-shadow: 0 0 6px rgba(59, 130, 246, 0.3);
+    padding: 4px 4px 4px 4px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    border: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.copy-button:hover {
+    background: var(--accent-blue);
+    transform: scale(1.03);
+}
+
 @media (max-width:786px) {
     .rewards-content-container {
         width: 100%;
