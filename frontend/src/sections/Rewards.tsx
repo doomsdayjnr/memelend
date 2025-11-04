@@ -93,7 +93,7 @@ function Rewards() {
               <input
                 type="text"
                 readOnly
-                value={`memelend.tech?ref=${rewards.referralCode || ''}`}
+                value={`https://memelend.tech?ref=${rewards.referralCode || ''}`}
               />
               <button 
                 onClick={() => navigator.clipboard.writeText(`https://memelend.tech?ref=${rewards.referralCode || ''}`)}
