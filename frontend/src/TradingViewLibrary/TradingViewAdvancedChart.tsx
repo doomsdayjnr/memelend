@@ -58,8 +58,8 @@ class LiveDataFeed implements IDatafeedChartApi, IExternalDatafeed, IDatafeedQuo
   private mapTradingViewInterval(tvInterval: string): string {
     switch (tvInterval) {
       case '1S': return '1s';
-      case '1': return '1m';      // ✅ Correct
-      case '5': return '5m';      // ✅ Correct  
+      case '1': return '1m';      
+      case '5': return '5m';      
       case '15': return '15m';
       case '60': return '1h';
       case '240': return '4h';
@@ -74,8 +74,8 @@ class LiveDataFeed implements IDatafeedChartApi, IExternalDatafeed, IDatafeedQuo
   private mapToBackendInterval(interval: string): string {
     switch (interval) {
       case '1s': return '1S';
-      case '1m': return '1';      // ✅ Correct
-      case '5m': return '5';      // ✅ Correct
+      case '1m': return '1';    
+      case '5m': return '5';      
       case '15m': return '15';
       case '1h': return '60';
       case '4h': return '240';

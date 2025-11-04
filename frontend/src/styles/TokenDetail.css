@@ -1,24 +1,27 @@
 .token-detail-container {
     display: flex;
-    gap: 24px;
-    margin-top: 24px;
+    width: 100%;
+    gap: 10px;
+    margin-top: 14px;
     font-family: var(--font-body);
     color: var(--text-primary);
 }
 
 /* Main chart area */
 .token-chart-section {
-    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    width: 70%;
     background-color: var(--panel-dark);
     border: 1px solid var(--border-dark);
     border-radius: 8px;
-    padding: 24px;
+    padding: 14px;
 }
 
 .token-chart-information {
     display: flex;
     width: 100%;
-    max-height: 80px;
+    height: 80px;
 }
 
 .token-image-wrapper {
@@ -108,6 +111,7 @@
 
 .token-chart-placeholder {
     height: 600px;
+    width: 100%;
     background-color: var(--bg-dark);
     border: 1px dashed var(--border-dark);
     border-radius: 8px;
@@ -135,7 +139,7 @@
 
 /* Right sidebar for token info */
 .token-sidebar {
-    width: 340px;
+    width: 30%;
     background-color: var(--panel-dark);
     border: 1px solid var(--border-dark);
     border-radius: 8px;
@@ -350,10 +354,23 @@
     }
 
     .token-chart-placeholder {
-        height: 100%;
+        width: 100%;
+        margin-top: 0;
     }
 
     .token-chart-section {
-        flex: 1;
+        width: 100%;
+        flex-wrap: wrap;
+        padding: 0;
+        height: auto;
+    }
+
+    .token-chart-information {
+        height: 90px;
+    }
+
+    .token-positions-placeholder {
+        width: 100%;
+        height: 100%;
     }
 }
