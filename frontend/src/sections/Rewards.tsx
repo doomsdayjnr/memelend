@@ -40,6 +40,8 @@ function Rewards() {
           }
   
           const data = await response.json();
+
+          console.log('Fetched rewards data:', data);
   
           setRewards({
             referralCode: data.referralCode,
