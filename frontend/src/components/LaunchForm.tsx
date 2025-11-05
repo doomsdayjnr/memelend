@@ -133,7 +133,7 @@ const LaunchForm = () => {
       )}
     
       {transactionStep === 3 && launchData && !response && (
-        <LaunchStepTwo launchData={launchData} onComplete={setResponse}/>
+        <LaunchStepTwo launchData={launchData} onComplete={setResponse} socialStatus={setShowShare}/>
       )}
 
       <div className="form-info">
@@ -165,13 +165,13 @@ const LaunchForm = () => {
               </>
             ) : liquidityAdded ? (
                 <ShareModal
-                    show={showShare}
-                    onClose={() => setShowShare(false)}
-                    title="Pre-sale is live!"
-                    tokenName={launchData.name}
-                    message="just started a presale on MemeLend 🔥"
-                    url={`https://qa.memelend.tech/token/${launchData.mintAddress}`}
-                  />
+                  show={showShare}
+                  onClose={() => setShowShare(false)}
+                  title="Share your token launch!"
+                  tokenName={launchData.formData.tokenName}
+                  message="just launched on MemeLend! 🚀"
+                  url={`https://qa.memelend.tech/token/${launchData.mintAddress}`}
+                />
             ) : (
               <AddLiquidity 
                 launchData={launchData}

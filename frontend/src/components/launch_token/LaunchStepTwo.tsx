@@ -9,9 +9,10 @@ import { useToast } from "../alerts/ToastContainer";
 type LaunchStepTwoProps = {
   launchData: LaunchData | null;
   onComplete: (res: any) => void;
+  socialStatus: (status: boolean) => void;
 };
 
-function LaunchStepTwo({ launchData, onComplete }: LaunchStepTwoProps) {
+function LaunchStepTwo({ launchData, onComplete, socialStatus }: LaunchStepTwoProps) {
   if (!launchData) return null;
 
   const { publicKey, signTransaction, sendTransaction } = useWallet();
@@ -146,6 +147,7 @@ function LaunchStepTwo({ launchData, onComplete }: LaunchStepTwoProps) {
       });
 
       onComplete(saveResponse.data);
+      socialStatus(true);
       setTransactionStep(0);
     } catch (err: any) {
       if (err.message.includes("blockhash")) {
