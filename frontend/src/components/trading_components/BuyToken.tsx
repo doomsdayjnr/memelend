@@ -5,12 +5,13 @@ import axios from 'axios';
 import '../../styles/BuyToken.css';
 import BN from 'bn.js';
 import { useToast } from "../alerts/ToastContainer";
+import ShareModal from '../social_media/ShareModal';
 
-export default function BuyToken({ mint, amount, slippage }: any) {
+export default function BuyToken({ mint, amount, slippage, tokenName }: any) {
   const [loading, setLoading] = useState(false);
   const [minTokensOut, setMinTokensOut] = useState(null);
   const { showToast } = useToast();
-
+  const [showShare, setShowShare] = useState(false); 
   const { connection } = useConnection();
   const { publicKey, signTransaction } = useWallet();
   const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:3001';
@@ -119,6 +120,7 @@ export default function BuyToken({ mint, amount, slippage }: any) {
       }
 
       showToast('Token purchase successful!', 'success');
+      setShowShare(true);
 
     } catch (err) {
       console.error(err);
@@ -134,6 +136,14 @@ export default function BuyToken({ mint, amount, slippage }: any) {
         <button onClick={handleBuy} disabled={loading} className='buybtn' type="button">
           {loading ? 'Buy...' : 'Buy'}
         </button>
+        <ShareModal
+          show={showShare}
+          onClose={() => setShowShare(false)}
+          title="I just bought!"
+          tokenName={tokenName}
+          message={"Just bought into this token on MemeLend! 🚀 Check it out 👇"}
+          url={`https://qa.memelend.tech/token/${mint}`}
+        />
     </div>
   );
 }

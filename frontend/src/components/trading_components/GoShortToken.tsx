@@ -5,14 +5,16 @@ import axios from 'axios';
 import BN from 'bn.js';
 import '../../styles/BuyToken.css';
 import { useToast } from "../alerts/ToastContainer";
+import ShareModal from '../social_media/ShareModal';
 
-export default function GoShortToken({ mint, collateral, slippage, collateralPercent }: any) {
+export default function GoShortToken({ mint, collateral, slippage, collateralPercent, tokenName }: any) {
   const [loading, setLoading] = useState(false);
   const [previewLoading, setPreviewLoading] = useState(false);
   const [previewData, setPreviewData] = useState<any>(null);
   const { connection } = useConnection();
   const { publicKey, signTransaction } = useWallet();
   const { showToast } = useToast();
+  const [showShare, setShowShare] = useState(false); 
   const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:3001';
   
 
@@ -138,6 +140,7 @@ export default function GoShortToken({ mint, collateral, slippage, collateralPer
       // );
 
       showToast('✅ Short position opened successfully!', 'success');
+      setShowShare(true);
     } catch (err: any) {
       console.error(err);
       if (err.response && err.response.data?.error) {
@@ -156,6 +159,14 @@ export default function GoShortToken({ mint, collateral, slippage, collateralPer
         <button onClick={handleShort} disabled={loading || previewLoading} className='shortbtn' type="button">
           {loading ? 'Short...' : 'Short'}
         </button>
+        <ShareModal
+          show={showShare}
+          onClose={() => setShowShare(false)}
+          title="Short is live!"
+          tokenName={tokenName}
+          message={`I just shorted ${tokenName} on MemeLend 😈🔥 Think it's going down? 📉 Trade it here 👇`}
+          url={`https://qa.memelend.tech/token/${mint}`}
+        />
     </div>
   );
 }

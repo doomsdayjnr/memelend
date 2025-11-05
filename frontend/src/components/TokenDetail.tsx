@@ -289,12 +289,12 @@ function TokenDetail() {
                   </div>
                   <div className='token-core-items-one'>
                     <div className='content'>
-                      <BuyToken mint={mint} slippage={slippage} amount={amount}/>
+                      <BuyToken mint={mint} slippage={slippage} amount={amount} tokenName={token?.name}/>
                     </div>
                   </div>
                   <div className='token-core-items-one'>
                     <div className='content'>
-                      <GoShortToken mint={mint} slippage={slippage} collateral={amount} collateralPercent={collateralPercent} />
+                      <GoShortToken mint={mint} slippage={slippage} collateral={amount} collateralPercent={collateralPercent} tokenName={token?.name} />
                     </div>
                   </div>
               </div>
