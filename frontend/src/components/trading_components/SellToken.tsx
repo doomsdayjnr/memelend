@@ -4,11 +4,9 @@ import { Transaction, Keypair } from '@solana/web3.js';
 import axios from 'axios';
 import '../../styles/ActionButton.css'; 
 import { useToast } from "../alerts/ToastContainer";
+import ShareModal from '../social_media/ShareModal';
 
-export default function SellToken({ mint, position_id }: { 
-  mint: string | undefined;
-  position_id: number; 
-}) {
+export default function SellToken({ mint, position_id, tokenName }: any) {
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [slippage, setSlippage] = useState(1); // default = 1%
@@ -17,6 +15,7 @@ export default function SellToken({ mint, position_id }: {
   const { publicKey, signTransaction } = useWallet();
   const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:3001';
   const { showToast } = useToast();
+  const [showShare, setShowShare] = useState(false); 
 
   const handleSell = async () => {
     if (!publicKey || !signTransaction) {
@@ -109,6 +108,7 @@ export default function SellToken({ mint, position_id }: {
       // );
 
       showToast(`Sold ${selectedPercentage * 100}% of tokens`, 'success');
+      setShowShare(true);
       setShowModal(false); // close modal on success
     } catch (err) {
       showToast('Failed to sell tokens', 'error');
@@ -127,6 +127,14 @@ export default function SellToken({ mint, position_id }: {
       >
         {loading ? 'Processing...' : 'Close'}
       </button>
+      <ShareModal
+        show={showShare}
+        onClose={() => setShowShare(false)}
+        title="Sold with profit!"
+        tokenName={tokenName}
+        message={`Just sold ${tokenName} and took profit 💰🔥 MemeLend always delivers 🚀`}
+        url={`https://qa.memelend.tech/token/${mint}`}
+      />
 
       {/* Modal */}
       {showModal && (

@@ -4,18 +4,16 @@ import { Transaction, Keypair } from '@solana/web3.js';
 import axios from 'axios';
 import '../../styles/ActionButton.css';
 import { useToast } from "../alerts/ToastContainer"; 
+import ShareModal from '../social_media/ShareModal';
 
-function CloseToken({ mint, position_id}: { 
-  mint: string | undefined;
-  position_id: number;
-}) {
+function CloseToken({ mint, position_id, tokenName }: any) {
     const [loading, setLoading] = useState(false);
       
     const { connection } = useConnection();
     const { publicKey, signTransaction } = useWallet();
     const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:3001';
     const { showToast } = useToast();
-    
+    const [showShare, setShowShare] = useState(false); 
     const handleClose = async () => {
         if (!publicKey || !signTransaction) {
           showToast('Please connect your wallet', 'error');
@@ -98,6 +96,7 @@ function CloseToken({ mint, position_id}: {
           // );
     
           showToast(`Closed tokens`, 'success');
+          setShowShare(true);
         } catch (err) {
           console.error(err);
           showToast('Failed to close tokens', 'error');
@@ -115,6 +114,14 @@ function CloseToken({ mint, position_id}: {
         >
             {loading ? 'Closing...' : 'Close'}
         </button>
+        <ShareModal
+          show={showShare}
+          onClose={() => setShowShare(false)}
+          title="Closed my short with profit!"
+          tokenName={tokenName}
+          message={`Closed my short on ${tokenName} with profit 💰😈 MemeLend strikes again 🔥`}
+          url={`https://qa.memelend.tech/token/${mint}`}
+        />
       </div>
   )
 }

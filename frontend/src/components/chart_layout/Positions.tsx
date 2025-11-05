@@ -215,13 +215,13 @@ function Positions() {
                   </td>
                   <td>
                     {position?.side === 'short' ? 
-                    <CloseToken mint={position?.mint} position_id={position?.positionId} /> : 
-                    <SellToken mint={position?.mint} position_id={position?.positionId} />}
+                    <CloseToken mint={position?.mint} position_id={position?.positionId} tokenName={position?.tokenName} /> : 
+                    <SellToken mint={position?.mint} position_id={position?.positionId} tokenName={position?.tokenName} />}
                   </td>
                   <td>
                     {position?.side === 'short' ? 
                     "-": 
-                    <DepositYield mint={position?.mint} position_id={position?.positionId}/>}
+                    <DepositYield mint={position?.mint} position_id={position?.positionId} tokenName={position?.tokenName}/>}
                   </td>
                 </tr>
               ))}

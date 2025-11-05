@@ -16,7 +16,7 @@ export default function ShareModal({ show, onClose, title, message, tokenName, u
   if (!show) return null;
 
   const tweetText = encodeURIComponent(
-    `🚀 ${tokenName ? tokenName + " " : ""}${message}\n${url}`
+    `${message}\n${url}`
   );
 
   return (

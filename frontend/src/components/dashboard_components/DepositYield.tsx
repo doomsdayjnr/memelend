@@ -4,17 +4,15 @@ import { Transaction, Keypair } from '@solana/web3.js';
 import axios from 'axios';
 import './../../styles/ActionButton.css';
 import { useToast } from "../alerts/ToastContainer"; 
+import ShareModal from '../social_media/ShareModal';
 
-function DepositYield({ mint, position_id}: { 
-  mint: string | undefined;
-  position_id: number;
-}) {
+function DepositYield({ mint, position_id, tokenName}: any) {
     const [loading, setLoading] = useState(false);
     const { connection } = useConnection();
     const { publicKey, signTransaction } = useWallet();
     const { showToast } = useToast();
     const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:3001';
-
+    const [showShare, setShowShare] = useState(false); 
     const handleDeposit = async () => {
     if (!publicKey || !signTransaction) {
       showToast('Connect your wallet first.', 'error');
@@ -68,6 +66,7 @@ function DepositYield({ mint, position_id}: {
         'confirmed'
       );
       showToast(`✅ Deposit successful!`, 'success');
+      setShowShare(true);
 
     } catch (err: any) {
       console.error(err);
@@ -82,6 +81,14 @@ function DepositYield({ mint, position_id}: {
             disabled={loading}
             className={loading ? 'loading-button' : 'dashboard-atn-btn'}
         >{loading ? 'Staking...' : `Stake`}</button>
+        <ShareModal
+          show={showShare}
+          onClose={() => setShowShare(false)}
+          title="I just earned yield!"
+          tokenName={tokenName}
+          message={`Just deposited ${tokenName} to earn yield on MemeLend 💰🔥 Passive income FTW!`}
+          url={`https://qa.memelend.tech/token/${mint}`}
+        />
     </div>
   )
 }
