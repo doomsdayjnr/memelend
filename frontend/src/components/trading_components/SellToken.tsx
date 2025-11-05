@@ -133,7 +133,7 @@ export default function SellToken({ mint, position_id, tokenName }: any) {
         title="Sold with profit!"
         tokenName={tokenName}
         message={`Just sold ${tokenName} and took profit 💰🔥 MemeLend always delivers 🚀`}
-        url={`https://qa.memelend.tech/token/${mint}`}
+        url={`https://memelend.tech/token/${mint}`}
       />
 
       {/* Modal */}

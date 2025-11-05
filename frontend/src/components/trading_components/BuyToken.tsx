@@ -142,7 +142,7 @@ export default function BuyToken({ mint, amount, slippage, tokenName }: any) {
           title="I just bought!"
           tokenName={tokenName}
           message={"Just bought into this token on MemeLend! 🚀 Check it out 👇"}
-          url={`https://qa.memelend.tech/token/${mint}`}
+          url={`https://memelend.tech/token/${mint}`}
         />
     </div>
   );

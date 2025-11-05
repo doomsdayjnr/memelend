@@ -165,7 +165,7 @@ export default function GoShortToken({ mint, collateral, slippage, collateralPer
           title="Short is live!"
           tokenName={tokenName}
           message={`I just shorted ${tokenName} on MemeLend 😈🔥 Think it's going down? 📉 Trade it here 👇`}
-          url={`https://qa.memelend.tech/token/${mint}`}
+          url={`https://memelend.tech/token/${mint}`}
         />
     </div>
   );

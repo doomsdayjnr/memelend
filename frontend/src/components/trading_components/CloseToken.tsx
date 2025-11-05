@@ -120,7 +120,7 @@ function CloseToken({ mint, position_id, tokenName }: any) {
           title="Closed my short with profit!"
           tokenName={tokenName}
           message={`Closed my short on ${tokenName} with profit 💰😈 MemeLend strikes again 🔥`}
-          url={`https://qa.memelend.tech/token/${mint}`}
+          url={`https://memelend.tech/token/${mint}`}
         />
       </div>
   )

@@ -87,7 +87,7 @@ function DepositYield({ mint, position_id, tokenName}: any) {
           title="I just earned yield!"
           tokenName={tokenName}
           message={`Just deposited ${tokenName} to earn yield on MemeLend 💰🔥 Passive income FTW!`}
-          url={`https://qa.memelend.tech/token/${mint}`}
+          url={`https://memelend.tech/token/${mint}`}
         />
     </div>
   )
