@@ -14,9 +14,16 @@ const userTokenStateRoute: FastifyPluginAsync = async (server) => {
 
       // 1️⃣ Fetch all token launches for this creator
       const userTokens = await prisma.tokenLaunch.findMany({
-        where: { creator: user, isPresale: false, },
+        where: {
+          creator: user,
+          isPresale: false,
+          NOT: {
+            status: "failed",
+          },
+        },
         include: { stats: true },
       });
+
 
       if (userTokens.length === 0) return reply.send([]);
 

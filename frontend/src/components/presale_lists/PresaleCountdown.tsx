@@ -9,6 +9,8 @@ function PresaleCountdown({ start, end }: { start: string; end: string }) {
     const startDate = new Date(start);
     const endDate = new Date(end);
 
+    console.log("PresaleCountdown startDate:", startDate, "endDate:", endDate);
+
     const update = () => {
       const now = new Date();
 

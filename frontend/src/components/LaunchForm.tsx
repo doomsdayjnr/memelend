@@ -201,7 +201,7 @@ const LaunchForm = () => {
                   title="Pre-sale is live!"
                   tokenName={launchData.name}
                   message={`🚀 Just launched a presale on MemeLend!\nEarn a share of creator trading fees by holding presale tokens 🔥`}
-                  url={`https://qa.memelend.tech/token/${launchData.mintAddress}`}
+                  url={`https://memelend.tech/token/${launchData.mintAddress}`}
                 />
               </>
             ) : liquidityAdded ? (
@@ -211,7 +211,7 @@ const LaunchForm = () => {
                   title="Share your token launch!"
                   tokenName={launchData.formData.tokenName}
                   message="Just launched on MemeLend! 🚀 Early buyers get the best entry 👇"
-                  url={`https://qa.memelend.tech/token/${launchData.mintAddress}`}
+                  url={`https://memelend.tech/token/${launchData.mintAddress}`}
                 />
             ) : (
               <AddLiquidity 

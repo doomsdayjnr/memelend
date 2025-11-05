@@ -153,15 +153,18 @@ export async function startOnChainPresaleActivationBot() {
               console.error(`❌ Failed to activate presale for ${token.name}:`, err);
             }
           } else {
-            // ⚠️ Presale ended but no SOL raised — disable presale quietly
-            console.log(`⛔ Presale for ${token.name} ended with 0 SOL — disabling presale.`);
-            await prisma.tokenLaunch.update({
-              where: { mint: token.mint },
-              data: {
-                isPresale: false,
-                status: 'failed', 
-              },
-            });
+            try {
+                const updated = await prisma.tokenLaunch.update({
+                  where: { mint: token.mint },
+                  data: {
+                    status: 'failed',
+                    isPresale: false,
+                  },
+                });
+                console.log(`Updated tokenLaunch:`, updated);
+              } catch (err) {
+                console.error(`Failed to mark presale as failed for ${token.name}:`, err);
+              }
           }
         } 
       }
