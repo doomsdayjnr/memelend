@@ -178,6 +178,7 @@ const LaunchForm = () => {
                 onComplete={(res) => {
                   // console.log("Liquidity added ✅", res);
                   setLiquidityAdded(true);
+                  setShowShare(true);
                 }}
               />
             )}
