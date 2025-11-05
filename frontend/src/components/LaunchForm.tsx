@@ -84,43 +84,92 @@ const LaunchForm = () => {
             </p>
 
             <ul className="info-steps">
-              <li>
-                <strong>Step 1 – Token Split:</strong>   
-                Your supply is divided into two parts:
-                <ul className="info-list">
+  
+              {/* STEP 1 */}
+              <div className='step-one-info-content'>
+                <label>
+                  <strong>Step 1 – Token Split: </strong>   
+                  Your supply is divided into two parts:
+                </label>
+                <ul>
                   <li>
-                    🔒 <strong>Locked Creator Tokens:</strong> Your share is stored safely and released gradually. 
+                    🔒 <strong>Locked Creator Tokens: </strong>  
+                    Your share is stored safely and released gradually.  
                     This prevents instant sell-offs and builds community trust.
                   </li>
                   <li>
-                    💧 <strong>Liquidity Pool:</strong> The rest is paired with SOL, creating an instant market so your token can be traded from day one.
+                    💧 <strong>Liquidity Pool: </strong>  
+                    The rest is paired with SOL, creating an instant market so your token can be traded from day one.
                   </li>
                 </ul>
-              </li>
+              </div>
 
-              <li>
-                <strong>Step 2 – Earn Rewards:</strong>  
-                As your token trades, you collect ongoing benefits:
-                <ul className="info-list">
-                  <li>💸 <strong>0.5% Creator Fee</strong> on every buy/sell/short</li>
-                  <li>📈 Interest whenever traders borrow your token to short</li>
+              {/* ✅ NEW — PRESALE STEP */}
+              <div className='step-presale-info-content'>
+                <strong>Optional – Pre-Sale Funding</strong>
+                <p>
+                  If you don’t want to provide SOL liquidity yourself, you can launch a <strong>Pre-Sale</strong>.
+                  Here’s how it works:
+                </p>
+
+                <ul>
+                  <li>
+                    ✅ Up to <strong>20%</strong> of your locked creator supply can be offered in the pre-sale.
+                  </li>
+                  <li>
+                    ✅ You choose a <strong>start date</strong> and <strong>end date</strong>.
+                  </li>
+                  <li>
+                    ✅ Buyers purchase tokens before launch — giving you the funds needed for liquidity.
+                  </li>
+                  <li>
+                    💰 <strong>Trading Fees Are Shared: </strong>  
+                    Presale holders receive <strong>50% of all future creator fees</strong>
+                    (from buys, sells, and shorts) as long as they keep their presale tokens.
+                  </li>
+                  <li>
+                    🔗 The remaining <strong>50% of creator fees</strong> still goes to you, the creator.
+                  </li>
+                  <li>
+                    ❌ If no tokens are sold, the pre-sale <strong>expires</strong> and the token does not go live.
+                  </li>
+                  <li>
+                    ✅ If tokens are sold, your token <strong>automatically goes live</strong> and becomes tradable.
+                  </li>
                 </ul>
-              </li>
 
-              <li>
-                <strong>Step 3 – Unlock Your Tokens:</strong>  
+                <p>
+                  Presale lets the community fund your launch — while letting early buyers share in the long-term rewards.
+                </p>
+              </div>
+
+              {/* STEP 2 */}
+              <div className='step-two-info-content'>
+                <strong>Step 2 – Earn Rewards </strong>  
+                As your token trades, you collect ongoing benefits:
+                <ul>
+                  <li>💸 <strong>0.5% Creator Fee</strong> on every buy / sell / short</li>
+                  <li>📈 Earn interest whenever traders borrow your token to short</li>
+                </ul>
+              </div>
+
+              {/* STEP 3 */}
+              <div className='step-three-info-content'>
+                <strong>Step 3 – Unlock Your Tokens </strong>  
                 Your locked tokens follow the <strong>Dynamic Withdrawal Curve</strong>:
-                <ul className="schedule-list">
+                <ul>
                   <li>Day 1 → <strong>0%</strong> available</li>
                   <li>Day 7 → <strong>10%</strong> available</li>
                   <li>Day 30 → <strong>50%</strong> available</li>
                   <li>Day 180 → <strong>100%</strong> available</li>
                 </ul>
-                <p className="info-text">
-                  This schedule keeps your community safe from “rug pulls” while giving you steady access to your tokens and rewarding long-term growth.
+                <p>
+                  This keeps your community safe from “rug pulls” while giving you steady access to your tokens and rewarding long-term growth.
                 </p>
-              </li>
+              </div>
+
             </ul>
+
           </div>
         )}
       </div>
@@ -146,14 +195,6 @@ const LaunchForm = () => {
           <>
             {launchData.formData.isPresale ? (
               <>
-                {/* <div className="result-box success">
-                  <p className="success-msg">
-                    ✅ Token launched successfully! This token is listed as a <strong>Pre-Sale</strong> for funding.
-                  </p>
-                  <p className="helper-text">
-                    Users can now participate in the pre-sale. Your allocation will be distributed according to the pre-sale settings.
-                  </p>
-                </div> */}
                 <ShareModal
                   show={showShare}
                   onClose={() => setShowShare(false)}

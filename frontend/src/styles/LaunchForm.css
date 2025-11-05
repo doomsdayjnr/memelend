@@ -243,6 +243,30 @@
     color: var(--text-primary);
 }
 
+.step-one-info-content {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 8px;
+}
+
+.step-two-info-content {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 8px;
+}
+
+.step-three-info-content {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 8px;
+}
+
+.step-presale-info-content {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 8px;
+}
+
 .info-list {
     list-style: disc;
     margin-left: 1rem;
