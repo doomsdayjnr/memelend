@@ -116,6 +116,13 @@ function LaunchStepOne({ onSuccess }: LaunchStepOneProps) {
     maxFiles: 1,
   });
 
+  function toUTCString(localDateString: string) {
+    const local = new Date(localDateString);
+    // convert to UTC correctly
+    return new Date(local.getTime() - local.getTimezoneOffset() * 60000)
+      .toISOString();
+  }
+
     
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -165,7 +172,9 @@ function LaunchStepOne({ onSuccess }: LaunchStepOneProps) {
       setTransactionStep(0);
       
       const res = await axios.post(`${apiBase}/launch/prepare`, {
-        ...formData
+        ...formData,
+        presaleStart: formData.presaleStart ? toUTCString(formData.presaleStart) : null,
+        presaleEnd: formData.presaleEnd ? toUTCString(formData.presaleEnd) : null,
       });
 
 
@@ -237,15 +246,15 @@ function LaunchStepOne({ onSuccess }: LaunchStepOneProps) {
           await new Promise((resolve) => setTimeout(resolve, 1000));
         }
 
-        // Add this right after confirmation
-        const txDetails = await connection.getTransaction(txid, {
-          commitment: 'confirmed'
-        });
+        // // Add this right after confirmation
+        // const txDetails = await connection.getTransaction(txid, {
+        //   commitment: 'confirmed'
+        // });
 
-        console.log(
-          "Transaction logs:", 
-          txDetails?.meta?.logMessages || "No logs available"
-        );
+        // console.log(
+        //   "Transaction logs:", 
+        //   txDetails?.meta?.logMessages || "No logs available"
+        // );
 
        
         onSuccess({
