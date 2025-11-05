@@ -160,7 +160,7 @@ const LaunchForm = () => {
                   title="Pre-sale is live!"
                   tokenName={launchData.name}
                   message="just started a presale on MemeLend 🔥"
-                  url={`https://memelend.xyz/token/${launchData.mintAddress}`}
+                  url={`https://qa.memelend.tech/token/${launchData.mintAddress}`}
                 />
               </>
             ) : liquidityAdded ? (
@@ -170,7 +170,7 @@ const LaunchForm = () => {
                     title="Pre-sale is live!"
                     tokenName={launchData.name}
                     message="just started a presale on MemeLend 🔥"
-                    url={`https://memelend.xyz/token/${launchData.mintAddress}`}
+                    url={`https://qa.memelend.tech/token/${launchData.mintAddress}`}
                   />
             ) : (
               <AddLiquidity 
