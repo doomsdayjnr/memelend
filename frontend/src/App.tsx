@@ -10,6 +10,7 @@ import Rewards from "./sections/Rewards";
 import Memecoin from "./sections/Memecoin";
 import Dashboard from "./sections/Dashboard";
 import Presale from './sections/Presale';
+import ShareModal from './components/social_media/ShareModal';
 
 function App() {
   const { connected } = useWallet();

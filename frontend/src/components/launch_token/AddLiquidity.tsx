@@ -103,7 +103,7 @@ function AddLiquidity({ launchData, onComplete }: AddLiquidityProps) {
         await new Promise((resolve) => setTimeout(resolve, 1000));
       }
 
-      // // Add this right after confirmation
+      // Add this right after confirmation
       const txDetails = await connection.getTransaction(txid, {
         commitment: 'confirmed'
       });

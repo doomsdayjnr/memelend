@@ -6,6 +6,7 @@ import { HelpCircle } from "lucide-react";
 import LaunchStepTwo from './launch_token/LaunchStepTwo';
 import LaunchStepOne from './launch_token/LaunchStepOne';
 import AddLiquidity from './launch_token/AddLiquidity';
+import ShareModal from './social_media/ShareModal';
 
 export type LaunchData = {
   formData: any;            // you can replace `any` with your real form type later
@@ -20,6 +21,7 @@ export type LaunchData = {
 
 
 const LaunchForm = () => {
+  const [showShare, setShowShare] = useState(false);
   const { connection } = useConnection();
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState<any>(null);
@@ -143,23 +145,38 @@ const LaunchForm = () => {
       {response && (
           <>
             {launchData.formData.isPresale ? (
-              <div className="result-box success">
-                <p className="success-msg">
-                  ✅ Token launched successfully! This token is listed as a <strong>Pre-Sale</strong> for funding.
-                </p>
-                <p className="helper-text">
-                  Users can now participate in the pre-sale. Your allocation will be distributed according to the pre-sale settings.
-                </p>
-              </div>
+              <>
+                {/* <div className="result-box success">
+                  <p className="success-msg">
+                    ✅ Token launched successfully! This token is listed as a <strong>Pre-Sale</strong> for funding.
+                  </p>
+                  <p className="helper-text">
+                    Users can now participate in the pre-sale. Your allocation will be distributed according to the pre-sale settings.
+                  </p>
+                </div> */}
+                <ShareModal
+                  show={showShare}
+                  onClose={() => setShowShare(false)}
+                  title="Pre-sale is live!"
+                  tokenName={launchData.name}
+                  message="just started a presale on MemeLend 🔥"
+                  url={`https://memelend.xyz/token/${launchData.mintAddress}`}
+                />
+              </>
             ) : liquidityAdded ? (
-              <div className="result-box success">
-                <p className="success-msg">✅ Token launched successfully!</p>
-              </div>
+                <ShareModal
+                    show={showShare}
+                    onClose={() => setShowShare(false)}
+                    title="Pre-sale is live!"
+                    tokenName={launchData.name}
+                    message="just started a presale on MemeLend 🔥"
+                    url={`https://memelend.xyz/token/${launchData.mintAddress}`}
+                  />
             ) : (
               <AddLiquidity 
                 launchData={launchData}
                 onComplete={(res) => {
-                  console.log("Liquidity added ✅", res);
+                  // console.log("Liquidity added ✅", res);
                   setLiquidityAdded(true);
                 }}
               />

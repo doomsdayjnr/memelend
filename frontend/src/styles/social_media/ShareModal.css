@@ -1,0 +1,80 @@
+.share-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.65);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.share-modal {
+    background: #111;
+    border-radius: 14px;
+    padding: 28px;
+    width: 90%;
+    max-width: 380px;
+    text-align: center;
+    position: relative;
+    border: 1px solid #333;
+}
+
+.close-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #aaa;
+}
+
+.share-title {
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.share-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.share-btn {
+    display: block;
+    padding: 10px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: 0.15s;
+}
+
+.share-btn.twitter:hover {
+    background: #4d4d4d;
+}
+
+.share-btn.telegram:hover {
+    background: #4d4d4d;
+}
+
+.share-btn.copy:hover {
+    background: #4d4d4d;
+}
+
+.share-btn.twitter {
+    background: #1DA1F2;
+}
+
+.share-btn.telegram {
+    background: #229ED9;
+}
+
+.share-btn.copy {
+    background: #444;
+}
