@@ -253,7 +253,8 @@ class LiveDataFeed implements IDatafeedChartApi, IExternalDatafeed, IDatafeedQuo
 
       const bars = rawData
         .filter(candle => candle && candle.startTime && candle.mint === this.mint)
-        .map(candle => this.mapToTradingViewBar(candle));
+        .map(candle => this.mapToTradingViewBar(candle))
+        .sort((a, b) => a.time - b.time);
       
       // console.log('✅ Processed bars for chart:', bars.length);
       onResult(bars, { noData: !bars.length });
