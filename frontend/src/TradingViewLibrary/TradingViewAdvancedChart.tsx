@@ -145,7 +145,7 @@ class LiveDataFeed implements IDatafeedChartApi, IExternalDatafeed, IDatafeedQuo
           // Map the interval from backend format to TradingView format
           const backendInterval = this.mapTradingViewInterval(this.currentInterval);
           
-          if (candleData.interval === backendInterval && candleData.mint === this.mint) {
+          if (candleData.mint === this.mint && candleData.interval === backendInterval) {
             const tvBar = this.mapToTradingViewBar(candleData);
             this.subscribers.forEach((cb) => cb(tvBar));
           }
@@ -196,7 +196,7 @@ class LiveDataFeed implements IDatafeedChartApi, IExternalDatafeed, IDatafeedQuo
 
     try {
       const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:3001';
-      const mappedInterval = this.mapTradingViewInterval(resolution);
+      const backendInterval = this.mapTradingViewInterval(resolution);
       
       // console.log('🔍 Fetching historical data:', { 
       //   mint: this.mint, 
@@ -206,7 +206,7 @@ class LiveDataFeed implements IDatafeedChartApi, IExternalDatafeed, IDatafeedQuo
       // });
       
       const response = await fetch(
-        `${apiBase}/chart/candles?mint=${this.mint}&interval=${mappedInterval}&limit=1000`
+        `${apiBase}/chart/candles?mint=${this.mint}&interval=${backendInterval}&limit=1000`
       );
       
       if (!response.ok) {
