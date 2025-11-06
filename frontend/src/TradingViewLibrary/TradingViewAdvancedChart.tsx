@@ -212,22 +212,15 @@ class LiveDataFeed implements IDatafeedChartApi, IExternalDatafeed, IDatafeedQuo
     periodParams: { from: number; to: number; countBack?: number; firstDataRequest?: boolean },
     onResult: (bars: Bar[], meta: { noData?: boolean }) => void
   ): Promise<void> {
-    // Only fetch data on first request to prevent loops
-    if (!periodParams.firstDataRequest) {
-      onResult([], {});
-      return;
-    }
-
     try {
       const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:3001';
       const mappedInterval = this.mapTradingViewInterval(resolution);
       
-      // console.log('🔍 Fetching historical data:', { 
-      //   mint: this.mint, 
-      //   resolution, 
-      //   mappedInterval,
-      //   firstDataRequest: periodParams.firstDataRequest 
-      // });
+      console.log('🔍 Fetching historical data:', { 
+        mint: this.mint, 
+        resolution, 
+        mappedInterval
+      });
       
       const response = await fetch(
         `${apiBase}/chart/candles?mint=${this.mint}&interval=${mappedInterval}&limit=1000`
@@ -240,10 +233,11 @@ class LiveDataFeed implements IDatafeedChartApi, IExternalDatafeed, IDatafeedQuo
       
       const rawData: CandleResponse[] = await response.json();
       
-      // console.log('📊 Historical data loaded:', { 
-      //   count: rawData?.length,
-      //   mint: this.mint 
-      // });
+      console.log('📊 Historical data loaded:', { 
+        count: rawData?.length,
+        mint: this.mint,
+        sample: rawData.slice(0, 3) // Show first 3 candles for debugging
+      });
       
       if (!rawData || rawData.length === 0) {
         console.warn('No historical data found');
@@ -251,18 +245,49 @@ class LiveDataFeed implements IDatafeedChartApi, IExternalDatafeed, IDatafeedQuo
         return;
       }
 
-      const bars = rawData
-        .filter(candle => candle && candle.startTime && candle.mint === this.mint)
-        .map(candle => this.mapToTradingViewBar(candle))
-        .sort((a, b) => a.time - b.time);
+      // Process and validate bars
+      const bars: Bar[] = [];
+      for (const candle of rawData) {
+        if (candle && candle.startTime && candle.mint === this.mint) {
+          const bar = this.mapToTradingViewBar(candle);
+          
+          // Validate the bar data
+          if (this.isValidBar(bar)) {
+            bars.push(bar);
+          } else {
+            console.warn('Invalid bar data skipped:', bar);
+          }
+        }
+      }
+
+      // Sort by time in ascending order (required by TradingView)
+      bars.sort((a, b) => a.time - b.time);
       
-      // console.log('✅ Processed bars for chart:', bars.length);
-      onResult(bars, { noData: !bars.length });
+      console.log('✅ Processed bars for chart:', bars.length);
+      onResult(bars, { noData: bars.length === 0 });
       
     } catch (error) {
       console.error('❌ Error in getBars:', error);
       onResult([], { noData: true });
     }
+  }
+
+  // Add validation method
+  private isValidBar(bar: Bar): boolean {
+    return (
+      bar != null &&
+      typeof bar.time === 'number' && bar.time > 0 &&
+      typeof bar.open === 'number' && bar.open >= 0 &&
+      typeof bar.high === 'number' && bar.high >= 0 &&
+      typeof bar.low === 'number' && bar.low >= 0 &&
+      typeof bar.close === 'number' && bar.close >= 0 &&
+      typeof bar.volume === 'number' && bar.volume >= 0 &&
+      bar.high >= bar.low &&
+      bar.high >= bar.open &&
+      bar.high >= bar.close &&
+      bar.low <= bar.open &&
+      bar.low <= bar.close
+    );
   }
 
   public subscribeBars(
