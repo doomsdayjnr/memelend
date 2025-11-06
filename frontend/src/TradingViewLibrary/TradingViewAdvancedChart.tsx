@@ -143,35 +143,11 @@ class LiveDataFeed implements IDatafeedChartApi, IExternalDatafeed, IDatafeedQuo
           });
           
           // Map the interval from backend format to TradingView format
-          const tvInterval = this.mapToBackendInterval(candleData.interval);
+          const backendInterval = this.mapTradingViewInterval(this.currentInterval);
           
-          console.log('🔄 Interval check:', {
-            backend: candleData.interval,
-            tradingView: tvInterval,
-            current: this.currentInterval,
-            matches: tvInterval === this.currentInterval,
-            mintMatches: candleData.mint === this.mint
-          });
-          
-          if (candleData.mint === this.mint && tvInterval === this.currentInterval) {
+          if (candleData.interval === backendInterval && candleData.mint === this.mint) {
             const tvBar = this.mapToTradingViewBar(candleData);
-            
-            console.log('✅ Sending bar to subscribers:', {
-              time: tvBar.time,
-              open: tvBar.open,
-              close: tvBar.close,
-              subscriberCount: this.subscribers.size
-            });
-            
-            // Notify all subscribers
-            this.subscribers.forEach((callback, key) => {
-              try {
-                console.log(`📤 Notifying subscriber: ${key}`);
-                callback(tvBar);
-              } catch (error) {
-                console.error('Error in subscriber callback:', error);
-              }
-            });
+            this.subscribers.forEach((cb) => cb(tvBar));
           }
         } catch (error) {
           console.error('Error processing WebSocket message:', error);
