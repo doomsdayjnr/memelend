@@ -16,10 +16,8 @@ const userTokenStateRoute: FastifyPluginAsync = async (server) => {
       const userTokens = await prisma.tokenLaunch.findMany({
         where: {
           creator: user,
+          status: "active",
           isPresale: false,
-          NOT: {
-            status: "failed",
-          },
         },
         include: { stats: true },
       });

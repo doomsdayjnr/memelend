@@ -134,6 +134,7 @@ export async function startOnChainPresaleActivationBot() {
         const owner = new PublicKey(token.creator);
         const presaleEnd = token.presaleEnd ? new Date(token.presaleEnd) : null;
         const presaleSol = token.presaleSol ? BigInt(token.presaleSol) : 0n;
+        console.log('presaleSol:', presaleSol);
 
         if (!presaleEnd) {
           console.warn(`⚠️ No presaleEnd set for ${token.name}, skipping.`);

@@ -161,7 +161,6 @@ function AddLiquidity({ launchData, onComplete }: AddLiquidityProps) {
       <div className="info-text">
         <p>
           <strong>Next:</strong> Add SOL liquidity to finalize your token launch. 
-          You can also do this later from your <a href="/dashboard">dashboard</a>.
         </p>
         <p className="mint-info">Mint Address: {launchData.mintAddress}</p>
       </div>

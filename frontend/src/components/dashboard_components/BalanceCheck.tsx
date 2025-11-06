@@ -53,19 +53,25 @@ function BalanceCheck() {
     <div className="dashboard-balance-card">
       <div className="balance-card-sections">
         <h3>Wallet</h3>
-        <h2>{solBalance !== null ? `${solBalance.toFixed(2)} SOL` : "Not Connected"}</h2>
+        <h2>
+          {solBalance !== null && !isNaN(solBalance)
+            ? `${solBalance.toFixed(2)} SOL`
+            : "Not Connected"}
+        </h2>
       </div>
       <div className="balance-card-sections">
         <h3>Unrealized PnL</h3>
         <h2
           className={
-            stats?.totalUnrealizedPnL > 0
-              ? "text-green"
-              : "text-red"
+            stats?.totalUnrealizedPnL != null
+              ? stats.totalUnrealizedPnL > 0
+                ? "text-green"
+                : "text-red"
+              : ""
           }
         >
-          {stats?.totalUnrealizedPnL !== null
-            ? `${stats?.totalUnrealizedPnL.toFixed(2)} SOL`
+          {stats?.totalUnrealizedPnL != null
+            ? `${stats.totalUnrealizedPnL.toFixed(2)} SOL`
             : "Not Connected"}
         </h2>
       </div>
