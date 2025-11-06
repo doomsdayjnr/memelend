@@ -212,22 +212,22 @@ class LiveDataFeed implements IDatafeedChartApi, IExternalDatafeed, IDatafeedQuo
     periodParams: { from: number; to: number; countBack?: number; firstDataRequest?: boolean },
     onResult: (bars: Bar[], meta: { noData?: boolean }) => void
   ): Promise<void> {
-    // Only fetch data on first request to prevent loops
-    if (!periodParams.firstDataRequest) {
-      onResult([], {});
-      return;
-    }
+    // // Only fetch data on first request to prevent loops
+    // if (!periodParams.firstDataRequest) {
+    //   onResult([], {});
+    //   return;
+    // }
 
     try {
       const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:3001';
       const mappedInterval = this.mapTradingViewInterval(resolution);
       
-      console.log('🔍 Fetching historical data:', { 
-        mint: this.mint, 
-        resolution, 
-        mappedInterval,
-        firstDataRequest: periodParams.firstDataRequest 
-      });
+      // console.log('🔍 Fetching historical data:', { 
+      //   mint: this.mint, 
+      //   resolution, 
+      //   mappedInterval,
+      //   firstDataRequest: periodParams.firstDataRequest 
+      // });
       
       const response = await fetch(
         `${apiBase}/chart/candles?mint=${this.mint}&interval=${mappedInterval}&limit=1000`
@@ -240,10 +240,10 @@ class LiveDataFeed implements IDatafeedChartApi, IExternalDatafeed, IDatafeedQuo
       
       const rawData: CandleResponse[] = await response.json();
       
-      console.log('📊 Historical data loaded:', { 
-        count: rawData?.length,
-        mint: this.mint 
-      });
+      // console.log('📊 Historical data loaded:', { 
+      //   count: rawData?.length,
+      //   mint: this.mint 
+      // });
       
       if (!rawData || rawData.length === 0) {
         console.warn('No historical data found');
@@ -255,7 +255,7 @@ class LiveDataFeed implements IDatafeedChartApi, IExternalDatafeed, IDatafeedQuo
         .filter(candle => candle && candle.startTime && candle.mint === this.mint)
         .map(candle => this.mapToTradingViewBar(candle));
       
-      console.log('✅ Processed bars for chart:', bars.length);
+      // console.log('✅ Processed bars for chart:', bars.length);
       onResult(bars, { noData: !bars.length });
       
     } catch (error) {
