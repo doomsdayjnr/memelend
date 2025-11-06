@@ -212,27 +212,39 @@ class LiveDataFeed implements IDatafeedChartApi, IExternalDatafeed, IDatafeedQuo
     periodParams: { from: number; to: number; countBack?: number; firstDataRequest?: boolean },
     onResult: (bars: Bar[], meta: { noData?: boolean }) => void
   ): Promise<void> {
+    // Only fetch data on first request to prevent loops
+    if (!periodParams.firstDataRequest) {
+      onResult([], {});
+      return;
+    }
+
     try {
       const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:3001';
       const mappedInterval = this.mapTradingViewInterval(resolution);
       
-      console.log('🔍 Fetching historical data for:', { 
-        mint: this.mint, 
-        resolution, 
-        mappedInterval 
-      });
+      // console.log('🔍 Fetching historical data:', { 
+      //   mint: this.mint, 
+      //   resolution, 
+      //   mappedInterval,
+      //   firstDataRequest: periodParams.firstDataRequest 
+      // });
       
       const response = await fetch(
         `${apiBase}/chart/candles?mint=${this.mint}&interval=${mappedInterval}&limit=1000`
       );
       
       if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
+        console.error(`HTTP error: ${response.status}`);
+        throw new Error(`Failed to fetch historical data: ${response.status}`);
       }
       
       const rawData: CandleResponse[] = await response.json();
       
-      console.log('📊 Raw data received:', rawData);
+      console.log('📊 Historical data loaded:', { 
+        count: rawData?.length,
+        mint: this.mint, 
+        sample: rawData.slice(0, 3)
+      });
       
       if (!rawData || rawData.length === 0) {
         console.warn('No historical data found');
@@ -240,28 +252,13 @@ class LiveDataFeed implements IDatafeedChartApi, IExternalDatafeed, IDatafeedQuo
         return;
       }
 
-      // Process and validate bars
-      const bars: Bar[] = [];
-      for (const candle of rawData) {
-        if (candle && candle.startTime && !isNaN(candle.open) && !isNaN(candle.close)) {
-          const bar = this.mapToTradingViewBar(candle);
-          // Validate the bar data
-          if (bar.time > 0 && !isNaN(bar.open) && !isNaN(bar.close)) {
-            bars.push(bar);
-          }
-        }
-      }
-
-      // Sort by time in ascending order (required by TradingView)
-      bars.sort((a, b) => a.time - b.time);
+      const bars = rawData
+        .filter(candle => candle && candle.startTime && candle.mint === this.mint)
+        .map(candle => this.mapToTradingViewBar(candle))
+        .sort((a, b) => a.time - b.time);
       
-      console.log('✅ Processed valid bars:', bars.length);
-      
-      if (bars.length === 0) {
-        onResult([], { noData: true });
-      } else {
-        onResult(bars, {});
-      }
+      // console.log('✅ Processed bars for chart:', bars.length);
+      onResult(bars, { noData: !bars.length });
       
     } catch (error) {
       console.error('❌ Error in getBars:', error);
