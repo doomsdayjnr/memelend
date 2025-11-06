@@ -196,7 +196,7 @@ class LiveDataFeed implements IDatafeedChartApi, IExternalDatafeed, IDatafeedQuo
 
   private mapToTradingViewBar(candle: CandleResponse): Bar {
     return {
-      time: Math.floor(new Date(candle.startTime).getTime() / 1000),
+      time: new Date(candle.startTime).getTime(),
       open: candle.open,
       high: candle.high,
       low: candle.low,
