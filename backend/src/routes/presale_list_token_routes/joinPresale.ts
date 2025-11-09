@@ -4,6 +4,7 @@ import {
   SystemProgram,
   TransactionInstruction,
   LAMPORTS_PER_SOL,
+  Transaction,
   Keypair,
 } from '@solana/web3.js';
 import {
@@ -191,20 +192,22 @@ const joinPresaleRoute: FastifyPluginAsync = async (server) => {
   
         instructions.push(ix);
   
-        const serializedInstructions = instructions.map((ix) => ({
-          programId: ix.programId.toBase58(),
-          keys: ix.keys.map((k) => ({
-            pubkey: k.pubkey.toBase58(),
-            isSigner: k.isSigner,
-            isWritable: k.isWritable,
-          })),
-          data: ix.data.toString("base64"), // binary -> base64
-        }));
+        const { blockhash, lastValidBlockHeight } = await program.provider.connection.getLatestBlockhash();
+
+        const tx = new Transaction({
+          feePayer: userKey,
+          blockhash,
+          lastValidBlockHeight,
+        });
+      
+        for (const ix of instructions) {
+          tx.add(ix);
+        }
   
         return reply.send({
           success: true,
           positionId: position_id,
-          instructions: serializedInstructions,
+          tx: tx.serialize({ requireAllSignatures: false }).toString("base64"),
         });
       } catch (err: any) {
         console.error('❌ Presale Error:', err);

@@ -159,8 +159,8 @@ const startServer = async () => {
     server.log.info(`✅ Server running on port ${PORT}`);
     
     startEventIndexer();
-    consumeTicks();
-    startTokenStatsWorker();
+    // consumeTicks();
+    // startTokenStatsWorker();
 
   } catch (err) {
     server.log.error(err);

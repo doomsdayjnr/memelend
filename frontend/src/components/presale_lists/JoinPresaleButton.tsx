@@ -16,7 +16,7 @@ function JoinPresaleButton({ mint, presaleStart, presaleEnd }: { mint: string | 
     const [loading, setLoading] = useState(false);
     const { showToast } = useToast();
     const { connection } = useConnection();
-    const { publicKey, sendTransaction } = useWallet();
+    const { publicKey, signTransaction } = useWallet();
 
     const openModal = () => setIsOpen(true);
     const closeModal = () => {
@@ -40,7 +40,7 @@ function JoinPresaleButton({ mint, presaleStart, presaleEnd }: { mint: string | 
     }, [presaleStart, presaleEnd]);
 
     const handleSubmit = async () => {
-        if (!publicKey || !sendTransaction) {
+        if (!publicKey || !signTransaction) {
             showToast("Please connect your wallet", 'error');
             return;
         }
@@ -108,66 +108,36 @@ function JoinPresaleButton({ mint, presaleStart, presaleEnd }: { mint: string | 
               tempWSOLAccount: tempWSOLKeypair.publicKey.toBase58(),
             });
 
-            const { instructions: rawInstructions} = res.data;
-            if (!res.data.success) {
-              showToast("Failed to join presale. Please try again.", 'error');
+            const data = res.data;
+
+            if (!data.success || data.claimable === 0) {
+              showToast(data.message || "No rewards available yet.", 'error');
               return;
             }
 
-            // Rebuild transaction with fresh blockhash
-            const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash("finalized");
-            const tx = new Transaction({
-              feePayer: publicKey,
-              blockhash,
-              lastValidBlockHeight,
+            if (!res.data?.tx) {
+              // console.error('Invalid transaction returned:', res.data);
+              showToast('Did not return a valid transaction', 'error');
+              return;
+            }
+
+            const rawTx = Buffer.from(res.data.tx, 'base64');
+            const tx = Transaction.from(rawTx);
+
+            const signedTx = await signTransaction(tx);
+        
+            signedTx.partialSign(tempWSOLKeypair);
+            const txid = await connection.sendRawTransaction(signedTx.serialize(), {
+              skipPreflight: false,
             });
+            
+            const info = await connection.getParsedAccountInfo(tempWSOLKeypair.publicKey);
 
-
-            // Deserialize instructions from JSON
-            for (const ixJson of rawInstructions) {
-              const ix = new TransactionInstruction({
-                  programId: new PublicKey(ixJson.programId),
-                  keys: ixJson.keys.map((k: any) => ({
-                  pubkey: new PublicKey(k.pubkey),
-                  isSigner: k.isSigner,
-                  isWritable: k.isWritable,
-                  })),
-                  data: Buffer.from(ixJson.data, "base64"),
-              });
-              tx.add(ix);
-            }
-
-            tx.partialSign(tempWSOLKeypair);
-
-            // Send transaction
-            const txid = await sendTransaction(tx, connection);
-
-            let status = null;
-            const timeoutMs = 60000; // 60s
-            const start = Date.now();
-
-            while (true) {
-              const { value } = await connection.getSignatureStatuses([txid]);
-              status = value[0];
-
-              if (status) {
-                if (status.err) {
-                  showToast('Transaction failed', 'error');
-                  throw new Error(`Transaction ${txid} failed: ${JSON.stringify(status.err)}`);
-                }
-
-                if (status.confirmationStatus === 'confirmed' || status.confirmationStatus === 'finalized') {
-                  break;
-                }
-              }
-
-              if (Date.now() - start > timeoutMs) {
-                throw new Error(`Transaction ${txid} not confirmed within ${timeoutMs / 1000}s`);
-              }
-
-              // wait 1s before polling again
-              await new Promise((resolve) => setTimeout(resolve, 1000));
-            }
+            const latestBlockhash = await connection.getLatestBlockhash();
+            const confirmation = await connection.confirmTransaction(
+              { signature: txid, ...latestBlockhash },
+              'confirmed'
+            );
 
             // // Add this right after confirmation
             // const txDetails = await connection.getTransaction(txid, {
@@ -179,7 +149,10 @@ function JoinPresaleButton({ mint, presaleStart, presaleEnd }: { mint: string | 
             //   txDetails?.meta?.logMessages || "No logs available"
             // );
 
-            
+            if (confirmation?.value?.err) {
+              showToast('Transaction was confirmed but failed', 'error');
+            }
+
             showToast("Presale tokens added successfully! 🎉", 'success');
             closeModal();
 

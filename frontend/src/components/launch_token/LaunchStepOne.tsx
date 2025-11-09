@@ -217,7 +217,6 @@ function LaunchStepOne({ onSuccess }: LaunchStepOneProps) {
         
         // Send transaction
         const txid = await sendTransaction(tx, connection);
-
         
         let status = null;
         const timeoutMs = 60000; // 60s
