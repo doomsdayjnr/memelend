@@ -127,11 +127,12 @@ function JoinPresaleButton({ mint, presaleStart, presaleEnd }: { mint: string | 
             const signedTx = await signTransaction(tx);
         
             signedTx.partialSign(tempWSOLKeypair);
+            
             const txid = await connection.sendRawTransaction(signedTx.serialize(), {
               skipPreflight: false,
             });
             
-            const info = await connection.getParsedAccountInfo(tempWSOLKeypair.publicKey);
+            // const info = await connection.getParsedAccountInfo(tempWSOLKeypair.publicKey);
 
             const latestBlockhash = await connection.getLatestBlockhash();
             const confirmation = await connection.confirmTransaction(
