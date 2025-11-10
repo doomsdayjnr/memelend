@@ -7,7 +7,7 @@ import BN from 'bn.js';
 import { useToast } from "../alerts/ToastContainer";
 import ShareModal from '../social_media/ShareModal';
 
-export default function BuyToken({ mint, amount, slippage, tokenName }: any) {
+export default function BuyToken({ mint, amount, slippage, tokenName, disabled }: any) {
   const [loading, setLoading] = useState(false);
   const [minTokensOut, setMinTokensOut] = useState(null);
   const { showToast } = useToast();
@@ -133,7 +133,7 @@ export default function BuyToken({ mint, amount, slippage, tokenName }: any) {
 
   return (
     <div>
-        <button onClick={handleBuy} disabled={loading} className='buybtn' type="button">
+        <button onClick={handleBuy} disabled={loading || disabled} className='buybtn' type="button">
           {loading ? 'Buy...' : 'Buy'}
         </button>
         <ShareModal

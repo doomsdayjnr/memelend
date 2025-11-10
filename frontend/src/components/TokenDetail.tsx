@@ -20,6 +20,7 @@ function TokenDetail() {
   const [amount, setAmount] = useState('');
   const [slippage, setSlippage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [tradingLogic, setTradingLogic] = useState(false);
   const { showToast } = useToast();
   const [collateralPercent, setCollateralPercent] = useState(0);
   const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:3001';
@@ -60,6 +61,19 @@ function TokenDetail() {
 
     fetchToken();
   }, [mint]);
+
+  useEffect(() => {
+    const checkStatus = async () => {
+      const { data } = await axios.get(`${apiBase}/token/active-mint/${mint}`);
+
+      if (!data.active) {
+        setTradingLogic(true);
+      }
+    };
+
+    checkStatus();
+  }, [mint]);
+
 
   const formatTinyUSD = (value: number | null | undefined): JSX.Element | string => {
       if (value == null || !isFinite(value)) {
@@ -289,12 +303,12 @@ function TokenDetail() {
                   </div>
                   <div className='token-core-items-one'>
                     <div className='content'>
-                      <BuyToken mint={mint} slippage={slippage} amount={amount} tokenName={token?.name}/>
+                      <BuyToken mint={mint} slippage={slippage} amount={amount} tokenName={token?.name} disabled={tradingLogic}/>
                     </div>
                   </div>
                   <div className='token-core-items-one'>
                     <div className='content'>
-                      <GoShortToken mint={mint} slippage={slippage} collateral={amount} collateralPercent={collateralPercent} tokenName={token?.name} />
+                      <GoShortToken mint={mint} slippage={slippage} collateral={amount} collateralPercent={collateralPercent} tokenName={token?.name} disabled={tradingLogic}/>
                     </div>
                   </div>
               </div>

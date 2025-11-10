@@ -39,6 +39,7 @@ import claimYieldTokenRoute from './routes/yield_routes/claimYieldToken';
 import userTokenStateRoute from './routes/dashboard_routes/tokenStats';
 import tokenInfoRoute from './routes/token_info/tokenInfo'; 
 import holdersRoute from './routes/chart_view_routes/holders';
+import activeMintsRoute from './routes/chart_view_routes/activeMints';
 import categoriesRoute from './routes/launch_token_route/categories';
 import profitChartStatsRoute from './routes/dashboard_routes/profitChartStats';
 import historyListRoute from './routes/dashboard_routes/history';
@@ -118,6 +119,7 @@ const startServer = async () => {
   server.register(subcategoryTokensRoute, { prefix: '/tokens' });
   server.register(activePresaleCategoriesRoute, { prefix: '/tokens' });
   server.register(tokenInfoRoute, { prefix: '/token' });
+  server.register(activeMintsRoute, { prefix: '/token' });
   server.register(devInfoRoute, { prefix: '/token' });
   server.register(buyTokenRoute, { prefix: '/token' });
   server.register(getPriceRoute, { prefix: '/token' });

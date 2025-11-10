@@ -7,7 +7,8 @@ import '../../styles/BuyToken.css';
 import { useToast } from "../alerts/ToastContainer";
 import ShareModal from '../social_media/ShareModal';
 
-export default function GoShortToken({ mint, collateral, slippage, collateralPercent, tokenName }: any) {
+export default function GoShortToken({ mint, collateral, slippage, collateralPercent, tokenName, disabled
+ }: any) {
   const [loading, setLoading] = useState(false);
   const [previewLoading, setPreviewLoading] = useState(false);
   const [previewData, setPreviewData] = useState<any>(null);
@@ -156,7 +157,7 @@ export default function GoShortToken({ mint, collateral, slippage, collateralPer
   
   return (
     <div>
-        <button onClick={handleShort} disabled={loading || previewLoading} className='shortbtn' type="button">
+        <button onClick={handleShort} disabled={loading || previewLoading || disabled} className='shortbtn' type="button">
           {loading ? 'Short...' : 'Short'}
         </button>
         <ShareModal
