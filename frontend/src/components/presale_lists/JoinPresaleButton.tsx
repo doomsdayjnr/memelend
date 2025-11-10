@@ -6,8 +6,10 @@ import axios from 'axios';
 import BN from 'bn.js';
 import "../../styles/presale/JoinPresaleModal.css";
 import { useToast } from "../alerts/ToastContainer"; 
+import ShareModal from "../social_media/ShareModal";
 
-function JoinPresaleButton({ mint, presaleStart, presaleEnd }: { mint: string | undefined; presaleStart: string; presaleEnd: string; }) {
+function JoinPresaleButton({ mint, presaleStart, presaleEnd, tokenName }: 
+  { mint: string | undefined; presaleStart: string; presaleEnd: string; tokenName: string; }) {
     const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:3001';
     const [isOpen, setIsOpen] = useState(false);
     const [isActive, setIsActive] = useState(false);
@@ -17,6 +19,7 @@ function JoinPresaleButton({ mint, presaleStart, presaleEnd }: { mint: string | 
     const { showToast } = useToast();
     const { connection } = useConnection();
     const { publicKey, signTransaction } = useWallet();
+    const [showShare, setShowShare] = useState(false); 
 
     const openModal = () => setIsOpen(true);
     const closeModal = () => {
@@ -156,7 +159,7 @@ function JoinPresaleButton({ mint, presaleStart, presaleEnd }: { mint: string | 
 
             showToast("Presale tokens added successfully! 🎉", 'success');
             closeModal();
-
+            setShowShare(true);
         } catch (err) {
             console.error(err);
             showToast('Failed to add join presale. Please try again.', 'error');
@@ -180,6 +183,14 @@ function JoinPresaleButton({ mint, presaleStart, presaleEnd }: { mint: string | 
       >
         {isActive ? "Join Presale" : "Not Active"}
       </button>
+      <ShareModal
+        show={showShare}
+        onClose={() => setShowShare(false)}
+        title="I joined the presale!"
+        tokenName={tokenName}
+        message={`Got into the presale of ${tokenName}! 🔥 Early buyers stack a share of creator fees — claim yours before it's full 👇`}
+        url={`https://memelend.tech/token/${mint}`}
+      />
 
       {isOpen && (
         <div className="modal-overlay">

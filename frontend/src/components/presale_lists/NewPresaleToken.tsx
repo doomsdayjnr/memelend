@@ -261,7 +261,7 @@ function NewPresaleToken() {
                       </div>
                       <div className='new-presale-token-join-presale-and-timer-frame'>
                         <div className='new-presale-join-presale-button'>
-                          <JoinPresaleButton mint={token.mint} presaleStart={token.presaleStart} presaleEnd={token.presaleEnd}/>
+                          <JoinPresaleButton mint={token.mint} presaleStart={token.presaleStart} presaleEnd={token.presaleEnd} tokenName={token.name}/>
                         </div>
                         <div className='new-presale-token-timer-frame'>
                           <PresaleCountdown start={token.presaleStart} end={token.presaleEnd} />
