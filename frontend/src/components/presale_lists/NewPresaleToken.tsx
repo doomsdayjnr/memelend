@@ -51,6 +51,24 @@ function NewPresaleToken() {
       useEffect(() => {
         fetchNewTokens(1, 10);
       }, [apiBase]);
+
+      useEffect(() => {
+        const interval = setInterval(async () => {
+          try {
+            const res = await axios.get(`${apiBase}/tokens/new-presale?page=1&pageSize=10`);
+            const newTokens = res.data?.data || [];
+
+            setTokens(prev =>
+              prev.map(t => newTokens.find((u: any) => u.id === t.id) || t)
+            );
+
+          } catch (err) {
+            console.error("Silent refresh failed:", err);
+          }
+        }, 15000);
+
+        return () => clearInterval(interval);
+      }, [apiBase]);
     
  
       const getTokenAge = (createdAt: string) => {
