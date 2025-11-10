@@ -133,7 +133,7 @@ function AddLiquidity({ launchData, onComplete }: AddLiquidityProps) {
 
   return (
     <div className="add-liquidity-section">
-      <h3 className="section-title">💧 Add Liquidity</h3>
+      <h3 className="add-section-title">💧 Add Liquidity</h3>
       
       <div className="form-group">
         <label htmlFor="amount" className="input-label">Amount of SOL</label>
