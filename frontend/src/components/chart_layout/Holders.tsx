@@ -35,6 +35,9 @@ function Holders({ mint }: any) {
 
     setLoading(true);
     fetchHolders();
+    const intervalId = setInterval(fetchHolders, 30_000);
+
+    return () => clearInterval(intervalId);
   }, [publicKey]);
 
   

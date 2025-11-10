@@ -19,6 +19,9 @@ function DevInfo({ mint }: { mint: string }) {
       }
     };
     fetchData();
+    const intervalId = setInterval(fetchData, 30_000);
+    
+    return () => clearInterval(intervalId);
   }, [mint]);
 
   const getTokenAge = (createdAt: string) => {
