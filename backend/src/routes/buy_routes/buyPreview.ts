@@ -23,6 +23,27 @@ const buyPreviewRoute: FastifyPluginAsync = async (server) => {
       });
     }
 
+    const token = await prisma.tokenLaunch.findUnique({
+      where: { mint },
+      select: { status: true, isPresale: true },
+    });
+
+    if (!token) {
+      return reply.send({
+        success: false,
+        claimable: 0,
+        message: "Token not found",
+      });
+    }
+
+    if (token.status !== "active" || token.isPresale) {
+      return reply.send({
+        success: false,
+        claimable: 0,
+        message: "Trading disabled. Token is not active.",
+      });
+    }
+
     const solAmount = parseFloat(solAmountRaw);
     if (solAmount <= 0) {
       return reply.send({
@@ -117,16 +138,7 @@ const buyPreviewRoute: FastifyPluginAsync = async (server) => {
       // Effective SOL reserve (y + c)
       const effectiveSolReserveBN = solReserveBN.add(accumulatedC).add(virtualSol);
       const effectiveTokenReserveBN = tokenReserveBN.add(virtualTokens);
-      // ---- Reinforced bonding curve formula ----
-      // k = token_reserve * (sol_reserve + accumulated_c)
-      // const k = tokenReserveBN.mul(effectiveSolReserveBN);
-
-      // New effective SOL reserve after input
-      // const newEffectiveSolReserveBN = effectiveSolReserveBN.add(effectiveInputBN);
-
-      // New token reserve to maintain k
-      // const newTokenReserveBN = k.div(newEffectiveSolReserveBN);
-
+    
       // Tokens out
       const numerator = effectiveInputBN.mul(effectiveTokenReserveBN);
       const denominator = effectiveSolReserveBN.add(effectiveInputBN);

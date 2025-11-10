@@ -34,6 +34,27 @@ const goShortPreviewRoute: FastifyPluginAsync = async (server) => {
       });
     }
 
+    const token = await prisma.tokenLaunch.findUnique({
+      where: { mint },
+      select: { status: true, isPresale: true },
+    });
+
+    if (!token) {
+      return reply.send({
+        success: false,
+        claimable: 0,
+        message: "Token not found",
+      });
+    }
+
+    if (token.status !== "active" || token.isPresale) {
+      return reply.send({
+        success: false,
+        claimable: 0,
+        message: "Trading disabled. Token is not active.",
+      });
+    }
+
     try {
       const mintKey = new PublicKey(mint);
 
