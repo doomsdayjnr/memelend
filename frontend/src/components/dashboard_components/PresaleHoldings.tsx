@@ -46,6 +46,9 @@ function PresaleHoldings() {
 
     setPositionsLoading(true);
     fetchPositions();
+    const intervalId = setInterval(fetchPositions, 30_000);
+
+    return () => clearInterval(intervalId);
     }, [publicKey]);
 
     useEffect(() => {

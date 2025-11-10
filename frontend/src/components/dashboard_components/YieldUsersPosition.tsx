@@ -72,6 +72,9 @@ function YieldUsersPosition() {
     
         setPositionsLoading(true);
         fetchYieldPositions();
+        const intervalId = setInterval(fetchYieldPositions, 30_000);
+
+        return () => clearInterval(intervalId);
       }, [publicKey]);
     
   return (
