@@ -50,6 +50,11 @@ function NewPresaleToken() {
     
       useEffect(() => {
         fetchNewTokens(1, 10);
+        const interval = setInterval(() => {
+          fetchNewTokens(1, 10);
+        }, 15000);
+
+        return () => clearInterval(interval);
       }, [apiBase]);
     
  
