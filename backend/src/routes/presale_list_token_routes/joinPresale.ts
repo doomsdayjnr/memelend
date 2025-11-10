@@ -153,7 +153,7 @@ const joinPresaleRoute: FastifyPluginAsync = async (server) => {
         if (!botAtaInfo) {
           instructions.push(
             createAssociatedTokenAccountInstruction(
-              BOT_KEYPAIR.publicKey, // payer
+              userKey, // payer
               botWsolAccount,        // account to create
               BOT_KEYPAIR.publicKey, // owner
               WSOL_MINT
