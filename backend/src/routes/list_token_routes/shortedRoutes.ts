@@ -7,7 +7,7 @@ const shortedRoutes: FastifyPluginAsync = async (server) => {
     try {
       // 1️⃣ Pagination
       const page = Number((req.query as any).page) || 1;
-      const pageSize = Number((req.query as any).pageSize) || 5;
+      const pageSize = Number((req.query as any).pageSize) || 10;
       const skip = (page - 1) * pageSize;
 
       // 2️⃣ Group shorts by token
@@ -15,7 +15,6 @@ const shortedRoutes: FastifyPluginAsync = async (server) => {
         by: ['mint'],
         where: {
           side: 'short',
-          isOpen: true,
         },
         _sum: {
           collateral: true, // 👈 ranking metric

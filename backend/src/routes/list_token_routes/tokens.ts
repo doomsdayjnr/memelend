@@ -7,7 +7,7 @@ const tokenRoutes: FastifyPluginAsync = async (server) => {
     try {
       // 1️⃣ Read pagination params
       const page = Number((req.query as any).page) || 1;
-      const pageSize = Number((req.query as any).pageSize) || 5;
+      const pageSize = Number((req.query as any).pageSize) || 10;
       const skip = (page - 1) * pageSize;
 
       // 2️⃣ Count total active tokens

@@ -22,7 +22,7 @@ function ShortedTokens() {
     const navigate = useNavigate();
     const { showToast } = useToast();
 
-    const fetchNewTokens = async (page: number = 1, pageSize: number = 5) => {
+    const fetchNewTokens = async (page: number = 1, pageSize: number = 10) => {
         try {
         setLoading(true);
         const res = await axios.get(`${apiBase}/tokens/shorted?page=${page}&pageSize=${pageSize}`);
@@ -45,7 +45,7 @@ function ShortedTokens() {
     };
 
     useEffect(() => {
-        fetchNewTokens(1, 5);
+        fetchNewTokens(1, 10);
     }, [apiBase]);
 
     const handleRowClick = (mint: string) => {
