@@ -210,7 +210,7 @@ async function finalizeLive(mint: string, interval: Interval, live: Record<strin
 
 
 async function rollupFrom1s(mint: string, oneSec: Record<string,string>) {
-  const solUsdPrice = await getCachedSolUsdPrice();
+
   const oneTs = Number(oneSec.t);
 
   // FIX: Validate oneTs before using it
