@@ -75,3 +75,21 @@ MemeLend is split into three main layers:
 
 This project is under active development and intended for learning,
 experimentation, and protocol exploration.
+
+## 🎥 Hackathon Demo
+
+MemeLend was developed as part of a recent hackathon, focusing on transparent
+token launches and on-chain liquidity mechanics on Solana.
+
+- **📺 Presentation (YouTube):**  
+  Explains the motivation behind MemeLend, the problem it solves, and the
+  high-level protocol design.  
+  👉 https://www.youtube.com/watch?v=BhQI8TanUYU
+
+- **🔁 Technical Walkthrough (Loop):**  
+  A short demo showcasing the core logic, on-chain flows, and how the protocol
+  operates in practice.  
+  👉 https://www.youtube.com/watch?v=lO1gkUCGh0w
+
+> Note: These demos were recorded during an early hackathon iteration.
+> The codebase has since been refined and modularized.
